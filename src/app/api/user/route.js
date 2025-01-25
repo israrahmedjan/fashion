@@ -25,16 +25,18 @@ export async function GET(request) {
 
 
   export async function POST(request) {
+    const corsHeaders = {
+      "Access-Control-Allow-Origin": "*", // Replace '*' with your frontend domain for better security
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    };
     try
     {
       const conn = await connectToDatabase();
       const Userdata = await request.json();
       const { name, email, password } = Userdata;
       const secretKey = process.env.JWT_SECRET; // Store in .env file
-      //console.log("Secret Key!",secretKey11);
-      //const secretKey =  process.env.JWT_SECRET;
-      //const secretKey =  "israr123456";
-      //const { name, email, password } = req.body;
+ 
       const hashedPassword = await bcrypt.hash(password,10);
       const newUser = new users({ "name":name, "email":email, "password":hashedPassword });
       if(name == "" || email == "" || password == "")
@@ -43,8 +45,6 @@ export async function GET(request) {
       }
       const userexist = await users.findOne({ email }); // Query the database
       if (userexist) {
-        //return { exists: true, message: 'Email already exists' };
-       // console.log("Already exist");
        return NextResponse.json({email:email,status:"Email already exists!"})
       }
 
