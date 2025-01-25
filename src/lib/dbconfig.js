@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = "mongodb+srv://ahmedjanisrar2:Israrabc123@cluster0.9y2vd.mongodb.net/onlineshop?retryWrites=true&w=majority&appName=Cluster0";
-//const MONGODB_URI = process.env.MONGODB_URI
+//const MONGODB_URI = "mongodb+srv://ahmedjanisrar2:Israrabc123@cluster0.9y2vd.mongodb.net/onlineshop?retryWrites=true&w=majority&appName=Cluster0";
+const MONGODB_URI = process.env.MONGODB_URI
 
 // Function to connect to MongoDB
 const connectToDatabase = async () => {
