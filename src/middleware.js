@@ -7,6 +7,10 @@ export function middleware(req) {
   if (req.nextUrl.pathname.startsWith('/dashboard') && !token) {
     return NextResponse.redirect(new URL('/login', req.url)); // Redirect to login if no token
   }
+   // Protect routes starting with `/dashboard` or any other path you want to secure
+   if (req.nextUrl.pathname.startsWith('/') && !token) {
+    return NextResponse.redirect(new URL('/login', req.url)); // Redirect to login if no token
+  }
 
   // Allow access if token is present or not a protected route
   return NextResponse.next();
@@ -14,5 +18,8 @@ export function middleware(req) {
 
 // Define routes that should run the middleware
 export const config = {
-  matcher: ['/dashboard/:path*'], // Apply middleware to `/dashboard` and its subpaths
+  matcher: [
+    '/dashboard/:path*',
+    '/', 
+  ], // Apply middleware to `/dashboard` and its subpaths
 };

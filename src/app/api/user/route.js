@@ -27,7 +27,7 @@ export async function GET(request) {
   export async function POST(request) {
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*", // Replace '*' with your frontend domain for better security
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Methods": "POST, OPTIONS, GET",
       "Access-Control-Allow-Headers": "Content-Type, Authorization",
     };
     try
@@ -41,18 +41,24 @@ export async function GET(request) {
       const newUser = new users({ "name":name, "email":email, "password":hashedPassword });
       if(name == "" || email == "" || password == "")
       {
-        return NextResponse.json({emtyvlues:"Please enter values"});
+        return NextResponse.json(
+          { message: "Please fill all fields!" },
+          { status: 404 }
+        );
       }
       const userexist = await users.findOne({ email }); // Query the database
       if (userexist) {
-       return NextResponse.json({email:email,status:"Email already exists!"})
+        return NextResponse.json(
+          { message: "User Email already exist!" },
+          { status: 404 }
+        );
       }
 
       const savedUser = await newUser.save();
       if(savedUser._id)
       {
         const token = jwt.sign({ email }, secretKey, { expiresIn: "1h" });
-        return NextResponse.json({status:"User Saved Successfully!",data:Userdata,token:token})
+        return NextResponse.json({message:"User Saved Successfully!",data:Userdata,token:token})
       }
     
     

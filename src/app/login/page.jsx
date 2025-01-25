@@ -4,16 +4,19 @@ import React, { useState } from 'react';
 import Cookies from 'js-cookie'; // Import js-cookie library
 import axios from 'axios';
 import * as Yup from 'yup'; // Import Yup for validation
+import { useRouter } from 'next/navigation';
 
 
 function Page() {
+  const router = useRouter();
   const [userForm, setuserForm] = useState({
     email: 'israr@gmail.com',
-    password: '',
+    password: 'israr123',
   });
 
   const [errors, setErrors] = useState({}); // State for validation errors
   const [loading, setloading] = useState(false);
+  const [servererror,setservererror] = useState("");
 
   // Yup schema for validation
   const validationSchema = Yup.object().shape({
@@ -49,28 +52,29 @@ function Page() {
       const response = await axios.post('/api/login', userForm); // Replace with your API URL
 
       // Save token to cookies
+    
       Cookies.set('auth_token', response.data.token, { expires: 7 }); // Expires in 7 days
       //console.log('Response:', response.data);
       setloading(false);
-      alert('User Login successfully!');
+      router.push("/dashboard");
+      //alert('User Login successfully!');
     } catch (error) {
-      if (error.name === 'ValidationError') {
-        // Extract validation errors
-        const validationErrors = {};
-        error.inner.forEach((err) => {
-          validationErrors[err.path] = err.message;
-        });
-        setErrors(validationErrors); // Update the state with errors
-      } else {
-        console.error('Error posting data:', error);
-        alert('Failed to post data.');
+    
+      if(error)
+      {
+          //console.log("Some issues Occcures!",error.response.data);
+          setservererror(error.response.data.message);
+          setloading(false);
       }
+
     }
   };
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 border border-gray-300 rounded-lg shadow-md bg-white">
       <h1 className="text-xl font-bold text-center mb-4">User Login</h1>
+      {servererror && <span className='text-red-500 italic'>{servererror}</span>}
+      
       <form onSubmit={handleSubmit} className="space-y-4">
 
 

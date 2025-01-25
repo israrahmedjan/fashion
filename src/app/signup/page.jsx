@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Cookies from 'js-cookie'; // Import js-cookie library
 import axios from 'axios';
 import * as Yup from 'yup'; // Import Yup for validation
+import { useRouter } from 'next/navigation';
 
 function Page() {
   const [userForm, setuserForm] = useState({
@@ -11,6 +12,8 @@ function Page() {
     email: '',
     password: '',
   });
+  const router = useRouter();
+   const [servererror,setservererror] = useState("");
 
   const [errors, setErrors] = useState({}); // State for validation errors
   const [loading, setloading] = useState(false);
@@ -52,25 +55,24 @@ function Page() {
       // Save token to cookies
       Cookies.set('auth_token', response.data.token, { expires: 7 }); // Expires in 7 days
       setloading(false);
-      alert('Data posted successfully!');
+      router.push("/dashboard");
+     // alert('Data posted successfully!');
     } catch (error) {
-      if (error.name === 'ValidationError') {
-        // Extract validation errors
-        const validationErrors = {};
-        error.inner.forEach((err) => {
-          validationErrors[err.path] = err.message;
-        });
-        setErrors(validationErrors); // Update the state with errors
-      } else {
-        console.error('Error posting data:', error);
-        alert('Failed to post data.');
-      }
+      if(error)
+        {
+            //console.log("Some issues Occcures!",error.response.data);
+            setservererror(error.response.data.message);
+            setloading(false);
+        }
     }
   };
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 border border-gray-300 rounded-lg shadow-md bg-white">
       <h1 className="text-xl font-bold text-center mb-4">User Registration</h1>
+      {servererror && <span className='text-red-500 italic'>{servererror}
+        <hr></hr>
+        </span>}
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Name Field */}
         <div>

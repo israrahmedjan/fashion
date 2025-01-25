@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 export async function POST(request) {
   const corsHeaders = {
     "Access-Control-Allow-Origin": "*", // Replace '*' with your frontend domain for better security
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Methods": "POST, OPTIONS, GET",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
   };
 
@@ -23,13 +23,35 @@ export async function POST(request) {
       );
     }
 
-    const userexist = await users.findOne({ email }); // Query the database
-    if (email === "israr@gmail.com") {
-      const token = jwt.sign({ email }, secretKey, { expiresIn: "1h" });
+      // Find user by email in the database
+      const user = await users.findOne({ email });
+
+      if (!user) {
+        return NextResponse.json(
+          { message: "User not found" },
+          { status: 404 }
+        );
+      }
+
+         // Check if the provided password matches the hashed password in the database
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
       return NextResponse.json(
-        { status: "User Saved Successfully!", token }
+        { message: "Invalid credentials" },
+        { status: 401 }
       );
-    }
+    } 
+
+      // Generate a JWT token for the authenticated user
+      const token = jwt.sign({ email: user.email, id: user._id }, secretKey, {
+        expiresIn: "1h",
+      });
+  
+      return NextResponse.json(
+        { message: "Login successful", token },
+        { headers: corsHeaders }
+      );
   } catch (error) {
     return NextResponse.json(
       { message: "Database error", error: error.message }
