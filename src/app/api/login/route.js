@@ -19,8 +19,7 @@ export async function POST(request) {
 
     if (!email || !password) {
       return NextResponse.json(
-        { message: "Please enter values" },
-        { headers: corsHeaders }
+        { message: "Please enter values" }
       );
     }
 
@@ -28,29 +27,26 @@ export async function POST(request) {
     if (email === "israr@gmail.com") {
       const token = jwt.sign({ email }, secretKey, { expiresIn: "1h" });
       return NextResponse.json(
-        { status: "User Saved Successfully!", token },
-        { headers: corsHeaders }
+        { status: "User Saved Successfully!", token }
       );
     }
   } catch (error) {
     return NextResponse.json(
-      { message: "Database error", error: error.message },
-      { status: 500, headers: corsHeaders }
+      { message: "Database error", error: error.message }
     );
   }
 
   return NextResponse.json(
-    { message: "Unexpected Error" },
-    { status: 500, headers: corsHeaders }
+    { message: "Unexpected Error" }
   );
 }
 
-export function OPTIONS() {
-  const corsHeaders = {
-    "Access-Control-Allow-Origin": "*", // Replace '*' with your frontend domain for better security
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, Authorization",
-  };
+// export function OPTIONS() {
+//   const corsHeaders = {
+//     "Access-Control-Allow-Origin": "*", // Replace '*' with your frontend domain for better security
+//     "Access-Control-Allow-Methods": "POST, OPTIONS",
+//     "Access-Control-Allow-Headers": "Content-Type, Authorization",
+//   };
 
-  return NextResponse.json(null, { headers: corsHeaders });
-}
+//   return NextResponse.json(null, { headers: corsHeaders });
+// }
