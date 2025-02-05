@@ -14,35 +14,50 @@ export async function GET(request) {
   
   try {
     const { searchParams } = new URL(request.url);
-    console.log("Search Params", searchParams);
+
+    const page = parseInt(searchParams.get('page')) || 1;   // Default to 1 if not provided
+    const limit = parseInt(searchParams.get('limit')) || 2; // Default to 10 if not provided
+    const search = searchParams.get('search') || ""; // Default to empty 0 if not provided
+    
+let skip = (page - 1) * limit;
+    // console.log("Page Number", page);
+    // console.log("Page serch ski[", (page - 1) * limit);
     const conn = await connectToDatabase();
   const productsCollection = conn.collection("Products");
-    const data = await productsCollection
-      .aggregate(
-        [
-          {
-            $lookup: {
-              from: 'Categories',
-              localField: 'category_id',
-              foreignField: '_id',
-              as: 'category_details'
-            }
-          },
-          { $unwind: '$category_details' },
-          {
-            $project: {
-              productName: '$name',
-              categoryName: '$category_details.name',
-              Descriptions: '$category_details.description',
-              price: 1,
-              _id: 0
-            }
-          }
-        ]
-      )
-      .toArray(); // Convert the aggregation cursor to an array
+
+
+ // const searchQuery = ""; // Yeh woh search term hai jo aap dhoondhna chahte hain
+
+const data = await productsCollection
+  .aggregate([
+    {
+      $lookup: {
+        from: 'Categories',
+        localField: 'category_id',
+        foreignField: '_id',
+        as: 'category_details'
+      }
+    },
+    { $unwind: '$category_details' },
+    {
+      $skip: skip // Pehle skip karega
+    },
+    {
+      $limit: limit // Sirf limit tak documents return karega
+    },
+    {
+      $project: {
+        productName: '$name',
+        categoryName: '$category_details.name',
+        Descriptions: '$category_details.description',
+        price: 1,
+        _id: 0
+      }
+    }
+  ])
+  .toArray(); // Convert the aggregation cursor to an array
   
-    console.log("Data from aggregation:", data);
+    //console.log("Dat:", data);
   
     if (data.length === 0) {
       // If data is empty, return a response indicating no products were found

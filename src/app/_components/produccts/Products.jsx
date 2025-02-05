@@ -1,94 +1,74 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
 
 function Products() {
-  const router = useRouter();
-  const [errors, setErrors] = useState({});
-  const [loading, setloading] = useState(false);
-  const [servererror, setservererror] = useState("");
-  const [products, setproduct] = useState([]);
-  const [scrollY, setScrollY] = useState(0);
-
-
+  const [products, setProducts] = useState([]);
+  const [count, setCount] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [serverError, setServerError] = useState(false);
+  
   const getProducts = async () => {
     try {
-      setloading(true);
-      const response = await axios.get('/api/products',{
+      setLoading(true);  // Fetching shuru hai
+      const response = await axios.get('/api/products', {
         params: {
-          category: 'electronics',
+          page: count,
           sort: 'price',
-          limit: 10
-        }
+          limit: 2,
+        },
       });
-      console.log("Products Data is", response.data.data);
-      //setproduct(response.data.data);
-      setproduct(prevProducts => [...prevProducts, ...response.data.data]);
+      setProducts((prev) => [...prev, ...response.data.data]); // Products update karo
     } catch (error) {
-      if (error) {
-        setservererror(error.response?.data?.message || "Server Error");
-      }
+      setServerError(error.response?.data?.message || 'Server Error'); // Error handle karo
     } finally {
-      setloading(false);
+      setLoading(false);  // Fetching khatam
     }
   };
 
   useEffect(() => {
-    console.log("Use effect is called!");
     getProducts();
-  }, []);
+  }, [count]); // Jab count change ho, products fetch karo
 
-  // Scroll event listener with proper cleanup
   useEffect(() => {
-    console.log("Scroll start!");
     const handleScroll = () => {
-        // console.log(`window.scrollY`,window.innerHeight + document.documentElement.scrollTop
-        // );
-        // console.log(document.documentElement.scrollHeight);
-       setScrollY(window.scrollY);  // Single function to handle scroll
-        if (
-            window.innerHeight + document.documentElement.scrollTop + 1 >=
-            document.documentElement.scrollHeight
-          ) {
-            getProducts();
-          }
-
-      };
-    
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      console.log("Scroll Out!");
+      if (
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 1
+      ) {
+        if (!loading) {  // Check karo ke fetching nahi ho rahi
+          setCount((prevCount) => prevCount + 1); // Count barhao
+        }
+      }
     };
-  }, []);
+
+    // Debounce function: handleScroll ko limit karo
+    const debounce = (func, wait) => {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+      };
+    };
+
+    const debouncedHandleScroll = debounce(handleScroll, 300); // 100ms wait karo
+
+    window.addEventListener('scroll', debouncedHandleScroll);
+    return () => window.removeEventListener('scroll', debouncedHandleScroll);
+  }, [loading]); // isFetching ke change par listener update karo
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 border border-gray-300 rounded-lg shadow-md bg-white">
-      {servererror && <p>{servererror}</p>}
-     
-      {products.length > 0 && (
-        <div>
-          {products.map((prod, index) => (
-            <div key={index}>
-              
-              <div>{index+1}-{prod.productName}</div>
-              <div>{prod.categoryName}</div>
-            </div>
-          ))}
+    <div className="max-w-md mx-auto mt-10 p-6 border rounded-lg shadow-md bg-white h-[500px]">
+      {products.map((prod, index) => (
+        <div key={index}>
+          <div>{index + 1} - {prod.productName}</div>
+          <div>{prod.categoryName}</div>
         </div>
-      )}
-      <div className="h-auto p-4">
-        <h1 className="text-xl font-bold">Scroll to see the effect!</h1>
-        {/* <p className="fixed top-4 right-4 bg-gray-800 text-white p-2 rounded">
-            
-          Scroll Y: {scrollY}px
-        </p> */}
-        {loading && <p>Loading...</p>}
-      </div>
+      ))}
+
+      {serverError && <p>{serverError}</p>}
+      {loading && <p>Loading...</p>}
     </div>
   );
 }
