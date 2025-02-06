@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import ProductCard from './ProductCard';
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -59,12 +60,14 @@ function Products() {
   }, [loading]); // isFetching ke change par listener update karo
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 border rounded-lg shadow-md bg-white h-[500px]">
+    <div className="border-green-400 border grid sm:grid-2 grid-cols-4">
       {products.map((prod, index) => (
-        <div key={index}>
-          <div>{index + 1} - {prod.productName}</div>
-          <div>{prod.categoryName}</div>
-        </div>
+        // <div key={index}>
+        //   <div>{index + 1} - {prod.productName}</div>
+        //   <div>{prod.categoryName}</div>
+          <ProductCard key={index} product={prod} />
+        // </div>
+        
       ))}
 
       {serverError && <p>{serverError}</p>}
