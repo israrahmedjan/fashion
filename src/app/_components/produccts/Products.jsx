@@ -17,7 +17,7 @@ function Products() {
         params: {
           page: count,
           sort: 'price',
-          limit: 2,
+          limit: 4,
         },
       });
       setProducts((prev) => [...prev, ...response.data.data]); // Products update karo
@@ -60,7 +60,8 @@ function Products() {
   }, [loading]); // isFetching ke change par listener update karo
 
   return (
-    <div className="border-green-400 border grid sm:grid-2 grid-cols-4">
+    <>
+    <div className="border-green-400 border grid sm:grid-cols-2 lg:grid-cols-4">
       {products.map((prod, index) => (
         // <div key={index}>
         //   <div>{index + 1} - {prod.productName}</div>
@@ -70,9 +71,23 @@ function Products() {
         
       ))}
 
-      {serverError && <p>{serverError}</p>}
-      {loading && <p>Loading...</p>}
+     
     </div>
+     <div className="border grid grid-cols-1 text-center">
+     {serverError && <p className=''>{serverError}</p>}
+ 
+     {loading && <p>Loading...</p>}
+     {!serverError && (
+     <button 
+          onClick={() => setCount((prevCount) => prevCount + 1)} 
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+          disabled={loading}
+        >
+          Load More
+        </button>
+        )}
+     </div>
+     </>
   );
 }
 

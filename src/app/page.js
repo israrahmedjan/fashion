@@ -5,19 +5,14 @@ import SearchBox from "./_components/produccts/SearchBox";
 export default function Home() {
   return (
     <>
-    <div className="border-red-400 border px-8 mt-[120px] h-[800px]">
+    <div className="border-red-400 border px-8 mt-[120px] min-h-[450px]">
+       {/* <SearchBox /> */}
     <Products />
     </div>
     
+     
     
-    
-<h1>Welcom to next js app</h1>
-<div className="flex justify-center">
-  {/* <SearchBox /> */}
-</div>
-<div>
- 
-</div>
+
    
 
     

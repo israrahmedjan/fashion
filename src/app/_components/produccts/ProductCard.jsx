@@ -1,36 +1,51 @@
 import React from 'react'
-import { ShoppingCart, Heart, Shuffle } from "lucide-react";
+import { motion } from "framer-motion";
+import { ShoppingCart, Heart, Scale } from "lucide-react";
 
 function ProductCard({product}) {
   return (
     <>
 
-<div className="max-w-xs bg-white shadow-lg rounded-2xl p-4 relative">
-      <div className="relative w-full h-48">
-        <img
-          src="images/product.jpg"
-          alt="Product"
-          className="w-full h-full object-cover rounded-lg"
-        />
+
+<motion.div
+      whileHover={{ scale: 1.05 }}
+      transition={{ type: "spring", stiffness: 200 }}
+      className="relative p-4 bg-white shadow-lg rounded-lg overflow-hidden group"
+    >
+      <img
+        src="images/product.jpg"
+        alt={product.productName}
+        className="w-full h-48 object-cover rounded-lg"
+      />
+      <div className="mt-4">
+        <h2 className="text-lg font-semibold">{product.productName}</h2>
+        <p className="text-gray-500">${product.price}</p>
       </div>
-      
-      <div className="mt-4 text-center">
-        <h3 className="text-lg font-semibold">Product Name</h3>
-        <p className="text-gray-500">$99.99</p>
+      <div className="absolute top-4 right-4 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <motion.button
+          whileTap={{ scale: 0.9 }}
+          transition={{ duration: 0.2 }}
+          className="p-2 bg-blue-500 text-white rounded-full"
+        >
+          <ShoppingCart size={20} />
+        </motion.button>
+        <motion.button
+          whileTap={{ scale: 0.9 }}
+          transition={{ duration: 0.2 }}
+          className="p-2 bg-red-500 text-white rounded-full"
+        >
+          <Heart size={20} />
+        </motion.button>
+        <motion.button
+          whileTap={{ scale: 0.9 }}
+          transition={{ duration: 0.2 }}
+          className="p-2 bg-gray-700 text-white rounded-full"
+        >
+          <Scale size={20} />
+        </motion.button>
       </div>
-      
-      <div className="flex justify-center gap-3 mt-4">
-        <button className="p-2 bg-gray-100 rounded-full hover:bg-gray-200">
-          <Heart className="w-5 h-5 text-gray-600" />
-        </button>
-        <button className="p-2 bg-gray-100 rounded-full hover:bg-gray-200">
-          <Shuffle className="w-5 h-5 text-gray-600" />
-        </button>
-        <button className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700">
-          <ShoppingCart className="w-5 h-5" />
-        </button>
-      </div>
-    </div>
+    </motion.div>
+
     {/* <div>{JSON.stringify(product,null,2)}</div> */}
 
     </>
