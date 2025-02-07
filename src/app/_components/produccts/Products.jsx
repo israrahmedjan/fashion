@@ -61,7 +61,7 @@ function Products() {
 
   return (
     <>
-    <div className="border-green-400 border grid sm:grid-cols-2 lg:grid-cols-4">
+    <div className="border-gray-300 border grid sm:grid-cols-2 lg:grid-cols-4">
       {products.map((prod, index) => (
         // <div key={index}>
         //   <div>{index + 1} - {prod.productName}</div>
@@ -73,7 +73,7 @@ function Products() {
 
      
     </div>
-     <div className="border grid grid-cols-1 text-center">
+     <div className="grid grid-cols-1 text-center">
      {serverError && <p className=''>{serverError}</p>}
  
      {loading && <p>Loading...</p>}

@@ -5,7 +5,7 @@ import SearchBox from "./_components/produccts/SearchBox";
 export default function Home() {
   return (
     <>
-    <div className="border-red-400 border px-8 mt-[120px] min-h-[450px]">
+    <div className="py-2 px-8 mt-[120px] min-h-[450px] h-full">
        {/* <SearchBox /> */}
     <Products />
     </div>
