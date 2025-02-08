@@ -18,7 +18,7 @@ function ProductCard({product}) {
         className="w-full h-48 object-cover rounded-lg"
       />
       <div className="mt-4">
-        <h2 className="text-lg font-semibold">{product.productName}</h2>
+        <h2 className="font-semibold text-base">{product.productName}</h2>
         <p className="text-gray-500">${product.price}</p>
       </div>
       <div className="absolute top-4 right-4 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

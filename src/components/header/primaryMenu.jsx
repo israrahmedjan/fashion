@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Search, User, Heart, ShoppingCart, Menu } from "lucide-react";
 import Image from "next/image";
+import SearchBox from "@/app/_components/produccts/SearchBox";
 
 export default function PrimaryMenu() {
     const [category, setCategory] = useState("All Categories");
@@ -88,22 +89,7 @@ export default function PrimaryMenu() {
                         /></div>
                         <div><Menu size={30} /></div>
                     </div>
-                    <div className="flex justify-between gap-0 px-2 items-center text-[14px] sm:text-sm  mb-4 border-gray-200 border rounded-lg">
-                        <div>  <select className="h-8 bg-white text-gray-700 border-r outline-none">
-                            <option>All Categories</option>
-                            <option>Electronics</option>
-                            <option>Clothing</option>
-                            <option>Home & Kitchen</option>
-                        </select></div>
-                        <input
-                            type="text"
-                            placeholder="Search Products"
-                            className="w-1/2 h-8 px-2 outline-none border-gray-500"
-                        />
-                        <button className="h-8 px-2 ml-8 text-blue-900 hover:text-black flex items-center justify-center">
-                            <Search size={20} />
-                        </button>
-                    </div>
+                   <SearchBox />
                 </div>
             </nav>
 
