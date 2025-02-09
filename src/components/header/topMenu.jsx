@@ -8,9 +8,9 @@ export default function TopMenu() {
 
   return (
     // lg device menu
-    <div className="hidden lg:block bg-gray-900 text-white text-sm py-2 px-4">
+    <div className="hidden lg:block bg-primary fixed top-0 left-0 w-full text-white text-sm py-2 px-4 z-[9999] !important">
 
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
+      <div className="max-w-7xl mx-6 flex justify-between items-center">
         {/* Left: Promotion Message */}
         <div className="text-yellow-400 font-semibold">
           Flat 50% Off On Grocery Shop.

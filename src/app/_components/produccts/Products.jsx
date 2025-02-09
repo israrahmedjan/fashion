@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ProductCard from './ProductCard';
+import { ArrowUpWideNarrow,ArrowDownWideNarrow  } from 'lucide-react';
+import Loader from '@/components/Loader';
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -12,6 +14,7 @@ function Products() {
   
   const getProducts = async () => {
     try {
+      if(serverError) return;
       setLoading(true);  // Fetching shuru hai
       const response = await axios.get('/api/products', {
         params: {
@@ -61,7 +64,28 @@ function Products() {
 
   return (
     <>
-    <div className="border-gray-300 border grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4">
+     <div className='flex justify-between thin-border-bottom pb-3'>
+      <h1 className='text-secondary sm:text-[12px] lg:text-lg uppercase w-full font-semibold'><span className='text-primary'>Latest</span> Products</h1>
+      <div className='flex flex-row items-center gap-3'>
+        <ArrowUpWideNarrow className='text-secondary' />
+        <select
+              className="h-10 px-3 bg-none border-primary-500 border-[0.5px] rounded-lg border-r outline-none"
+              value=""
+              onChange={(e) => console.log("set")}
+            >
+              <option>Ascending Price</option>
+              <option>Ascending Price</option>
+              <option>Ascending Price</option>
+              </select>
+      </div>
+      
+
+     </div>
+
+    
+    <div className="border-gray-100 border-[.5px] rounded-md grid 
+    grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-6">
+     
       {products.map((prod, index) => (
         // <div key={index}>
         //   <div>{index + 1} - {prod.productName}</div>
@@ -73,14 +97,14 @@ function Products() {
 
      
     </div>
-     <div className="grid grid-cols-1 text-center pb-48">
+     <div className="grid grid-cols-1 text-center mb-8 mt-4">
      {serverError && <p className=''>{serverError}</p>}
  
-     {loading && <p>Loading...</p>}
+     {loading && (<Loader />)}
      {!serverError && (
      <button 
           onClick={() => setCount((prevCount) => prevCount + 1)} 
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+          className="bg-secondary w- mx-auto text-white px-4 py-2 rounded-md hover:bg-blue-600"
           disabled={loading}
         >
           Load More

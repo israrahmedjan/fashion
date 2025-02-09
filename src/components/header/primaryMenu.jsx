@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Search, User, Heart, ShoppingCart, Menu } from "lucide-react";
 import Image from "next/image";
 import SearchBox from "@/app/_components/produccts/SearchBox";
+import MobileSearchBox from "@/app/_components/produccts/MobileSearchBox";
+import TopMenu from "./topMenu";
 
 export default function PrimaryMenu() {
     const [category, setCategory] = useState("All Categories");
@@ -13,7 +15,8 @@ export default function PrimaryMenu() {
         <>
             {/* Lg Devices */}
 
-            <nav className="hidden lg:block fixed top-0 left-0 w-full bg-white shadow-md z-50">
+            <nav className="hidden lg:block fixed top-8 left-0 w-full bg-white shadow-md z-50">
+               
                 <div className="flex px-8 h-20 items-center justify-between">
                     <div className=" flex gap-10 items-center w-1/2 justify-between">
                         <div>
@@ -25,28 +28,9 @@ export default function PrimaryMenu() {
                             />
                         </div>
                         {/* category and search box */}
-                        <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden shadow-sm w-full max-w-md bg-white">
-                            {/* Category Select Dropdown */}
-                            <select className="h-10 px-4 bg-gray-100 text-gray-700 border-r outline-none">
-                                <option>All Categories</option>
-                                <option>Electronics</option>
-                                <option>Clothing</option>
-                                <option>Home & Kitchen</option>
-                            </select>
-
-                            {/* Search Input */}
-                            <input
-                                type="text"
-                                placeholder="Search Products"
-                                className="h-8 px-4 flex-1 outline-none"
-                            />
-
-                            {/* Search Icon */}
-                            <button className="h-8 px-4 text-blue-900 hover:text-black flex items-center justify-center">
-                                <Search size={25} />
-                            </button>
-                        </div>
-
+                     
+                    
+                       <SearchBox />
                         {/* category and search box */}
                     </div>
                     {/* add to cart whislist and use menu */}
@@ -89,7 +73,7 @@ export default function PrimaryMenu() {
                         /></div>
                         <div><Menu size={30} /></div>
                     </div>
-                   <SearchBox />
+                   <MobileSearchBox />
                 </div>
             </nav>
 

@@ -5,7 +5,7 @@ import Products from "./_components/produccts/Products";
 export default function Home() {
   return (
     <>
-    <div className="py-2 px-8 mt-[120px] min-h-[600px]">
+    <div className="py-2 px-8 lg:mt-[180px] mt-[130px] min-h-[600px]">
        {/* <SearchBox /> */}
     <Products />
     </div>
