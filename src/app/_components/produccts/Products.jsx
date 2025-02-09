@@ -64,8 +64,8 @@ function Products() {
 
   return (
     <>
-     <div className='flex justify-between thin-border-bottom pb-3'>
-      <h1 className='text-secondary sm:text-[12px] lg:text-lg uppercase w-full font-semibold'><span className='text-primary'>Latest</span> Products</h1>
+     <div className='flex justify-between items-center thin-border-bottom pb-3 text-[12px] lg:text-[14px]'>
+      <h1 className='text-secondary uppercase w-full font-semibold lg:text-lg'><span className='text-primary '>Latest</span> Products</h1>
       <div className='flex flex-row items-center gap-3'>
         <ArrowUpWideNarrow className='text-secondary' />
         <select
@@ -83,7 +83,7 @@ function Products() {
      </div>
 
     
-    <div className="border-gray-100 border-[.5px] rounded-md grid 
+    <div className="grid 
     grid-cols-1 sm:grid-cols-2 md:grid-rows-3 lg:grid-cols-4 gap-1 mt-6">
      
       {products.map((prod, index) => (

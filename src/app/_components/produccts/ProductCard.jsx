@@ -1,5 +1,5 @@
 import React from 'react'
-import { motion } from "framer-motion";
+import Link from 'next/link';
 import { ShoppingCart, Heart, Scale ,RefreshCw,Eye,Star  } from "lucide-react";
 
 function ProductCard({product}) {
@@ -30,14 +30,14 @@ function ProductCard({product}) {
           {/* Product Details */}
       <div className="mt-4 text-center p-2 ">
         <div className='flex justify-between items-center lg:text-[14px] mb-2 italic'>
-          <span className=''>{product.categoryName}</span>
+         <span className=''>{product.categoryName}</span>
       <span className=" flex flex-row items-center  text-primary">
       {Array.from({ length: 6 }).map((_, i) => (
   <div className='text-secondary' key={i}><Star size={15} /></div>
 ))}
         </span>
       </div>
-     <div className='flex pb-3 thin-border-bottom '> <h3 className="font-semibold text-left text-primary">{product.productName}</h3></div>
+     <div className='flex pb-3 thin-border-bottom '> <Link href="category/skdfsjdf"><h3 className="font-semibold text-left text-primary cursor-pointer">{product.productName}</h3></Link></div>
        
         <div className='flex justify-between items-center '>
         <p className="flex px-3 py-1 thin-border items-center gap-1 mt-3 rounded-lg text-secondary hover:bg-gray-100 cursor-pointer"><ShoppingCart /><span className='text-primary'>Add To Cart</span></p>

@@ -5,6 +5,7 @@ import { Search, User, Heart, ShoppingCart, Menu } from "lucide-react";
 import Image from "next/image";
 import SearchBox from "@/app/_components/produccts/SearchBox";
 import MobileSearchBox from "@/app/_components/produccts/MobileSearchBox";
+import Link from "next/link";
 import TopMenu from "./topMenu";
 
 export default function PrimaryMenu() {
@@ -20,12 +21,13 @@ export default function PrimaryMenu() {
                 <div className="flex px-8 h-20 items-center justify-between">
                     <div className=" flex gap-10 items-center w-1/2 justify-between">
                         <div>
-                            <Image
+                        <Link href={`/`}>    <Image
                                 src="/images/logo.png" // Ensure the image is inside the 'public' folder
                                 alt="Logo"
                                 width={125}
                                 height={23}
                             />
+                            </Link>
                         </div>
                         {/* category and search box */}
                      
