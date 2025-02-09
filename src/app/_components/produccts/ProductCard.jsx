@@ -40,7 +40,7 @@ function ProductCard({product}) {
      <div className='flex pb-3 thin-border-bottom '> <h3 className="font-semibold text-left text-primary">{product.productName}</h3></div>
        
         <div className='flex justify-between items-center '>
-        <p className="flex px-3 py-1 thin-border items-center gap-3 mt-3 rounded-lg text-secondary hover:bg-gray-100 cursor-pointer"><ShoppingCart /><span className='text-primary'>Add To Cart</span></p>
+        <p className="flex px-3 py-1 thin-border items-center gap-1 mt-3 rounded-lg text-secondary hover:bg-gray-100 cursor-pointer"><ShoppingCart /><span className='text-primary'>Add To Cart</span></p>
         <p className="text-gray-600">${product.price}</p>
        
         </div>

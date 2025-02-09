@@ -84,7 +84,7 @@ function Products() {
 
     
     <div className="border-gray-100 border-[.5px] rounded-md grid 
-    grid-cols-2 sm:grid-cols-2 md:grid-rows-3 lg:grid-cols-4 gap-1 mt-6">
+    grid-cols-1 sm:grid-cols-2 md:grid-rows-3 lg:grid-cols-4 gap-1 mt-6">
      
       {products.map((prod, index) => (
         // <div key={index}>
