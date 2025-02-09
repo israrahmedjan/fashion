@@ -4,6 +4,7 @@ import { debounce } from "lodash";
 import axios from "axios";
 import { getCategories } from "@/helper/helper";
 import { Search } from "lucide-react";
+import Loader from "@/components/Loader";
 
 const SearchBox = () => {
   const [query, setQuery] = useState("");
@@ -103,7 +104,10 @@ const SearchBox = () => {
 
 
         </div></div>
-        <div>     {products.length > 0 && (
+        <div>    
+          {loading && (
+            <div className=" bg-white border-gray-300 border-l-[0.5px] border-r-[0.5px] border-b-[0.5px] shadow-md top-12 w-full absolute z-[99999]"><Loader /></div>)}
+           {products.length > 0 && (
           <div className=" bg-white border-gray-300 border-l-[0.5px] border-r-[0.5px] border-b-[0.5px] shadow-md top-12 w-full absolute z-[99999]">
 
             {products.map((prod, index) => (
