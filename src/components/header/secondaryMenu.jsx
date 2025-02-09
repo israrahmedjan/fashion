@@ -9,7 +9,7 @@ function SecondaryMenu() {
     <>
     {/* lg device menu */}
     <nav className="hidden lg:block fixed top-[113px] left-0 w-full bg-white shadow-md z-50">
-             <div className="flex px-8 h-12 items-center justify-between">
+             <div className="flex px-4 h-12 items-center justify-between">
   {/* Left - Menu Links (80%) */}
   <div className="flex-1 basis-[80%] flex items-center gap-6">
       {/* Category Icon */}

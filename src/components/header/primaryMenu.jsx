@@ -63,7 +63,7 @@ export default function PrimaryMenu() {
 
             {/* Mobile Device */}
             <nav className="lg:hidden fixed top-0 left-0 w-full bg-white shadow-md z-50">
-                <div className="flex flex-col  gap-4 mx-6">
+                <div className="flex flex-col  gap-4 mx-4">
                     <div className="flex flex-row justify-between items-center">
                         <div><Image
                             src="/images/logo.png" // Ensure the image is inside the 'public' folder
