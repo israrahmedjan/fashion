@@ -64,7 +64,7 @@ function Products() {
 
   return (
     <>
-     <div className='flex justify-between items-center thin-border-bottom pb-3 text-[12px] lg:text-[14px]'>
+     <div className='flex lg:px-2 justify-between items-center thin-border-bottom pb-3 text-[12px] lg:text-[14px]'>
       <h1 className='text-secondary uppercase w-full font-semibold lg:text-lg'><span className='text-primary '>Latest</span> Products</h1>
       <div className='flex flex-row items-center gap-3'>
         <ArrowUpWideNarrow className='text-secondary' />
@@ -84,7 +84,7 @@ function Products() {
 
     
     <div className="grid 
-    grid-cols-1 sm:grid-cols-2 md:grid-rows-3 lg:grid-cols-4 gap-1 mt-6">
+    grid-cols-1 sm:grid-cols-2 md:grid-rows-3 lg:grid-cols-4 gap-1  mt-6">
      
       {products.map((prod, index) => (
         // <div key={index}>
