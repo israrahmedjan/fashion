@@ -6,7 +6,7 @@ function ProductCard({product}) {
   const home_url = process.env.NEXT_PUBLIC_FRONT_DOMAIN;
   return (
     <>
-    <span>Home URL : {home_url}</span>
+    
     <div className='group relative rounded-lg mt-2 mx-1  p-2 thin-border text-[12px] lg:text-[14px] shadow-lg'>
     <img
           src="images/product.jpg"
