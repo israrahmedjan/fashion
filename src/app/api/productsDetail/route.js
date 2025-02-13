@@ -14,49 +14,60 @@ export async function GET(request) {
   
   try {
     const { searchParams } = new URL(request.url);
+    const productSlug = searchParams.get('slug') || "";
 
-    const page = parseInt(searchParams.get('page')) || 1;   // Default to 1 if not provided
-    const limit = parseInt(searchParams.get('limit')) || 2; // Default to 10 if not provided
-    const search = searchParams.get('search') || ""; // Default to empty 0 if not provided
-    
-let skip = (page - 1) * limit;
-    // console.log("Page Number", page);
-    // console.log("Page serch ski[", (page - 1) * limit);
     const conn = await connectToDatabase();
-  const productsCollection = conn.collection("Products");
-
-
- // const searchQuery = ""; // Yeh woh search term hai jo aap dhoondhna chahte hain
+    const productsCollection = conn.collection("Products");
+    
 
 const data = await productsCollection
-  .aggregate([
+.aggregate(
+  [
+    { $match: { slug: 'smartphone1' } },
     {
       $lookup: {
         from: 'Categories',
         localField: 'category_id',
         foreignField: '_id',
-        as: 'category_details'
+        as: 'productDetails'
       }
     },
-    { $unwind: '$category_details' },
     {
-      $skip: skip // Pehle skip karega
+      $lookup: {
+        from: 'ProductGallery',
+        localField: 'image_gallery',
+        foreignField: '_id',
+        as: 'PorductGallery'
+      }
     },
     {
-      $limit: limit // Sirf limit tak documents return karega
+      $lookup: {
+        from: 'ProductVariants',
+        localField: '_id',
+        foreignField: 'product_id',
+        as: 'ProductVariants'
+      }
     },
+    { $unwind: { path: '$productDetails' } },
     {
       $project: {
         productName: '$name',
-        categoryName: '$category_details.name',
-        productSlug:'$slug',
-        Descriptions: '$category_details.description',
+        categoryName: '$productDetails.name',
+        categorySlug: '$productDetails.slug',
+        productSlug: '$slug',
+        Descriptions:
+          '$productDetails.description',
+        mainImage: '$PorductGallery.main_image',
+        gelleryImages:
+          '$PorductGallery.gallery_images',
+        variations: '$ProductVariants',
         price: 1,
         _id: 0
       }
-    }
-  ])
-  .toArray(); // Convert the aggregation cursor to an array
+    },
+    { $match: { categorySlug: 'electroices' } }
+  ],
+).toArray(); // Convert the aggregation cursor to an array
   
     //console.log("Dat:", data);
   
