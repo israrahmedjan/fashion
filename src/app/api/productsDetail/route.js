@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import connectToDatabase from "@/lib/dbconfig";
+import { ObjectId } from "mongodb"; // Import ObjectId from MongoDB
+
 // import users from "@/models/users";
 // import bcrypt from "bcrypt";
 // import jwt from "jsonwebtoken";
@@ -14,30 +16,29 @@ export async function GET(request) {
   
   try {
     const { searchParams } = new URL(request.url);
-    const productSlug = searchParams.get('slug') || "";
-
+    const productSlug = searchParams.get('productSlug') || "";
+    const categorySlug = searchParams.get('categorySlug') || "";
+console.log("Product Slug and categor", productSlug,categorySlug);
     const conn = await connectToDatabase();
+
+
     const productsCollection = conn.collection("Products");
-    
 
 const data = await productsCollection
 .aggregate(
   [
-    { $match: { slug: 'smartphone1' } },
+    {
+      $match: {
+        //_id: new ObjectId("679cbe77d93b0fc5971acf51"), 
+        slug: productSlug, 
+      },
+    },
     {
       $lookup: {
         from: 'Categories',
         localField: 'category_id',
         foreignField: '_id',
-        as: 'productDetails'
-      }
-    },
-    {
-      $lookup: {
-        from: 'ProductGallery',
-        localField: 'image_gallery',
-        foreignField: '_id',
-        as: 'PorductGallery'
+        as: 'Category'
       }
     },
     {
@@ -45,27 +46,46 @@ const data = await productsCollection
         from: 'ProductVariants',
         localField: '_id',
         foreignField: 'product_id',
-        as: 'ProductVariants'
+        as: 'varrations'
       }
     },
-    { $unwind: { path: '$productDetails' } },
+    { $unwind: { path: '$varrations' } },
+    {
+      $lookup: {
+        from: 'ProductGallery',
+        localField: 'varrations.image_gallery',
+        foreignField: '_id',
+        as: 'ProductImage.main_image'
+      }
+    },
+    {
+      $addFields: {
+        filteredCategory: {
+          $filter: {
+            input: '$Category',
+            as: 'cat',
+            cond: {
+              $eq: ['$$cat.slug', categorySlug]
+            }
+          }
+        }
+      }
+    },
     {
       $project: {
-        productName: '$name',
-        categoryName: '$productDetails.name',
-        categorySlug: '$productDetails.slug',
-        productSlug: '$slug',
-        Descriptions:
-          '$productDetails.description',
-        mainImage: '$PorductGallery.main_image',
-        gelleryImages:
-          '$PorductGallery.gallery_images',
-        variations: '$ProductVariants',
-        price: 1,
-        _id: 0
+        id: 1,
+        name: 1,
+        Category: "$filteredCategory", 
+        'allvarrations':'$varrations',
+        size: '$varrations.size',
+        color:'$varrations.color',
+        'varrations.color': 1,
+        'varrations.size': 1,
+        'varrations.price': 1,
+        'mainImage' : '$ProductImage.main_image.main_image',
+        'galleryImages' : '$ProductImage.main_image.gallery_images'
       }
-    },
-    { $match: { categorySlug: 'electroices' } }
+    }
   ],
 ).toArray(); // Convert the aggregation cursor to an array
   

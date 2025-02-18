@@ -6,7 +6,7 @@ function ProductCard({product}) {
   const home_url = process.env.NEXT_PUBLIC_FRONT_DOMAIN;
   return (
     <>
-    
+
     <div className='group relative rounded-lg mt-2 mx-1  p-2 thin-border text-[12px] lg:text-[14px] shadow-lg'>
     <img
           src="images/product.jpg"
@@ -35,7 +35,7 @@ function ProductCard({product}) {
 ))}
         </span>
       </div>
-     <div className='flex pb-3 thin-border-bottom '> <Link href={`${home_url}product/${product.productSlug}`}><h3 className="font-semibold text-left text-primary cursor-pointer">{product.productName}</h3></Link></div>
+     <div className='flex pb-3 thin-border-bottom '> <Link href={`${home_url}product/${product.categorySlug}/${product.productSlug}`}><h3 className="font-semibold text-left text-primary cursor-pointer">{product.productName}</h3></Link></div>
        
         <div className='flex justify-between items-center '>
         <p className="flex px-3 py-1 thin-border items-center gap-1 mt-3 rounded-lg text-secondary hover:bg-gray-100 cursor-pointer"><ShoppingCart /><span className='text-primary'>Add To Cart</span></p>

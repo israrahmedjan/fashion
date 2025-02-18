@@ -9,11 +9,12 @@ async function getCategories(slug="") {
 }
 
 
-async function productDetail(productSlug="") {
+async function productDetail(categorySlug="",productSlug="") {
 console.log("My slug",productSlug);
   const response = await axios.get('/api/productsDetail', {
     params: {
-      slug: productSlug,
+      productSlug: productSlug,
+      categorySlug: categorySlug
     },
   });
   return response.data.data;

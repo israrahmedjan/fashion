@@ -50,6 +50,7 @@ const data = await productsCollection
         productName: '$name',
         categoryName: '$category_details.name',
         productSlug:'$slug',
+        categorySlug: '$category_details.slug',
         Descriptions: '$category_details.description',
         price: 1,
         _id: 0
