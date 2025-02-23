@@ -91,7 +91,7 @@ console.log("Selected Products", selectedProduct);
   return (
     <>
       {products.length > 0 && (
-        <div className='mt-[210px]'>
+        <div className='mt-[180px]'>
            
           {/* Breadcrumbs */}
           {products[0]?.Category?.[0]?.name && (
