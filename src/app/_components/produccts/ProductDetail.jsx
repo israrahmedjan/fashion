@@ -186,7 +186,7 @@ console.log("Selected Products", selectedProduct);
                     </div>
 
                     {/* Color Filter */}
-                    <div>
+                    <div className='mb-[100px]'>
                       <p>Select Color:</p>
                       <div className="flex gap-2 mt-2">
                         {products.map((prod, i) => (
