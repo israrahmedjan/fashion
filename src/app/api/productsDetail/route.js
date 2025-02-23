@@ -22,74 +22,88 @@ console.log("Product Slug and categor", productSlug,categorySlug);
     const conn = await connectToDatabase();
 
 
-    const productsCollection = conn.collection("Products");
-
+    const productsCollection = conn.collection("ProductVariants");
+   
 const data = await productsCollection
 .aggregate(
   [
     {
-      $match: {
-        //_id: new ObjectId("679cbe77d93b0fc5971acf51"), 
-        slug: productSlug, 
-      },
-    },
-    {
       $lookup: {
-        from: 'Categories',
-        localField: 'category_id',
+        from: 'Products',
+        localField: 'product_id',
         foreignField: '_id',
-        as: 'Category'
-      }
-    },
-    {
-      $lookup: {
-        from: 'ProductVariants',
-        localField: '_id',
-        foreignField: 'product_id',
-        as: 'varrations'
-      }
-    },
-    { $unwind: { path: '$varrations' } },
-    {
-      $lookup: {
-        from: 'ProductGallery',
-        localField: 'varrations.image_gallery',
-        foreignField: '_id',
-        as: 'ProductImage.main_image'
+        as: 'Products'
       }
     },
     {
       $addFields: {
-        filteredCategory: {
+        Products: {
           $filter: {
-            input: '$Category',
-            as: 'cat',
+            input: '$Products',
+            as: 'prod',
             cond: {
-              $eq: ['$$cat.slug', categorySlug]
+              $eq: [
+                '$$prod.slug',
+                productSlug
+              ]
             }
           }
         }
       }
     },
     {
+      $match: { 'Products.0': { $exists: true } }
+    },
+    {
+      $lookup: {
+        from: 'ProductGallery',
+        localField: 'image_gallery',
+        foreignField: '_id',
+        as: 'Image'
+      }
+    },
+    {
+      $lookup: {
+        from: 'Categories',
+        localField: 'Products.categoryId',
+        foreignField: '_id',
+        as: 'Category'
+      }
+    },
+    { $unwind: { path: '$Products' } },
+    {
+      $addFields: {
+        image: {
+          $arrayElemAt: ['$Image.image', 0]
+        }
+      }
+    },
+    {
+      $addFields: {
+        Category: {
+          $filter: {
+            input: '$Category',
+            as: 'cat',
+            cond: { $eq: ['$$cat.slug', categorySlug] }
+          }
+        }
+      }
+    },
+    {
       $project: {
-        id: 1,
-        name: 1,
-        Category: "$filteredCategory", 
-        'allvarrations':'$varrations',
-        size: '$varrations.size',
-        color:'$varrations.color',
-        'varrations.color': 1,
-        'varrations.size': 1,
-        'varrations.price': 1,
-        'mainImage' : '$ProductImage.main_image.main_image',
-        'galleryImages' : '$ProductImage.main_image.gallery_images'
+        ProductName: '$Products.name',
+        color: 1,
+        size: 1,
+        price: 1,
+        image: 1,
+        Category: 1
       }
     }
   ],
+  { maxTimeMS: 60000, allowDiskUse: true }
 ).toArray(); // Convert the aggregation cursor to an array
   
-    //console.log("Dat:", data);
+    console.log("Category Detail Page:", data);
   
     if (data.length === 0) {
       // If data is empty, return a response indicating no products were found

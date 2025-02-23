@@ -9,7 +9,7 @@ function ProductCard({product}) {
 
     <div className='group relative rounded-lg mt-2 mx-1  p-2 thin-border text-[12px] lg:text-[14px] shadow-lg'>
     <img
-          src="images/product.jpg"
+          src={product.image}
           alt={product.productName}
           className="w-full h-[250px] object-cover rounded-md transition-transform duration-300 group-hover:scale-105"
         />

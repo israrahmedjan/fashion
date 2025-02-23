@@ -23,6 +23,7 @@ function Products() {
           limit: 4,
         },
       });
+      console.log("Home Page",response)
       setProducts((prev) => [...prev, ...response.data.data]); // Products update karo
     } catch (error) {
       setServerError(error.response?.data?.message || 'Server Error'); // Error handle karo

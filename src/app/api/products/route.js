@@ -33,9 +33,17 @@ const data = await productsCollection
     {
       $lookup: {
         from: 'Categories',
-        localField: 'category_id',
+        localField: 'categoryId',
         foreignField: '_id',
         as: 'category_details'
+      }, 
+    },
+    {
+      $lookup: {
+        from: 'ProductGallery',
+        localField: 'galleryId',
+        foreignField: '_id',
+        as: 'ProductGallery'
       }
     },
     { $unwind: '$category_details' },
@@ -48,6 +56,9 @@ const data = await productsCollection
     {
       $project: {
         productName: '$name',
+        image: {
+          $arrayElemAt: ['$ProductGallery.image', 0] 
+        },
         categoryName: '$category_details.name',
         productSlug:'$slug',
         categorySlug: '$category_details.slug',
@@ -60,6 +71,7 @@ const data = await productsCollection
   .toArray(); // Convert the aggregation cursor to an array
   
     //console.log("Dat:", data);
+    console.log("New Gallery Added",data);
   
     if (data.length === 0) {
       // If data is empty, return a response indicating no products were found
