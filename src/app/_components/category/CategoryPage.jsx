@@ -6,7 +6,7 @@ import Categories from './Categories';
 import Sort from './Sort';
 import ProductCard from '../produccts/ProductCard';
 import Loader from '@/components/Loader';
-import { ArrowUpWideNarrow } from 'lucide-react';
+import { ArrowUpWideNarrow, ChevronDown, ChevronUp,Filter } from 'lucide-react';
 function CategoryPage({ categorySlug }) {
 
   const [products, setProducts] = useState([]);
@@ -15,6 +15,7 @@ function CategoryPage({ categorySlug }) {
   const [slugs, setSlugs] = useState();
   const [limit, setlimit] = useState(4);
   const [sort, setSort] = useState({ name: 1 })
+  const [isFilterOpen, setIsFilterOpen] = useState(true);
 
 
   const [loading, setLoading] = useState(false);
@@ -152,15 +153,27 @@ function CategoryPage({ categorySlug }) {
       {/* Mobile Devices */}
 
       <div className='lg:hidden'>
-
-       <div className='flex mx-6 justify-between'>
-                  <div><PriceSlider onChange={handlePriceChange} /> </div>
-                  <div><Sort handleSort={handleSort} sortValue={sort} /></div>
-       </div>
-       <div className='flex flex-col mx-6'>
-                <div> <Categories slugs={categorySlug} handelSlugs={handelSlugs} />
-                </div>
-       </div>
+      <div className='text-right m-3 flex justify-between items-center '> {/* Toggle Button */}
+      <h1 className='text-secondary uppercase font-semibold lg:text-lg'><span className='text-primary '>Category</span> {categorySlug && (categorySlug)}</h1>
+          
+          <button onClick={() => setIsFilterOpen(!isFilterOpen)} className="text-secondary font-semibold">
+            {isFilterOpen ?  <Filter size={24} /> : <Filter size={24} />}
+          </button></div>
+          {!isFilterOpen && (<div className="relative">
+       <div className='flex flex-col mx-6 justify-between  '>
+                 <div className='flex flex-col justify-between items-center  '>
+             
+                  
+                    <div className=' w-full thin-border-bottom pb-3'><Sort handleSort={handleSort} sortValue={sort} /></div>
+                   
+                    <div className=' w-full thin-border-bottom pb-3'> <PriceSlider onChange={handlePriceChange} /></div>
+                    <div className=' w-full thin-border-bottom pb-3'> <Categories slugs={categorySlug} handelSlugs={handelSlugs} /></div>
+                  
+                    </div>
+                        </div>
+      
+       </div>)}
+      
        <div className=' w-full'>
               {products && (<div>
                 <div className="grid 

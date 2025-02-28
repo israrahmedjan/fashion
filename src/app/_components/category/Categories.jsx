@@ -94,9 +94,9 @@ function Categories({ slugs = "", handelSlugs }) {
                
               
             {categories && (
-  <div className="grid grid-cols-2 gap-4  p-3 ">
+  <div className="grid grid-cols-2 gap-4  p-3 text-sm ">
     {categories.map((cat, index) => (
-      <div key={index} className="flex items-center gap-2 border-b pb-2">
+      <div key={index} className="flex items-center gap-2 pb-2">
         <input
           type="checkbox"
           value={cat.slug}

@@ -51,7 +51,7 @@ const PriceSlider = ({ onChange }) => {
     </div>
 
      {/* Mobile Devices Devices */}
-     <div className="lg:hidden pt-2 bg-white w-full max-w-sm">
+     <div className="lg:hidden pt-2 bg-white w-full max-w-sm mb-4 tex-sm ">
      
       <p className="text-sm mb-2 text-primary">
         <strong>Min:</strong> ${values[0]} &nbsp;&nbsp; <strong>Max:</strong> ${values[1]}

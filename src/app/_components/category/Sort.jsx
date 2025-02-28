@@ -61,11 +61,11 @@ function Sort({handleSort, sortValue}) {
       <div className='lg:hidden'>
       
      
-    <div className='flex flex-row items-center gap-3'>
-              
-        <ArrowUpWideNarrow className='text-secondary' />
+    <div className='flex flex-row items-center justify-between gap-3 text-primary text-sm'>
+              <h1>Total of products 5</h1>
+       <div className='flex items-center'> <ArrowUpWideNarrow className='text-secondary' />
         <select
-              className="h-10 px-3 bg-none border-primary-500 border-[0.5px] rounded-lg border-r outline-none"
+              className="h-8 px-3 bg-none border-primary-500 border-[0.5px] rounded-lg border-r outline-none"
               onChange={(e) => handleSortChange(e)}
             >
                  <option value="asc_name"> Ascending Name</option>
@@ -73,7 +73,7 @@ function Sort({handleSort, sortValue}) {
               <option value="asc_price">Ascending Price</option>
               <option value="desc_price">Descending Price</option>
              
-              </select>
+              </select></div>
       </div>
 
     </div>
