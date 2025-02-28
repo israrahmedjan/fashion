@@ -136,7 +136,7 @@ useEffect(() => {
      
     </div>
      )}
-     {/* {serverError && <p className=''>{serverError}</p>}
+     {serverError && <p className=''>{serverError}</p>}
  
      {loading && (<Loader />)}
      {!serverError && (
@@ -144,7 +144,7 @@ useEffect(() => {
           Load More
         </button>
         )}
-     */}
+    
 
             </div>
           </div>
