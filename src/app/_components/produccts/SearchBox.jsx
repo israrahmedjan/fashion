@@ -118,6 +118,7 @@ const SearchBox = () => {
               >
                 <span>{index + 1} - </span>
                 <span>{prod.name}</span>
+                <span>Views</span>
 
               </div>
             ))}
