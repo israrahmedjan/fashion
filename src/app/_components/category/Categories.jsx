@@ -62,7 +62,7 @@ function Categories({ slugs = "", handelSlugs }) {
     return (
         <>
             <div className='mt-3'>
-                <h1 className='text-xl text-primary text-left thin-border-bottom mb-5 pb-3'>Select Categories</h1>
+                <h1 className='text-lg text-primary text-left thin-border-bottom mb-5 pb-3'>Select Categories</h1>
                
               
                 {categories && (
@@ -76,7 +76,7 @@ function Categories({ slugs = "", handelSlugs }) {
                                     onChange={(e) => handleselectedSlugs(e)}
                                     className='h-5 w-5 '
                                 />
-                                <label>{cat.name}</label>
+                                <label className='text-base'>{cat.name}</label>
                             </div>
                         )
                     })}</div>

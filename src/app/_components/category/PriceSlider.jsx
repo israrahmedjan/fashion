@@ -17,7 +17,7 @@ const PriceSlider = ({ onChange }) => {
 
   return (
     <div className="pt-2 bg-white w-full max-w-sm">
-     <h1 className='text-xl text-primary text-left thin-border-bottom mb-5 pb-3'>Select Price Range</h1>
+     <h1 className='text-lg text-primary text-left thin-border-bottom mb-5 pb-3'>Select Price Range</h1>
       <p className="text-sm mb-2 text-primary">
         <strong>Min:</strong> ${values[0]} &nbsp;&nbsp; <strong>Max:</strong> ${values[1]}
       </p>

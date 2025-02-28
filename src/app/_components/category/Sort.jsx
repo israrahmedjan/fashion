@@ -37,7 +37,7 @@ function Sort({handleSort, sortValue}) {
     <div>
         {/* {JSON.stringify(sortObj,null,2)}
         {sortObj.name} */}
-         <h1 className='text-xl text-primary text-left thin-border-bottom mb-5 pb-3'>Sort Products</h1>
+         <h1 className='text-lg text-primary text-left thin-border-bottom mb-5 pb-3'>Sort Products</h1>
    
     <div className='flex flex-row items-center gap-3'>
               

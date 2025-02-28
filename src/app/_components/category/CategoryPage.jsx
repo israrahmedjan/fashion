@@ -86,7 +86,7 @@ useEffect(() => {
   return (
     <>
       {/* Medium and Large Devices */}
-      <div className='hidden lg:block'>
+      <div className='lg:block'>
     
         <div className='flex mx-6 flex-col '>
          
