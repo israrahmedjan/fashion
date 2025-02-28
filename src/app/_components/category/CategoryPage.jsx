@@ -160,7 +160,11 @@ function CategoryPage({ categorySlug }) {
             {isFilterOpen ?  <Filter size={24} /> : <Filter size={24} />}
           </button></div>
           {!isFilterOpen && (<div className="relative">
-       <div className='flex flex-col mx-6 justify-between  '>
+            <div
+        className={`absolute top-full left-0 w-full bg-white z-50 p-4 
+        transition-all duration-500 ease-in-out transform 
+        ${!isFilterOpen ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"}`}
+      >
                  <div className='flex flex-col justify-between items-center  '>
              
                   

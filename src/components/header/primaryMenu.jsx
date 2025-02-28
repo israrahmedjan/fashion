@@ -55,7 +55,7 @@ export default function PrimaryMenu() {
                         </button>
 
                         {/* Add to Cart */}
-                        <button className="flex items-center gap-2 text-gray-700 hover:text-green-600 transition relative">
+                        <button className="flex items-center gap-2 text-gray-700 hover:text-secondary transition relative">
                             <ShoppingCart size={22} />
                             <span className="hidden md:inline text-sm font-medium">Cart</span>
                             {/* Cart Item Badge */}
@@ -71,7 +71,7 @@ export default function PrimaryMenu() {
             {/* Mobile Device */}
             <nav className="lg:hidden fixed top-0 left-0 w-full bg-white shadow-md z-50">
                 <div className="flex flex-col  gap-4 mx-4">
-                    <div className="flex flex-row justify-between items-center">
+                    <div className="flex flex-row justify-between items-center pt-3">
                         <div>
                         <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}`}>
                             <Image
@@ -92,7 +92,7 @@ export default function PrimaryMenu() {
                 </div>
                 {/* Dropdown Menu */}
 {isOpen && (
-          <div className="bg-gray-50 shadow-md p-4 rounded-lg w-full absolute">
+          <div className="bg-gray-50 shadow-md p-4 rounded-b-md w-full absolute">
             <ul className="flex flex-col gap-3">
               <li className="thin-border-bottom"> <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}`}> Home</Link></li>
               <li className="thin-border-bottom" onClick={() => setIsOpen(!isOpen)}> <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}category/jeans`} > Jeans</Link></li>

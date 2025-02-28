@@ -11,7 +11,7 @@ function ProductCard({product}) {
     <img
           src={product.image}
           alt={product.productName}
-          className="w-full h-[250px] object-cover rounded-md transition-transform duration-300 group-hover:scale-105"
+          className="w-full h-[250px] object-cover p-2 lg:p-0 rounded-md transition-transform duration-300 group-hover:scale-105"
         />
         <div className='absolute top-3  right-3 flex flex-col gap-2 '>
        <button className="p-2 bg-white shadow-md rounded-full hover:bg-gray-100 transition">
