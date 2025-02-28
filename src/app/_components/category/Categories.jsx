@@ -61,7 +61,9 @@ function Categories({ slugs = "", handelSlugs }) {
 
     return (
         <>
-            <div className='mt-3'>
+           
+           {/* Large Devices */}
+            <div className='hidden lg:block mt-3'>
                 <h1 className='text-lg text-primary text-left thin-border-bottom mb-5 pb-3'>Select Categories</h1>
                
               
@@ -82,6 +84,31 @@ function Categories({ slugs = "", handelSlugs }) {
                     })}</div>
                 )}
 
+
+            </div>
+
+
+        {/* Mobile devices */}
+         
+            <div className='lg:hidden mt-3'>
+               
+              
+            {categories && (
+  <div className="grid grid-cols-2 gap-4  p-3 ">
+    {categories.map((cat, index) => (
+      <div key={index} className="flex items-center gap-2 border-b pb-2">
+        <input
+          type="checkbox"
+          value={cat.slug}
+          checked={selectedSlugs.includes(cat.slug)}
+          onChange={(e) => handleselectedSlugs(e)}
+          className="h-5 w-5"
+        />
+        <label className="text-base">{cat.name}</label>
+      </div>
+    ))}
+  </div>
+)}
 
             </div>
         </>

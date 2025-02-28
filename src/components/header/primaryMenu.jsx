@@ -11,12 +11,15 @@ import TopMenu from "./topMenu";
 export default function PrimaryMenu() {
     const [category, setCategory] = useState("All Categories");
     const [cartCount, setCartCount] = useState(2); // Example cart count
+    const [isOpen, setIsOpen] = useState(false);
 
+   
     return (
         <>
             {/* Lg Devices */}
 
             <nav className="hidden lg:block fixed top-8 left-0 w-full bg-white shadow-md z-50">
+              
                
                 <div className="flex px-6 h-20 items-center justify-between">
                     <div className=" flex gap-10 items-center w-1/2 justify-between">
@@ -69,16 +72,34 @@ export default function PrimaryMenu() {
             <nav className="lg:hidden fixed top-0 left-0 w-full bg-white shadow-md z-50">
                 <div className="flex flex-col  gap-4 mx-4">
                     <div className="flex flex-row justify-between items-center">
-                        <div><Image
-                            src="/images/logo.png" // Ensure the image is inside the 'public' folder
+                        <div>
+                        <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}`}>
+                            <Image
+                            src="/images/logo.png" // Ensure the image is inside the 'public' folder 
                             alt="Logo"
                             width={120}
                             height={100}
-                        /></div>
-                        <div><Menu size={30} /></div>
+                        />
+                        </Link>
+                        </div>
+                        <div className="relative"><button onClick={() => setIsOpen(!isOpen)}>
+            <Menu size={30} />
+          </button>  </div>
+
+
                     </div>
                    <MobileSearchBox />
                 </div>
+                {/* Dropdown Menu */}
+{isOpen && (
+          <div className="bg-gray-50 shadow-md p-4 rounded-lg w-full absolute">
+            <ul className="flex flex-col gap-3">
+              <li className="thin-border-bottom"> <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}`}> Home</Link></li>
+              <li className="thin-border-bottom" onClick={() => setIsOpen(!isOpen)}> <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}category/jeans`} > Jeans</Link></li>
+              <li className="thin-border-bottom" onClick={() => setIsOpen(!isOpen)}> <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}category/t-shirts`}> T-Shirts</Link></li>
+            </ul>
+          </div>
+        )}
             </nav>
 
         </>
