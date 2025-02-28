@@ -2,7 +2,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { debounce } from "lodash";
 import axios from "axios";
-import { getCategories } from "@/helper/helper";
+import { getCategoriesAPI } from "@/helper/helper";
 import { Search } from "lucide-react";
 
 const MobileSearchBox = () => {
@@ -17,7 +17,7 @@ const MobileSearchBox = () => {
   const debouncedSearch = useCallback(
     debounce(async (searchQuery, selectedCategory) => {
       if (!searchQuery) return;
-      console.log("Searching for:", selectedCategory);
+     // console.log("Searching for:", selectedCategory);
       try {
         setLoading(true);
         const response = await axios.get('/api/search', {
@@ -49,9 +49,9 @@ const MobileSearchBox = () => {
 
   // Get Categories setting
   const handelCategory = useCallback(async () => {
-    const category = await getCategories();
+    const category = await getCategoriesAPI();
     setCategory(category);
-    console.log("Category List", category);
+    //console.log("Category List", category);
   }, []);
 
   useEffect(() => {

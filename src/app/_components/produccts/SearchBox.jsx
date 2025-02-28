@@ -2,7 +2,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { debounce } from "lodash";
 import axios from "axios";
-import { getCategories } from "@/helper/helper";
+import { getCategoriesAPI } from "@/helper/helper";
 import { Search } from "lucide-react";
 import Loader from "@/components/Loader";
 
@@ -18,13 +18,13 @@ const SearchBox = () => {
   const debouncedSearch = useCallback(
     debounce(async (searchQuery, selectedCategory) => {
       if (!searchQuery) return;
-      console.log("Searching for:", selectedCategory);
+     // console.log("Searching for:", selectedCategory);
       try {
         setLoading(true);
         const response = await axios.get('/api/search', {
           params: { search: searchQuery, category: selectedCategory },
         });
-        console.log(response.data);
+      //  console.log(response.data);
         setProducts(response.data.data);
       } catch (error) {
         setError(error.message || 'Server Error');
@@ -50,7 +50,7 @@ const SearchBox = () => {
 
   // Get Categories setting
   const handelCategory = useCallback(async () => {
-    const category = await getCategories();
+    const category = await getCategoriesAPI();
     setCategory(category);
     console.log("Category List", category);
   }, []);

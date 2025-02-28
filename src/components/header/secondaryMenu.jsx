@@ -1,9 +1,11 @@
 import React,{ useState }  from 'react'
 import { Menu, ChevronDown } from "lucide-react";
 import Image from "next/image";
+import Link from 'next/link';
 
 function SecondaryMenu() {
     const [isOpen, setIsOpen] = useState(false);
+    
 
   return (
     <>
@@ -19,7 +21,7 @@ function SecondaryMenu() {
       </button>
 
       {/* Home Link */}
-      <a href="#" className="text-gray-700 hover:text-blue-600 font-medium">
+      <a href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}`} className="text-gray-700 hover:text-blue-600 font-medium">
         Home
       </a>
 
@@ -28,10 +30,14 @@ function SecondaryMenu() {
         Categories <ChevronDown size={16} />
       </a>
 
-      {/* About Us */}
-      <a href="#" className="text-gray-700 hover:text-blue-600 font-medium">
-        About Us
-      </a>
+      {/* Jeans */}
+      <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}/category/jeans`} className="text-gray-700 hover:text-blue-600 font-medium">
+        Jeans
+      </Link>
+       {/* t-shirts */}
+       <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}/category/t-shirts`} className="text-gray-700 hover:text-blue-600 font-medium">
+        T Shirts
+      </Link>
 
       {/* Shop Dropdown */}
       <a href="#" className="flex items-center gap-1 text-gray-700 hover:text-blue-600 font-medium">

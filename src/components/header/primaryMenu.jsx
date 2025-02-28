@@ -21,13 +21,15 @@ export default function PrimaryMenu() {
                 <div className="flex px-6 h-20 items-center justify-between">
                     <div className=" flex gap-10 items-center w-1/2 justify-between">
                         <div>
-                        <Link href={`/`}>    <Image
-                                src="/images/logo.png" // Ensure the image is inside the 'public' folder
+                        <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}`}>    <Image
+                                src={`/images/logo.png`} // Ensure the image is inside the 'public' folder
                                 alt="Logo"
                                 width={125}
                                 height={23}
                             />
                             </Link>
+
+                            
                         </div>
                         {/* category and search box */}
                      
