@@ -109,7 +109,7 @@ function CategoryPage({ categorySlug }) {
           <div className='flex justify-between'>
             <div className=' border w-1/4 mt-2 pt-2 pl-2 rounded-lg'>
 
-              <Sort handleSort={handleSort} sortValue={sort} />
+              {/* <Sort handleSort={handleSort} sortValue={sort} /> */}
 
               <Categories slugs={categorySlug} handelSlugs={handelSlugs} />
 
@@ -174,7 +174,7 @@ function CategoryPage({ categorySlug }) {
       
        </div>)}
       
-       <div className=' w-full'>
+       <div className='w-full'>
               {products && (<div>
                 <div className="grid 
     grid-cols-1 sm:grid-cols-2 md:grid-rows-3 lg:grid-cols-3 gap-1 mb-[200px]">

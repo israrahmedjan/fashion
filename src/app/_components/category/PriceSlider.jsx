@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Range } from "react-range";
 
 const PriceSlider = ({ onChange }) => {
-    const [values, setValues] = useState([100, 1000]); // Initial Min & Max
+    const [values, setValues] = useState([100, 800]); // Initial Min & Max
   
     const handlePriceChange = (newValues) => {
       clearTimeout(window.priceSliderTimeout); // Clear any previous timeout
@@ -11,22 +11,23 @@ const PriceSlider = ({ onChange }) => {
         setValues(newValues);
         onChange?.(newValues[0], newValues[1]); // Pass min & max values to parent
         console.log("Updated values after delay:", newValues);
-      }, 1000);
+      }, 700);
     };
     
 
   return (
     <>
     {/* Large Devices */}
-    <div className="hidden lg:block pt-2 bg-white w-full max-w-sm">
+    <div className="hidden lg:block pt-2 bg-white p-3">
      <h1 className='text-lg text-primary text-left thin-border-bottom mb-5 pb-3'>Select Price Range</h1>
       <p className="text-sm mb-2 text-primary">
         <strong>Min:</strong> ${values[0]} &nbsp;&nbsp; <strong>Max:</strong> ${values[1]}
       </p>
+      <div>  
       <Range
         step={10}
         min={100}
-        max={1000}
+        max={800}
         values={values}
         onChange={handlePriceChange}
         renderTrack={({ props, children }) => {
@@ -48,6 +49,7 @@ const PriceSlider = ({ onChange }) => {
           );
         }}
       />
+      </div>
     </div>
 
      {/* Mobile Devices Devices */}
@@ -56,7 +58,7 @@ const PriceSlider = ({ onChange }) => {
       <p className="text-sm mb-2 text-primary">
         <strong>Min:</strong> ${values[0]} &nbsp;&nbsp; <strong>Max:</strong> ${values[1]}
       </p>
-      <Range
+      <div>      <Range
         step={10}
         min={100}
         max={1000}
@@ -81,6 +83,8 @@ const PriceSlider = ({ onChange }) => {
           );
         }}
       />
+      </div>
+
     </div>
     </>
   );

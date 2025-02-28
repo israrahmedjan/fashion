@@ -7,7 +7,7 @@ function page() {
   const { slug } = useParams(); 
 
   return (
-    <div className='mt-[150px]'>
+    <div className='sm:mt-[150px] lg:mt-[190px]'>
       {/* <h1>this is slug{slug}</h1> */}
      <CategoryPage categorySlug={slug} />
     </div>
