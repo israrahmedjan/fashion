@@ -6,7 +6,8 @@ import Categories from './Categories';
 import Sort from './Sort';
 import ProductCard from '../produccts/ProductCard';
 import Loader from '@/components/Loader';
-import { ArrowUpWideNarrow, ChevronDown, ChevronUp,Filter } from 'lucide-react';
+import { ArrowUpWideNarrow, ChevronDown, ChevronUp, Filter } from 'lucide-react';
+import ReleatedProducts from '../produccts/ReleatedProducts';
 function CategoryPage({ categorySlug }) {
 
   const [products, setProducts] = useState([]);
@@ -85,129 +86,124 @@ function CategoryPage({ categorySlug }) {
   return (
     <>
       {/* Medium and Large Devices */}
-      <div className='hidden lg:block'>
 
-        <div className='flex mx-6 flex-col '>
+      <div className='hidden lg:block mx-4 '>
+        <div className='flex'>
+          <h1 className='text-secondary uppercase w-full font-semibold lg:text-lg'><span className='text-primary '>Category</span> {categorySlug && (categorySlug)}</h1>
+          <ArrowUpWideNarrow className='text-secondary' />
+          <select
+            className="h-10 px-3 bg-none border-primary-500 border-[0.5px] rounded-lg border-r outline-none"
+            value=""
+            onChange={(e) => console.log("set")}
+          >
+            <option>Ascending Price</option>
+            <option>Ascending Price</option>
+            <option>Ascending Price</option>
+          </select>
 
-          <div className='flex lg:px-2 justify-between items-center thin-border-bottom pb-3 text-[12px] lg:text-[14px]'>
-            <h1 className='text-secondary uppercase w-full font-semibold lg:text-lg'><span className='text-primary '>Category</span> {categorySlug && (categorySlug)}</h1>
-            <div className='flex flex-row items-center gap-3'>
-              <ArrowUpWideNarrow className='text-secondary' />
-              <select
-                className="h-10 px-3 bg-none border-primary-500 border-[0.5px] rounded-lg border-r outline-none"
-                value=""
-                onChange={(e) => console.log("set")}
-              >
-                <option>Ascending Price</option>
-                <option>Ascending Price</option>
-                <option>Ascending Price</option>
-              </select>
-            </div>
+        </div>
+        <div className='flex'>
+
+          <div className='border w-1/3 mt-2 pt-2 pl-2 rounded-lg'>
+            {/* <Sort handleSort={handleSort} sortValue={sort} /> */}
+
+            <Categories slugs={categorySlug} handelSlugs={handelSlugs} />
 
 
+            <PriceSlider onChange={handlePriceChange} /> {/* Pass Callback */}
           </div>
-          <div className='flex justify-between'>
-            <div className=' border w-1/4 mt-2 pt-2 pl-2 rounded-lg'>
+          <div>  {products && (<div>
+            <div className="grid lg:grid-cols-3 gap-1">
 
-              {/* <Sort handleSort={handleSort} sortValue={sort} /> */}
+              {products.map((prod, index) => (
+                // <div key={index}>
+                //   <div>{index + 1} - {prod.productName}</div>
+                //   <div>{prod.categoryName}</div>
+                <ProductCard key={index} product={prod} />
+                // </div>
 
-              <Categories slugs={categorySlug} handelSlugs={handelSlugs} />
+              ))}
 
-
-              <PriceSlider onChange={handlePriceChange} /> {/* Pass Callback */}
-            </div>
-            <div className=' w-full'>
-              {products && (<div>
-                <div className="grid 
-    grid-cols-1 sm:grid-cols-2 md:grid-rows-3 lg:grid-cols-3 gap-1">
-
-                  {products.map((prod, index) => (
-                    // <div key={index}>
-                    //   <div>{index + 1} - {prod.productName}</div>
-                    //   <div>{prod.categoryName}</div>
-                    <ProductCard key={index} product={prod} />
-                    // </div>
-
-                  ))}
-                </div>
-
-
-
-              </div>
-              )}
-              {serverError && <p className=''>{serverError}</p>}
 
               {loading && (<Loader />)}
-              {!serverError && (
-                <button>
-                  Load More
-                </button>
-              )}
 
-
+              {serverError && <p className=''>{serverError}</p>}
             </div>
+{products && (<div>
+             <ReleatedProducts categorySlug={categorySlug} />
+             
+            </div>
+            )}
+            
+
           </div>
+          )} </div>
+
+
         </div>
+
       </div>
 
       {/* Mobile Devices */}
 
       <div className='lg:hidden'>
-      <div className='text-right m-3 flex justify-between items-center '> {/* Toggle Button */}
-      <h1 className='text-secondary uppercase font-semibold lg:text-lg'><span className='text-primary '>Category</span> {categorySlug && (categorySlug)}</h1>
-          
+        <div className='text-right m-3 flex justify-between items-center '> {/* Toggle Button */}
+          <h1 className='text-secondary uppercase font-semibold lg:text-lg'><span className='text-primary '>Category</span> {categorySlug && (categorySlug)}</h1>
+
           <button onClick={() => setIsFilterOpen(!isFilterOpen)} className="text-secondary font-semibold">
-            {isFilterOpen ?  <Filter size={24} /> : <Filter size={24} />}
+            {isFilterOpen ? <Filter size={24} /> : <Filter size={24} />}
           </button></div>
-          {!isFilterOpen && (<div className="relative">
-            <div
-        className={`absolute top-full left-0 w-full bg-white z-50 p-4 
+        {!isFilterOpen && (<div className="relative">
+          <div
+            className={`absolute top-full left-0 w-full bg-white z-50 p-4 
         transition-all duration-500 ease-in-out transform 
         ${!isFilterOpen ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"}`}
-      >
-                 <div className='flex flex-col justify-between items-center  '>
-             
-                  
-                    <div className=' w-full thin-border-bottom pb-3'><Sort handleSort={handleSort} sortValue={sort} /></div>
-                   
-                    <div className=' w-full thin-border-bottom pb-3'> <PriceSlider onChange={handlePriceChange} /></div>
-                    <div className=' w-full thin-border-bottom pb-3'> <Categories slugs={categorySlug} handelSlugs={handelSlugs} /></div>
-                  
-                    </div>
-                        </div>
-      
-       </div>)}
-      
-       <div className='w-full'>
-              {products && (<div>
-                <div className="grid 
-    grid-cols-1 sm:grid-cols-2 md:grid-rows-3 lg:grid-cols-3 gap-1 mb-[200px]">
-
-                  {products.map((prod, index) => (
-                    // <div key={index}>
-                    //   <div>{index + 1} - {prod.productName}</div>
-                    //   <div>{prod.categoryName}</div>
-                    <ProductCard key={index} product={prod} />
-                    // </div>
-
-                  ))}
-                </div>
+          >
+            <div className='flex flex-col justify-between items-center  '>
 
 
+              <div className=' w-full thin-border-bottom pb-3'><Sort handleSort={handleSort} sortValue={sort} /></div>
 
-              </div>
-              )}
-              {serverError && <p className=''>{serverError}</p>}
-
-              {loading && (<Loader />)}
-              {!serverError && (
-                <button>
-                  Load More
-                </button>
-              )}
-
+              <div className=' w-full thin-border-bottom pb-3'> <PriceSlider onChange={handlePriceChange} /></div>
+              <div className=' w-full thin-border-bottom pb-3'> <Categories slugs={categorySlug} handelSlugs={handelSlugs} /></div>
 
             </div>
+          </div>
+
+        </div>)}
+
+        <div className='w-full'>
+          {products && (<div>
+            <div className="grid 
+    grid-cols-1 sm:grid-cols-2 md:grid-rows-3 lg:grid-cols-3 gap-1 mb-[200px]">
+
+              {products.map((prod, index) => (
+                // <div key={index}>
+                //   <div>{index + 1} - {prod.productName}</div>
+                //   <div>{prod.categoryName}</div>
+                <ProductCard key={index} product={prod} />
+                // </div>
+
+              ))}
+            </div>
+
+
+
+          </div>
+          )}
+          {serverError && <p className=''>{serverError}</p>}
+
+          {loading && (<Loader />)}
+          {!serverError && (
+            <button>
+              Load More
+            </button>
+          )}
+
+
+        </div>
+
+
       </div>
 
     </>

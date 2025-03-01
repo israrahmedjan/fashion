@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Menu, ChevronDown, Group, Grip, LayoutGrid } from "lucide-react";
+import { Menu, ChevronDown, Group, Grip, LayoutGrid, List } from "lucide-react";
 import Image from "next/image";
 import Link from 'next/link';
 import LightBoxCategory from './LightBoxCategory';
@@ -11,7 +11,7 @@ function SecondaryMenu() {
   return (
     <>
       {/* lg device menu */}
-      <nav className="hidden lg:block fixed top-[113px] left-0 w-full bg-white shadow-md z-20">
+      <nav className="hidden lg:block fixed top-[113px] left-0 w-full bg-white shadow-sm z-20">
         <div className="flex px-6 h-12 items-center justify-between">
           {/* Left - Menu Links (80%) */}
           <div className="flex-1 basis-[80%] flex items-center gap-6 relative">
@@ -49,7 +49,11 @@ function SecondaryMenu() {
 
           {/* Right - Dropdown Links (15%) */}
           <div className="basis-[15%] text-right">
-            Dashboard Icons
+          
+            <div className='flex justify-end gap-2'>
+            <List size={25} />
+            <LayoutGrid size={25} />
+            </div>
           </div>
         </div>
         {/* End whishlist add to cart , user  */}

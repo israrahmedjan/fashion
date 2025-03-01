@@ -18,7 +18,7 @@ export default function PrimaryMenu() {
         <>
             {/* Lg Devices */}
 
-            <nav className="hidden lg:block fixed top-8 left-0 w-full bg-white shadow-md z-50">
+            <nav className="hidden lg:block fixed top-8 left-0 w-full bg-white shadow-sm z-50">
               
                
                 <div className="flex px-6 h-20 items-center justify-between">

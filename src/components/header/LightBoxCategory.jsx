@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Menu, ChevronDown, Group, Grip, LayoutGrid } from "lucide-react";
+import { Menu, ChevronDown, Group, Grip, LayoutGrid, Component } from "lucide-react";
 import Image from "next/image";
 import Link from 'next/link';
 
@@ -13,7 +13,7 @@ function LightBoxCategory() {
  <button className="flex items-center gap-2 text-gray-700 hover:text-blue-600"
               onClick={() => setopenLightBox(true)}>
               {/* <Menu size={24} /> */}
-              <LayoutGrid size={35} />
+              <Component size={35} />
               {/* <span className="font-medium"><LayoutGrid size={35} /></span> */}
             </button>
 
