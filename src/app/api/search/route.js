@@ -14,49 +14,94 @@ export async function GET(request) {
 
     try {
         const { searchParams } = new URL(request.url);
-        const searchQuery = searchParams.get('search');
-        const selectedCategory = searchParams.get('category');
+        const productName = searchParams.get('search');
+        const categoryName = searchParams.get('category');
         console.log("skdf",searchParams);
         const conn = await connectToDatabase();
         const productsCollection = conn.collection("Products");
-
+        categoryName ?'Category.slug': 'jeans',
 
         // const searchQuery = ""; // Yeh woh search term hai jo aap dhoondhna chahte hain
-        console.log("Today search", searchQuery);
-        
-        let data;
-        if(selectedCategory != "")
-        {
-            data = await productsCollection
-            .aggregate(
-                [
-                  { $unwind: { path: '$category_id' } },
-                  {
-                    $match: {
-                      name: { $regex: searchQuery, $options: 'i' },
-                      category_id: new ObjectId(
-                        '679b73470fd7e8a14c83d268'
-                      )
-                    }
+        console.log("Today search", categoryName,productName);
+       const data = await productsCollection
+        .aggregate(
+            [
+              {
+                $lookup: {
+                  from: 'Categories',
+                  localField: 'categoryId',
+                  foreignField: '_id',
+                  as: 'Category'
+                }
+              },
+              {
+                $lookup: {
+                  from: 'ProductGallery',
+                  localField: 'galleryId',
+                  foreignField: '_id',
+                  as: 'Gallery'
+                }
+              },
+              { $unwind: { path: '$Category' } },
+              {
+                $match: {
+                    $or: [
+                        { "Category.slug": { $exists: false } },
+                        { "Category.slug": "" },
+                        { "Category.slug": categoryName.toString() },
+                        { "name": { "$regex": productName, "$options": "i" } }
+                      ],
+                  
+                }
+              },
+              {
+                $project: {
+                  productName: '$name',
+                  productSlug: '$slug',
+                  categoryName: '$Category.name',
+                  categorySlug: '$Category.slug',
+                  image: {
+                    $arrayElemAt: ['$Gallery.image', 0]
                   }
-                ],
-             ).toArray();
+                }
+              }
+            ],
+            { maxTimeMS: 60000, allowDiskUse: true }
+          ).toArray();
+        console.log("My Data is",data);
+        // let data;
+        // if(selectedCategory != "")
+        // {
+        //     data = await productsCollection
+        //     .aggregate(
+        //         [
+        //           { $unwind: { path: '$category_id' } },
+        //           {
+        //             $match: {
+        //               name: { $regex: searchQuery, $options: 'i' },
+        //               category_id: new ObjectId(
+        //                 '679b73470fd7e8a14c83d268'
+        //               )
+        //             }
+        //           }
+        //         ],
+        //      ).toArray();
 
 
-        }
-        else
-        {
-         data = await productsCollection
-            .aggregate(
-                [
-                    {
-                        $match: {
-                            name: { $regex: searchQuery, $options: 'i' }
-                        }
-                    }
-                ],
-            ).toArray(); // Convert the aggregation cursor to an array   
-        }
+        // }
+        // else
+        // {
+        //  data = await productsCollection
+        //     .aggregate(
+        //         [
+        //             {
+        //                 $match: {
+        //                     name: { $regex: searchQuery, $options: 'i' }
+        //                 }
+        //             }
+        //         ],
+        //     ).toArray(); // Convert the aggregation cursor to an array   
+        // }
 
 
         //console.log("Dat:", data);

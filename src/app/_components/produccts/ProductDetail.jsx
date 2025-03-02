@@ -7,6 +7,7 @@ import { productDetail } from '@/helper/helper';
 import { ZoomIn, ZoomOut, X } from 'lucide-react';
 import Loader from '@/components/Loader';
 import Image from 'next/image';
+import ReleatedProducts from './ReleatedProducts';
 
 function ProductDetail() {
   let home_url = process.env.NEXT_PUBLIC_FRONT_DOMAIN;
@@ -209,6 +210,12 @@ console.log("Selected Products", selectedProduct);
           </div>
         </div>
       )}
+{products && (<div>
+             <ReleatedProducts categorySlug={categorySlug} />
+             
+            </div>
+            )}
+
     </>
   );
 }

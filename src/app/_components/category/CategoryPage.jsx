@@ -113,7 +113,7 @@ function CategoryPage({ categorySlug }) {
             <PriceSlider onChange={handlePriceChange} /> {/* Pass Callback */}
           </div>
           <div>  {products && (<div>
-            <div className="grid lg:grid-cols-3 gap-1">
+            <div className="grid lg:grid-cols-3 gap-1 ml-4">
 
               {products.map((prod, index) => (
                 // <div key={index}>

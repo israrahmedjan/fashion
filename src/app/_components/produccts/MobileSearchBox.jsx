@@ -3,7 +3,11 @@ import React, { useState, useCallback, useEffect } from "react";
 import { debounce } from "lodash";
 import axios from "axios";
 import { getCategoriesAPI } from "@/helper/helper";
-import { Search } from "lucide-react";
+
+import { Eye, Search } from "lucide-react";
+import Loader from "@/components/Loader";
+import Image from "next/image";
+import Link from "next/link";
 
 const MobileSearchBox = () => {
   const [query, setQuery] = useState("");
@@ -102,22 +106,34 @@ const MobileSearchBox = () => {
         </button>
 
       </div>
-      {products.length > 0 && (
-    <div className="border-gray-300 rounded-md shadow-md bottom-8 relative border-l-[0.5px] border-r-[0.5px] border-b-[0.5px]">
-          {products.map((prod, index) => (
-            <div
-              key={index}
-              className="p-2 hover:bg-gray-200 cursor-pointer border-b-1 border"
-              onClick={() => handleProductClick(prod.name)}
-            >
-              <span>{index+1}</span>
-              <span>{prod.name}</span>
-              
-            </div>
-          ))}
+      <div>    
+          {loading && (
+            <div className=" bg-white border-gray-300 border-l-[0.5px] border-r-[0.5px] border-b-[0.5px] shadow-md  absolute z-[99999]"><Loader /></div>)}
+           {products.length > 0 && (
+          <div className=" bg-white border-gray-300 border-l-[0.5px] border-r-[0.5px] border-b-[0.5px] shadow-md top-28 absolute z-[99999] text-sm rounded-b-lg">
 
-        </div>
-      )}
+            {products.map((prod, index) => (
+           <div
+           key={index}
+           className="p-2 hover:bg-gray-200 cursor-pointer border-b-[0.5px] 
+                      flex items-center gap-2  border justify-between"
+           onClick={() => handleProductClick(prod.productName)}
+         >
+           {/* Left Section: Image & Product Name */}
+           <div className="flex items-center gap-2">
+             <Image src={prod.image} width={75} height={75} alt={prod.productName} />
+             <span>{prod.productName}</span>
+             <span className="text-right italic text-secondary">Category - <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}category/${prod.categorySlug}`}> {prod.categoryName}</Link></span>
+           </div>
+         
+           {/* Right Section: Views */}
+           <span className="text-right text-secondary"><Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}product/${prod.categorySlug}/${prod.productSlug}`}><Eye /></Link></span>
+         </div>
+            ))}
+
+          </div>
+        )}</div>
+
     </>
 
   );

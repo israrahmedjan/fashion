@@ -71,7 +71,7 @@ const data = await productsCollection
   .toArray(); // Convert the aggregation cursor to an array
   
     //console.log("Dat:", data);
-    console.log("New Gallery Added",data);
+   // console.log("New Gallery Added",data);
   
     if (data.length === 0) {
       // If data is empty, return a response indicating no products were found

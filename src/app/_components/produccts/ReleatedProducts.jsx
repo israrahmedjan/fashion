@@ -67,10 +67,11 @@ function ReleatedProducts({ categorySlug }) {
 
   return (
     <>
-    <div>Related Products</div>
+    <div className='mt-5 ml-4'>
+     <h1 className='text-secondary uppercase w-full font-semibold lg:text-lg'><span className='text-primary '>Related</span> Products :  {categorySlug && (categorySlug)}</h1>
     {products && (
 
-        <div className='grid lg:grid-cols-3 gap-1'>
+        <div className='grid lg:grid-cols-4 gap-1'>
 
 {products.map((prod, index) => (
   // <div key={index}>
@@ -85,7 +86,7 @@ function ReleatedProducts({ categorySlug }) {
         </div>
       )}
       
-
+      </div>
         </>
         )
 }
