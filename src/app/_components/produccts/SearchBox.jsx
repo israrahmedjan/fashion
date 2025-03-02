@@ -3,7 +3,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import { debounce } from "lodash";
 import axios from "axios";
 import { getCategoriesAPI } from "@/helper/helper";
-import { Eye, Search } from "lucide-react";
+import { Eye, Search, X } from "lucide-react";
 import Loader from "@/components/Loader";
 import Image from "next/image";
 import Link from "next/link";
@@ -70,7 +70,7 @@ const SearchBox = () => {
   return (
 
     <>
-      <div className="flex flex-col relative">
+      <div className="flex flex-col relative text-primary">
         <div><div className="flex items-center  thin-border rounded-lg overflow-hidden shadow-sm w-full max-w-md bg-white">
 
           {category.length !== 0 && (<>
@@ -112,7 +112,9 @@ const SearchBox = () => {
             <div className=" bg-white border-gray-300 border-l-[0.5px] border-r-[0.5px] border-b-[0.5px] shadow-md top-12 w-full absolute z-[99999]"><Loader /></div>)}
            {products.length > 0 && (
           <div className=" bg-white border-gray-300 border-l-[0.5px] border-r-[0.5px] border-b-[0.5px] shadow-md top-12 w-full absolute z-[99999] text-sm rounded-b-lg">
-
+<div className="flex justify-between p-3"><span className="text-primary font-semibold text-base">Search Results..</span>
+<span className="cursor-pointer" onClick={()=>setProducts([])}><X size={20} /></span>
+</div>
             {products.map((prod, index) => (
            <div
            key={index}

@@ -59,9 +59,9 @@ export default function PrimaryMenu() {
                             <ShoppingCart size={22} />
                             <span className="hidden md:inline text-sm font-medium">Cart</span>
                             {/* Cart Item Badge */}
-                            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                            {/* <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
                                 3
-                            </span>
+                            </span> */}
                         </button>
                     </div>
                     {/* End whishlist add to cart , user  */}

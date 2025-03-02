@@ -16,7 +16,7 @@ function SecondaryMenu() {
           {/* Left - Menu Links (80%) */}
           <div className="flex-1 basis-[80%] flex items-center gap-6 relative">
            
-<LightBoxCategory />
+          <LightBoxCategory />
             {/* Home Link */}
             <a href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}`} className="text-gray-700 hover:text-blue-600 font-medium">
               Home
@@ -50,7 +50,7 @@ function SecondaryMenu() {
           {/* Right - Dropdown Links (15%) */}
           <div className="basis-[15%] text-right">
           
-            <div className='flex justify-end gap-2'>
+            <div className='flex justify-end gap-2 text-primary'>
             <List size={25} />
             <LayoutGrid size={25} />
             </div>
