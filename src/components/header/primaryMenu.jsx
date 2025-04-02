@@ -9,6 +9,8 @@ import Link from "next/link";
 import TopMenu from "./topMenu";
 import { usePathname } from "next/navigation";
 
+import UserDropdown from "./dashboard";
+
 
 export default function PrimaryMenu() {
     const [category, setCategory] = useState("All Categories");
@@ -16,14 +18,9 @@ export default function PrimaryMenu() {
     const [isOpen, setIsOpen] = useState(false);
     const [isLogin, setisLogin] = useState(false);
     const pathname = usePathname();
+    
 
 
-    const handleLogout = async () => {
-        fetch("/api/logout", { method: "POST" }).then(() => {
-            window.location.href = "/";
-            //      router.push("/login"); // Redirect to login page
-        });
-    }
 
     useEffect(() => {
         const token = document.cookie
@@ -48,7 +45,6 @@ export default function PrimaryMenu() {
             {/* Lg Devices */}
 
             <nav className="hidden lg:block fixed top-8 left-0 w-full bg-white shadow-sm z-50">
-
 
                 <div className="flex px-6 h-20 items-center justify-between">
                     <div className=" flex gap-10 items-center w-1/2 justify-between">
@@ -99,10 +95,11 @@ export default function PrimaryMenu() {
                             </button>
                             </Link>
                             :
-                            <button className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition" onClick={handleLogout}>
-                                <LogOut size={22} />
-                                <span className="hidden md:inline text-sm font-medium">Log Out</span>
-                            </button>
+                            // <button className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition" onClick={handleLogout}>
+                            //     <LogOut size={22} />
+                            //     <span className="hidden md:inline text-sm font-medium">Log Out</span>
+                            // </button>
+                            <UserDropdown />
                         }
 
 

@@ -8,8 +8,8 @@ export default function Home() {
     <>
     <div className="py-2 px-4 lg:mt-[180px] mt-[150px] min-h-[600px]">
        {/* <SearchBox /> */}
-       <h1>Counter file</h1>
-       <Counter />
+       {/* <h1>Counter file</h1>
+       <Counter /> */}
     <Products />
     </div>
     

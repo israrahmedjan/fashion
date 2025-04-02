@@ -5,10 +5,12 @@ import Cookies from 'js-cookie'; // Import js-cookie library
 import axios from 'axios';
 import * as Yup from 'yup'; // Import Yup for validation
 import { useRouter } from 'next/navigation';
-
+import { useSelector, useDispatch } from "react-redux";
+import { addUserInfo } from '@/redux/slices/userSlice';
 
 function Page() {
   const router = useRouter();
+    const dispatch = useDispatch();
   const [userForm, setuserForm] = useState({
     email: 'israr@gmail.com',
     password: 'israr123',
@@ -52,9 +54,12 @@ function Page() {
       const response = await axios.post('/api/login', userForm); // Replace with your API URL
 
       // Save token to cookies
+
+      //console.log("Login User response", )
     
       Cookies.set('auth_token', response.data.token, { expires: 7 }); // Expires in 7 days
-      //console.log('Response:', response.data);
+      dispatch(addUserInfo(response.data.user));
+      //console.log('Response:', response.data.user);
       setloading(false);
       router.push("/");
       //alert('User Login successfully!');

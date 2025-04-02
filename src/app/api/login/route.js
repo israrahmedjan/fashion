@@ -49,7 +49,7 @@ export async function POST(request) {
       });
   
       return NextResponse.json(
-        { message: "Login successful", token },
+        { message: "Login successful", token ,user:{name:user.name,email:user.email}},
         { headers: corsHeaders }
       );
   } catch (error) {
