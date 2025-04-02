@@ -12,8 +12,8 @@ const poppins = Poppins({
 
 
 export const metadata = {
-  title: "Authentication",
-  description: "Authentication",
+  title: "Online Affiliate",
+  description: "Online Affiliate management System",
 };
 
 export default function RootLayout({ children }) {

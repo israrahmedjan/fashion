@@ -1,18 +1,49 @@
 "use client";
 
-import { useState } from "react";
-import { Search, User, Heart, ShoppingCart, Menu } from "lucide-react";
+import { useEffect, useState } from "react";
+import { LogOut, User, Heart, ShoppingCart, Menu } from "lucide-react";
 import Image from "next/image";
 import SearchBox from "@/app/_components/produccts/SearchBox";
 import MobileSearchBox from "@/app/_components/produccts/MobileSearchBox";
 import Link from "next/link";
 import TopMenu from "./topMenu";
+import { usePathname } from "next/navigation";
+
 
 export default function PrimaryMenu() {
     const [category, setCategory] = useState("All Categories");
     const [cartCount, setCartCount] = useState(2); // Example cart count
     const [isOpen, setIsOpen] = useState(false);
+    const [isLogin, setisLogin] = useState(false);
+    const pathname = usePathname();
 
+
+    const handleLogout = async ()=>
+    {
+        fetch("/api/logout", { method: "POST" }).then(() => {
+            window.location.href = "/";
+//      router.push("/login"); // Redirect to login page
+          });
+    }
+
+    useEffect(()=>
+    {
+        const token = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("auth_token="))
+        ?.split("=")[1];
+        console.log("token is that", token);
+
+    if (!token) {
+        //router.push("/login"); // Redirect if no token
+        setisLogin(false)
+
+    } else {
+        setisLogin(true)
+    }
+
+
+    },[pathname])
    
     return (
         <>
@@ -42,17 +73,9 @@ export default function PrimaryMenu() {
                     </div>
                     {/* add to cart whislist and use menu */}
                     <div className="flex items-center gap-6">
-                        {/* User Login */}
-                        <button className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition">
-                            <User size={22} />
-                            <span className="hidden md:inline text-sm font-medium">Login</span>
-                        </button>
+                        
 
-                        {/* Wishlist */}
-                        <button className="flex items-center gap-2 text-gray-700 hover:text-red-500 transition">
-                            <Heart size={22} />
-                            <span className="hidden md:inline text-sm font-medium">Wishlist</span>
-                        </button>
+
 
                         {/* Add to Cart */}
                         <button className="flex items-center gap-2 text-gray-700 hover:text-secondary transition relative">
@@ -63,6 +86,28 @@ export default function PrimaryMenu() {
                                 3
                             </span> */}
                         </button>
+                   
+
+                        {/* Wishlist */}
+                        <button className="flex items-center gap-2 text-gray-700 hover:text-red-500 transition">
+                            <Heart size={22} />
+                            <span className="hidden md:inline text-sm font-medium">Wishlist</span>
+                        </button>
+                             {/* User Login and logout */}
+                             {!isLogin ? 
+                        <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}login`}> <button className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition">
+                        <User size={22} />
+                        <span className="hidden md:inline text-sm font-medium">Login</span>
+                    </button>
+                    </Link>
+                        :
+                        <button className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition" onClick={handleLogout}>
+                            <LogOut size={22} />
+                            <span className="hidden md:inline text-sm font-medium">Log Out</span>
+                        </button>
+                        }
+                           
+                     
                     </div>
                     {/* End whishlist add to cart , user  */}
                 </div>

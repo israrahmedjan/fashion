@@ -56,7 +56,7 @@ function Page() {
       Cookies.set('auth_token', response.data.token, { expires: 7 }); // Expires in 7 days
       //console.log('Response:', response.data);
       setloading(false);
-      router.push("/dashboard");
+      router.push("/");
       //alert('User Login successfully!');
     } catch (error) {
     
@@ -71,7 +71,7 @@ function Page() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 border border-gray-300 rounded-lg shadow-md bg-white">
+    <div className="max-w-md mx-auto mt-48 p-6 border border-gray-300 rounded-lg shadow-md bg-white">
       <h1 className="text-xl font-bold text-center mb-4">User Login</h1>
       {servererror && <span className='text-red-500 italic'>{servererror}</span>}
       
