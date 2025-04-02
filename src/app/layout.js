@@ -2,6 +2,8 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Mainheader from "@/components/header/header";
 import Mainfooter from "@/components/footer/footer";
+import { ProvidersCustomization } from "@/redux/Providers";
+
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -20,10 +22,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
     <body className={`${poppins.variable} font-poppins`}>
-  
+  <ProvidersCustomization>
         <Mainheader />
         {children}
       <Mainfooter />
+      </ProvidersCustomization>
       </body>
     </html>
   );

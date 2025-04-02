@@ -18,44 +18,42 @@ export default function PrimaryMenu() {
     const pathname = usePathname();
 
 
-    const handleLogout = async ()=>
-    {
+    const handleLogout = async () => {
         fetch("/api/logout", { method: "POST" }).then(() => {
             window.location.href = "/";
-//      router.push("/login"); // Redirect to login page
-          });
+            //      router.push("/login"); // Redirect to login page
+        });
     }
 
-    useEffect(()=>
-    {
+    useEffect(() => {
         const token = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("auth_token="))
-        ?.split("=")[1];
+            .split("; ")
+            .find((row) => row.startsWith("auth_token="))
+            ?.split("=")[1];
         console.log("token is that", token);
 
-    if (!token) {
-        //router.push("/login"); // Redirect if no token
-        setisLogin(false)
+        if (!token) {
+            //router.push("/login"); // Redirect if no token
+            setisLogin(false)
 
-    } else {
-        setisLogin(true)
-    }
+        } else {
+            setisLogin(true)
+        }
 
 
-    },[pathname])
-   
+    }, [pathname])
+
     return (
         <>
             {/* Lg Devices */}
 
             <nav className="hidden lg:block fixed top-8 left-0 w-full bg-white shadow-sm z-50">
-              
-               
+
+
                 <div className="flex px-6 h-20 items-center justify-between">
                     <div className=" flex gap-10 items-center w-1/2 justify-between">
                         <div>
-                        <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}`}>    <Image
+                            <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}`}>    <Image
                                 src={`/images/logo.png`} // Ensure the image is inside the 'public' folder
                                 alt="Logo"
                                 width={125}
@@ -63,17 +61,17 @@ export default function PrimaryMenu() {
                             />
                             </Link>
 
-                            
+
                         </div>
                         {/* category and search box */}
-                     
-                    
-                       <SearchBox />
+
+
+                        <SearchBox />
                         {/* category and search box */}
                     </div>
                     {/* add to cart whislist and use menu */}
                     <div className="flex items-center gap-6">
-                        
+
 
 
 
@@ -86,28 +84,28 @@ export default function PrimaryMenu() {
                                 3
                             </span> */}
                         </button>
-                   
+
 
                         {/* Wishlist */}
                         <button className="flex items-center gap-2 text-gray-700 hover:text-red-500 transition">
                             <Heart size={22} />
                             <span className="hidden md:inline text-sm font-medium">Wishlist</span>
                         </button>
-                             {/* User Login and logout */}
-                             {!isLogin ? 
-                        <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}login`}> <button className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition">
-                        <User size={22} />
-                        <span className="hidden md:inline text-sm font-medium">Login</span>
-                    </button>
-                    </Link>
-                        :
-                        <button className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition" onClick={handleLogout}>
-                            <LogOut size={22} />
-                            <span className="hidden md:inline text-sm font-medium">Log Out</span>
-                        </button>
+                        {/* User Login and logout */}
+                        {!isLogin ?
+                            <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}login`}> <button className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition">
+                                <User size={22} />
+                                <span className="hidden md:inline text-sm font-medium">Login</span>
+                            </button>
+                            </Link>
+                            :
+                            <button className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition" onClick={handleLogout}>
+                                <LogOut size={22} />
+                                <span className="hidden md:inline text-sm font-medium">Log Out</span>
+                            </button>
                         }
-                           
-                     
+
+
                     </div>
                     {/* End whishlist add to cart , user  */}
                 </div>
@@ -118,33 +116,33 @@ export default function PrimaryMenu() {
                 <div className="flex flex-col  gap-4 mx-4">
                     <div className="flex flex-row justify-between items-center pt-3">
                         <div>
-                        <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}`}>
-                            <Image
-                            src="/images/logo.png" // Ensure the image is inside the 'public' folder 
-                            alt="Logo"
-                            width={120}
-                            height={100}
-                        />
-                        </Link>
+                            <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}`}>
+                                <Image
+                                    src="/images/logo.png" // Ensure the image is inside the 'public' folder 
+                                    alt="Logo"
+                                    width={120}
+                                    height={100}
+                                />
+                            </Link>
                         </div>
                         <div className="relative"><button onClick={() => setIsOpen(!isOpen)}>
-            <Menu size={30} />
-          </button>  </div>
+                            <Menu size={30} />
+                        </button>  </div>
 
 
                     </div>
-                   <MobileSearchBox />
+                    <MobileSearchBox />
                 </div>
                 {/* Dropdown Menu */}
-{isOpen && (
-          <div className="bg-gray-50 shadow-md p-4 rounded-b-md w-full absolute">
-            <ul className="flex flex-col gap-3">
-              <li className="thin-border-bottom"> <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}`}> Home</Link></li>
-              <li className="thin-border-bottom" onClick={() => setIsOpen(!isOpen)}> <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}category/jeans`} > Jeans</Link></li>
-              <li className="thin-border-bottom" onClick={() => setIsOpen(!isOpen)}> <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}category/t-shirts`}> T-Shirts</Link></li>
-            </ul>
-          </div>
-        )}
+                {isOpen && (
+                    <div className="bg-gray-50 shadow-md p-4 rounded-b-md w-full absolute">
+                        <ul className="flex flex-col gap-3">
+                            <li className="thin-border-bottom"> <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}`}> Home</Link></li>
+                            <li className="thin-border-bottom" onClick={() => setIsOpen(!isOpen)}> <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}category/jeans`} > Jeans</Link></li>
+                            <li className="thin-border-bottom" onClick={() => setIsOpen(!isOpen)}> <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}category/t-shirts`}> T-Shirts</Link></li>
+                        </ul>
+                    </div>
+                )}
             </nav>
 
         </>
