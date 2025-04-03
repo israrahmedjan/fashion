@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   value: 0,
+  isUserLogin:false,
+  LoginModelBox:false,
   user : {}
 };
 
@@ -13,6 +15,14 @@ const userSlice = createSlice({
       state.user = action.payload;
     //  state.value += 1;
     },
+    loginAction: (state,action) => {
+        state.isUserLogin = action.payload;
+      //  state.value += 1;
+      },
+      LoginModelBoxAction: (state,action) => {
+        state.LoginModelBox = action.payload;
+      //  state.value += 1;
+      },
     // decrement: (state) => {
     //   state.value -= 1;
     // },
@@ -22,5 +32,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { addUserInfo } = userSlice.actions;
+export const { addUserInfo,loginAction,LoginModelBoxAction } = userSlice.actions;
 export default userSlice.reducer;

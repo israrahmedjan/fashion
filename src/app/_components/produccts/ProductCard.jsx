@@ -1,19 +1,15 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { ShoppingCart, Heart, Scale, RefreshCw, Eye, Star } from 'lucide-react';
+import Login from '../user/Login';
+import { useSelector,useDispatch } from 'react-redux';
+import { handleWishlistClick } from '@/helper/helper';
 
 function ProductCard({ product }) {
   const home_url = process.env.NEXT_PUBLIC_FRONT_DOMAIN;
-  const [showLoginModal, setShowLoginModal] = useState(false);
+ 
+const dispatch = useDispatch();
 
-  const handleWishlistClick = () => {
-    const token = document.cookie.includes('auth_token'); // Check if token exists
-    if (!token) {
-      setShowLoginModal(true); // Show login modal
-    } else {
-      console.log('Added to wishlist');
-    }
-  };
 
   return (
     <>
@@ -25,7 +21,7 @@ function ProductCard({ product }) {
         />
         <div className="absolute top-3 right-3 flex flex-col gap-2">
           <button className="p-2 bg-white shadow-md rounded-full hover:bg-gray-100 transition">
-            <Heart className="h-5 w-5 text-secondary" onClick={handleWishlistClick} />
+            <Heart className="h-5 w-5 text-secondary" onClick={()=>handleWishlistClick(dispatch)} />
           </button>
           <button className="p-2 bg-white shadow-md rounded-full hover:bg-gray-100 transition">
             <RefreshCw className="h-5 w-5 text-secondary" />
@@ -63,26 +59,9 @@ function ProductCard({ product }) {
         </div>
       </div>
 
-      {/* Login Modal */}
-      {showLoginModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
-            <h2 className="text-xl font-semibold mb-4">Login Required</h2>
-            <p className="text-gray-600 mb-4">Please login to add items to your wishlist.</p>
-            <Link href="/login">
-              <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                Login Now
-              </button>
-            </Link>
-            <button
-              className="mt-3 block text-gray-500 hover:text-gray-700"
-              onClick={() => setShowLoginModal(false)}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+      
+     
+      {/*  */}
     </>
   );
 }

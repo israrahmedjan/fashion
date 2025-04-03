@@ -1,5 +1,10 @@
 import React from 'react'
 import axios from 'axios';
+import { useSelector } from "react-redux";
+import Login from '@/app/_components/user/Login';
+import { useDispatch } from 'react-redux';
+import { LoginModelBoxAction } from '@/redux/slices/userSlice';
+
 async function getCategoriesAPI(slug="") {
 
   const response = await axios.get('/api/categories',
@@ -42,6 +47,29 @@ async function productByCategoryAPI(categorySlugs = "", minPrice=10,maxPrice=500
   }
 }
 
+const handleWishlistClick = (dispatch) => {
+ // const isLogin = useSelector((state) => state.user.isUserLogin);
+  //if(isClose) return isClose;
+ //console.log("Close light box is", isClose);
 
+  const token = document.cookie.includes('auth_token'); // Check if token exists
+  
+ 
+   if (!token) {
+    console.log("User is not login!")
+    //setShowLoginModal(true); // Show login modal
+    //return true;
+ dispatch(LoginModelBoxAction(true))   
+  } else {
+    console.log('user is login!');
+    //return false;
+    //console.log("User is login!");
+    dispatch(LoginModelBoxAction(false))
+  }
+};
 
-  export {getCategoriesAPI,productDetail,productByCategoryAPI}
+const UserLoginClose = (dispatch)=>
+{
+  dispatch(LoginModelBoxAction(false))
+}
+  export {getCategoriesAPI,productDetail,productByCategoryAPI,handleWishlistClick,UserLoginClose}

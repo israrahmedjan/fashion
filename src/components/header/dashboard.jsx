@@ -29,7 +29,7 @@ const UserDropdown = () => {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-50">
+        <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg">
           <div className="px-4 py-2 text-sm text-gray-900">
             {user?.name} <br />
 

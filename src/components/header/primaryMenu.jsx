@@ -10,41 +10,28 @@ import TopMenu from "./topMenu";
 import { usePathname } from "next/navigation";
 
 import UserDropdown from "./dashboard";
+import Login from "@/app/_components/user/Login";
+import { useSelector } from "react-redux";
 
 
 export default function PrimaryMenu() {
     const [category, setCategory] = useState("All Categories");
     const [cartCount, setCartCount] = useState(2); // Example cart count
     const [isOpen, setIsOpen] = useState(false);
-    const [isLogin, setisLogin] = useState(false);
-    const pathname = usePathname();
-    
-
-
-
-    useEffect(() => {
-        const token = document.cookie
-            .split("; ")
-            .find((row) => row.startsWith("auth_token="))
-            ?.split("=")[1];
-        console.log("token is that", token);
-
-        if (!token) {
-            //router.push("/login"); // Redirect if no token
-            setisLogin(false)
-
-        } else {
-            setisLogin(true)
-        }
-
-
-    }, [pathname])
+    //const [isLogin, setisLogin] = useState(false);
+    const isLogin = useSelector((state) => state.user.isUserLogin);
+ 
 
     return (
         <>
+                {/* Login Modal */}
+      
+         <Login />
+       
             {/* Lg Devices */}
-
-            <nav className="hidden lg:block fixed top-8 left-0 w-full bg-white shadow-sm z-50">
+     
+      
+            <nav className="hidden lg:block fixed top-8 left-0 w-full bg-white shadow-sm z-[9999] !important">
 
                 <div className="flex px-6 h-20 items-center justify-between">
                     <div className=" flex gap-10 items-center w-1/2 justify-between">
@@ -106,7 +93,13 @@ export default function PrimaryMenu() {
                     </div>
                     {/* End whishlist add to cart , user  */}
                 </div>
+
+
+                {/* Modal box */}
+
+              
             </nav>
+           
 
             {/* Mobile Device */}
             <nav className="lg:hidden fixed top-0 left-0 w-full bg-white shadow-md z-50">
@@ -138,8 +131,11 @@ export default function PrimaryMenu() {
                             <li className="thin-border-bottom" onClick={() => setIsOpen(!isOpen)}> <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}category/jeans`} > Jeans</Link></li>
                             <li className="thin-border-bottom" onClick={() => setIsOpen(!isOpen)}> <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}category/t-shirts`}> T-Shirts</Link></li>
                         </ul>
+
                     </div>
                 )}
+
+
             </nav>
 
         </>
