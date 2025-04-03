@@ -19,14 +19,14 @@ const dispatch = useDispatch();
           alt={product.productName}
           className="w-full h-[250px] object-cover p-2 lg:p-0 rounded-md transition-transform duration-300 group-hover:scale-105"
         />
-        <div className="absolute top-3 right-3 flex flex-col gap-2">
-          <button className="p-2 bg-white shadow-md rounded-full hover:bg-gray-100 transition">
-            <Heart className="h-5 w-5 text-secondary" onClick={()=>handleLoginFunc(dispatch)} />
+        <div className="absolute top-3 right-3  flex flex-col gap-2">
+        <button className="p-2 bg-white shadow-md rounded-full hover:bg-gray-100 transition mr-2 mt-2 sm:mr-0 sm:mt-0">
+
+            <Heart className="h-5 w-5  text-secondary" onClick={()=>handleLoginFunc(dispatch)} />
           </button>
-          <button className="p-2 bg-white shadow-md rounded-full hover:bg-gray-100 transition">
-            <RefreshCw className="h-5 w-5 text-secondary" />
+          <button className="p-2 bg-white shadow-md rounded-full hover:bg-gray-100 transition mr-2 mt-2 sm:mr-0 sm:mt-0">   <RefreshCw className="h-5 w-5 text-secondary" />
           </button>
-          <button className="p-2 bg-white shadow-md rounded-full hover:bg-gray-100 transition">
+          <button className="p-2 bg-white shadow-md rounded-full hover:bg-gray-100 transition mr-2 mt-2 sm:mr-0 sm:mt-0">giy
             <Eye className="h-5 w-5 text-secondary" />
           </button>
         </div>
