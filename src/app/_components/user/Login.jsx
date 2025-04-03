@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useSelector, useDispatch } from "react-redux";
 import { addUserInfo, loginAction, LoginModelBoxAction } from '@/redux/slices/userSlice';
 import { handleLoginFunc, UserLoginClose } from '@/helper/helper';
-import { SquareX } from 'lucide-react';
+import { SquareX,User } from 'lucide-react';
 
 function Login() {
     const router = useRouter();
@@ -91,7 +91,9 @@ function Login() {
 
                     <div className="bg-white p-6 rounded-lg shadow-lg md:w-[500px] text-center">
                         <div className='flex justify-between items-center'>
-                            <h2 className="text-xl font-semibold">User Login!</h2>
+                            <h2 className="text-primary">
+                                <div className='flex justify-start items-center'><User size={22} /><span>User Login!</span></div>
+                                </h2>
                             <button onClick={() => UserLoginClose(dispatch)}><SquareX size={22} /></button>
                         </div>
 
@@ -165,9 +167,11 @@ function Login() {
                 {LoginModelBox && (
           <div className="flex sm:hidden fixed inset-0 bg-black bg-opacity-50 justify-center items-center z-[5555555]">
 
-                    <div className="bg-white p-6 rounded-lg shadow-lg md:w-[500px] text-center">
+                    <div className="bg-white p-6 rounded-lg shadow-lg text-center">
                         <div className='flex justify-between items-center'>
-                            <h2 className="text-xl font-semibold">User Login!</h2>
+                        <h2 className="text-primary">
+                                <div className='flex justify-start items-center'><User size={22} /><span>User Login!</span></div>
+                                </h2>
                             <button onClick={() => UserLoginClose(dispatch)}><SquareX size={22} /></button>
                         </div>
 
@@ -176,7 +180,7 @@ function Login() {
 
                             {servererror && <span className='text-red-500 italic'>{servererror}</span>}
 
-                            <form onSubmit={handleSubmit} className="space-y-4">
+                            <form onSubmit={handleSubmit} className="space-y-2">
 
 
                                 {/* Email Field */}
@@ -217,12 +221,12 @@ function Login() {
 
                                 {/* Submit Button */}
                                 <div className='flex justify-between'>
-                                <button onClick={()=>UserLoginClose(dispatch)} className='py-2 px-4 font-semibold rounded-md border-secondary border'>Cancel</button>
+                                <button onClick={()=>UserLoginClose(dispatch)} className='w-20 px-2 py-1 text-sm rounded-md border-gray-200 border'>Cancel</button>
                                 <button
                                     type="submit"
-                                    className={`w-28 py-2 px-4 font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${loading
+                                    className={`w-20 px-2 py-1 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${loading
                                         ? "bg-gray-400 cursor-not-allowed"
-                                        : "bg-white-600 text-secondary border-secondary border hover:bg-indigo-700 focus:ring-indigo-500"
+                                        : "bg-white-600 text-secondary border-gray-200 border hover:bg-indigo-700 focus:ring-indigo-500"
                                         }`}
                                     disabled={loading} // Disable button when loading is true
                                 >
