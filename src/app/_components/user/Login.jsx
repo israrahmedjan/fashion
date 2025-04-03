@@ -14,15 +14,14 @@ function Login() {
     const router = useRouter();
     const dispatch = useDispatch();
     const [userForm, setuserForm] = useState({
-        email: 'israr@gmail.com',
+        email: 'john@gmail.com',
         password: 'israr123',
     });
 
     const [errors, setErrors] = useState({}); // State for validation errors
     const [loading, setloading] = useState(false);
     const [servererror, setservererror] = useState("");
-    const [showLoginModal, setShowLoginModal] = useState(false);
-    const isLogin = useSelector((state) => state.user.isUserLogin);
+    
     const LoginModelBox = useSelector((state) => state.user.LoginModelBox);
 
 
@@ -143,12 +142,12 @@ function Login() {
 
                                 {/* Submit Button */}
                                 <div className='flex justify-between'>
-                                <button onClick={()=>UserLoginClose(dispatch)} className='py-2 px-4 font-semibold rounded-md border-secondary border'>Cancel</button>
+                                <button onClick={()=>UserLoginClose(dispatch)} className='py-2 px-4 font-semibold rounded-md border-gray-200 border'>Cancel</button>
                                 <button
                                     type="submit"
                                     className={`w-28 py-2 px-4 font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${loading
                                         ? "bg-gray-400 cursor-not-allowed"
-                                        : "bg-white-600 text-secondary border-secondary border hover:bg-indigo-700 focus:ring-indigo-500"
+                                        : "bg-white-600 text-secondary border-gray-200 border hover:bg-gray-300 focus:bg-gray-200"
                                         }`}
                                     disabled={loading} // Disable button when loading is true
                                 >
@@ -175,7 +174,7 @@ function Login() {
                             <button onClick={() => UserLoginClose(dispatch)}><SquareX size={22} /></button>
                         </div>
 
-                        <div className="max-w-md mx-auto md:mt-4 p-6 border border-gray-300 rounded-lg shadow-md bg-white">
+                        <div className="max-w-md mx-auto mt-2 p-6 border border-gray-300 rounded-lg shadow-md bg-white">
 
 
                             {servererror && <span className='text-red-500 italic'>{servererror}</span>}
