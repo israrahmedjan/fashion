@@ -6,8 +6,8 @@ import axios from 'axios';
 import * as Yup from 'yup'; // Import Yup for validation
 import { useRouter } from 'next/navigation';
 import { useSelector, useDispatch } from "react-redux";
-import { addUserInfo, loginAction,LoginModelBoxAction } from '@/redux/slices/userSlice';
-import { handleWishlistClick, UserLoginClose } from '@/helper/helper';
+import { addUserInfo, loginAction, LoginModelBoxAction } from '@/redux/slices/userSlice';
+import { handleLoginFunc, UserLoginClose } from '@/helper/helper';
 import { SquareX } from 'lucide-react';
 
 function Login() {
@@ -85,76 +85,79 @@ function Login() {
     return (
 
         <>
-           
-           {LoginModelBox && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[5555555]">
-                <div className="bg-white p-6 rounded-lg shadow-lg md:w-[500px] text-center">
-                    <div className='flex justify-between items-center'>
-                    <h2 className="text-xl font-semibold">User Login Required</h2>
-                    <button onClick={()=>UserLoginClose(dispatch)}><SquareX size={22} /></button>
-                    </div>
 
-                    <div className="max-w-md mx-auto md:mt-4 p-6 border border-gray-300 rounded-lg shadow-md bg-white">
+            {LoginModelBox && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[5555555]">
+                    <div className="bg-white p-6 rounded-lg shadow-lg md:w-[500px] text-center">
+                        <div className='flex justify-between items-center'>
+                            <h2 className="text-xl font-semibold">User Login!</h2>
+                            <button onClick={() => UserLoginClose(dispatch)}><SquareX size={22} /></button>
+                        </div>
 
-
-                        {servererror && <span className='text-red-500 italic'>{servererror}</span>}
-
-                        <form onSubmit={handleSubmit} className="space-y-4">
+                        <div className="max-w-md mx-auto md:mt-4 p-6 border border-gray-300 rounded-lg shadow-md bg-white">
 
 
-                            {/* Email Field */}
-                            <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                    Email
-                                </label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    value={userForm.email}
-                                    onChange={handleChange}
-                                    placeholder="Enter your email"
-                                    className={`mt-1 block w-full p-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500 ${errors.email ? 'border-red-500' : 'border-gray-300'
+                            {servererror && <span className='text-red-500 italic'>{servererror}</span>}
+
+                            <form onSubmit={handleSubmit} className="space-y-4">
+
+
+                                {/* Email Field */}
+                                <div>
+                                    <label htmlFor="email" className="block text-sm font-medium text-primary text-left">
+                                        Email
+                                    </label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        value={userForm.email}
+                                        onChange={handleChange}
+                                        placeholder="Enter your email"
+                                        className={`mt-1 block w-full p-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500 ${errors.email ? 'border-red-500' : 'border-gray-300'
+                                            }`}
+                                    />
+                                    {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                                </div>
+
+                                {/* Password Field */}
+                                <div>
+                                    <label htmlFor="password" className="block text-sm font-medium text-primary text-left">
+                                        Password
+                                    </label>
+                                    <input
+                                        type="password"
+                                        id="password"
+                                        name="password"
+                                        value={userForm.password}
+                                        onChange={handleChange}
+                                        placeholder="Enter your password"
+                                        className={`mt-1 block w-full p-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500 ${errors.password ? 'border-red-500' : 'border-gray-300'
+                                            }`}
+                                    />
+                                    {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+                                </div>
+
+                                {/* Submit Button */}
+                                <div className='flex justify-between'>
+                                <button onClick={()=>UserLoginClose(dispatch)} className='py-2 px-4 font-semibold rounded-md border-secondary border'>Cancel</button>
+                                <button
+                                    type="submit"
+                                    className={`w-28 py-2 px-4 font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${loading
+                                        ? "bg-gray-400 cursor-not-allowed"
+                                        : "bg-white-600 text-secondary border-secondary border hover:bg-indigo-700 focus:ring-indigo-500"
                                         }`}
-                                />
-                                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-                            </div>
-
-                            {/* Password Field */}
-                            <div>
-                                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                                    Password
-                                </label>
-                                <input
-                                    type="password"
-                                    id="password"
-                                    name="password"
-                                    value={userForm.password}
-                                    onChange={handleChange}
-                                    placeholder="Enter your password"
-                                    className={`mt-1 block w-full p-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500 ${errors.password ? 'border-red-500' : 'border-gray-300'
-                                        }`}
-                                />
-                                {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
-                            </div>
-
-                            {/* Submit Button */}
-                            <button
-                                type="submit"
-                                className={`w-full py-2 px-4 font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${loading
-                                    ? "bg-gray-400 cursor-not-allowed"
-                                    : "bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500"
-                                    }`}
-                                disabled={loading} // Disable button when loading is true
-                            >
-                                {loading ? "Loading..." : "Login"}
-                            </button>
+                                    disabled={loading} // Disable button when loading is true
+                                >
+                                    {loading ? "Loading..." : "Login"}
+                                </button>
+                                </div>
 
 
 
-                        </form>
-                    </div>
-                </div></div>
+                            </form>
+                        </div>
+                    </div></div>
             )}
 
         </>

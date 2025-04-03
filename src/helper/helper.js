@@ -47,7 +47,7 @@ async function productByCategoryAPI(categorySlugs = "", minPrice=10,maxPrice=500
   }
 }
 
-const handleWishlistClick = (dispatch) => {
+const handleLoginFunc = (dispatch) => {
  // const isLogin = useSelector((state) => state.user.isUserLogin);
   //if(isClose) return isClose;
  //console.log("Close light box is", isClose);
@@ -72,4 +72,4 @@ const UserLoginClose = (dispatch)=>
 {
   dispatch(LoginModelBoxAction(false))
 }
-  export {getCategoriesAPI,productDetail,productByCategoryAPI,handleWishlistClick,UserLoginClose}
+  export {getCategoriesAPI,productDetail,productByCategoryAPI,handleLoginFunc,UserLoginClose}

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ShoppingCart, Heart, Scale, RefreshCw, Eye, Star } from 'lucide-react';
 import Login from '../user/Login';
 import { useSelector,useDispatch } from 'react-redux';
-import { handleWishlistClick } from '@/helper/helper';
+import { handleLoginFunc } from '@/helper/helper';
 
 function ProductCard({ product }) {
   const home_url = process.env.NEXT_PUBLIC_FRONT_DOMAIN;
@@ -21,7 +21,7 @@ const dispatch = useDispatch();
         />
         <div className="absolute top-3 right-3 flex flex-col gap-2">
           <button className="p-2 bg-white shadow-md rounded-full hover:bg-gray-100 transition">
-            <Heart className="h-5 w-5 text-secondary" onClick={()=>handleWishlistClick(dispatch)} />
+            <Heart className="h-5 w-5 text-secondary" onClick={()=>handleLoginFunc(dispatch)} />
           </button>
           <button className="p-2 bg-white shadow-md rounded-full hover:bg-gray-100 transition">
             <RefreshCw className="h-5 w-5 text-secondary" />
