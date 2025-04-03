@@ -11,7 +11,8 @@ import { usePathname } from "next/navigation";
 
 import UserDropdown from "./dashboard";
 import Login from "@/app/_components/user/Login";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { handleLoginFunc } from "@/helper/helper";
 
 
 export default function PrimaryMenu() {
@@ -20,17 +21,18 @@ export default function PrimaryMenu() {
     const [isOpen, setIsOpen] = useState(false);
     //const [isLogin, setisLogin] = useState(false);
     const isLogin = useSelector((state) => state.user.isUserLogin);
- 
+    const dispatch = useDispatch();
+
 
     return (
         <>
-                {/* Login Modal */}
-      
-         <Login />
-       
+            {/* Login Modal */}
+
+            <Login />
+
             {/* Lg Devices */}
-     
-      
+
+
             <nav className="hidden lg:block fixed top-8 left-0 w-full bg-white shadow-sm z-[9999] !important">
 
                 <div className="flex px-6 h-20 items-center justify-between">
@@ -76,16 +78,13 @@ export default function PrimaryMenu() {
                         </button>
                         {/* User Login and logout */}
                         {!isLogin ?
-                            <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}login`}> <button className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition">
+
+                            <button className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition" onClick={() => handleLoginFunc(dispatch)}>
                                 <User size={22} />
                                 <span className="hidden md:inline text-sm font-medium">Login</span>
                             </button>
-                            </Link>
+
                             :
-                            // <button className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition" onClick={handleLogout}>
-                            //     <LogOut size={22} />
-                            //     <span className="hidden md:inline text-sm font-medium">Log Out</span>
-                            // </button>
                             <UserDropdown />
                         }
 
@@ -97,9 +96,9 @@ export default function PrimaryMenu() {
 
                 {/* Modal box */}
 
-              
+
             </nav>
-           
+
 
             {/* Mobile Device */}
             <nav className="lg:hidden fixed top-0 left-0 w-full bg-white shadow-md z-50">
