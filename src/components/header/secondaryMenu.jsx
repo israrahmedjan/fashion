@@ -11,7 +11,7 @@ function SecondaryMenu() {
   return (
     <>
       {/* lg device menu */}
-      <nav className="hidden lg:block fixed top-[113px] left-0 w-full bg-white shadow-sm z-20">
+      <nav className="hidden lg:block fixed top-[113px] left-0 w-full bg-white shadow-sm z-[20]">
         <div className="flex px-6 h-12 items-center justify-between">
           {/* Left - Menu Links (80%) */}
           <div className="flex-1 basis-[80%] flex items-center gap-6 relative">

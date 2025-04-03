@@ -19,7 +19,7 @@ function LightBoxCategory() {
 
          
             {openLightBox && (
-              <div className="fixed inset-0 flex mt-[50px] items-center justify-center bg-black bg-opacity-80 z-50">
+              <div className="fixed inset-0 flex mt-[50px] items-center justify-center bg-black bg-opacity-80 z-[999999999555]">
                 <div className="bg-white  p-6 rounded-lg shadow-lg max-w-md text-center">
                   <h2 className="text-xl font-semibold text-primary mb-3 thin-border-bottom pb-5">Select Category</h2>
                   <div className="mt-5 text-gray-600">

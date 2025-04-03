@@ -85,9 +85,86 @@ function Login() {
     return (
 
         <>
-
+                {/* Medium and large devices */}
             {LoginModelBox && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[5555555]">
+           <div className="hidden md:flex fixed inset-0 bg-black bg-opacity-50 justify-center items-center z-[5555555]">
+
+                    <div className="bg-white p-6 rounded-lg shadow-lg md:w-[500px] text-center">
+                        <div className='flex justify-between items-center'>
+                            <h2 className="text-xl font-semibold">User Login!</h2>
+                            <button onClick={() => UserLoginClose(dispatch)}><SquareX size={22} /></button>
+                        </div>
+
+                        <div className="max-w-md mx-auto md:mt-4 p-6 border border-gray-300 rounded-lg shadow-md bg-white">
+
+
+                            {servererror && <span className='text-red-500 italic'>{servererror}</span>}
+
+                            <form onSubmit={handleSubmit} className="space-y-4">
+
+
+                                {/* Email Field */}
+                                <div>
+                                    <label htmlFor="email" className="block text-sm font-medium text-primary text-left">
+                                        Email
+                                    </label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        value={userForm.email}
+                                        onChange={handleChange}
+                                        placeholder="Enter your email"
+                                        className={`mt-1 block w-full p-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500 ${errors.email ? 'border-red-500' : 'border-gray-300'
+                                            }`}
+                                    />
+                                    {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                                </div>
+
+                                {/* Password Field */}
+                                <div>
+                                    <label htmlFor="password" className="block text-sm font-medium text-primary text-left">
+                                        Password
+                                    </label>
+                                    <input
+                                        type="password"
+                                        id="password"
+                                        name="password"
+                                        value={userForm.password}
+                                        onChange={handleChange}
+                                        placeholder="Enter your password"
+                                        className={`mt-1 block w-full p-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500 ${errors.password ? 'border-red-500' : 'border-gray-300'
+                                            }`}
+                                    />
+                                    {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+                                </div>
+
+                                {/* Submit Button */}
+                                <div className='flex justify-between'>
+                                <button onClick={()=>UserLoginClose(dispatch)} className='py-2 px-4 font-semibold rounded-md border-secondary border'>Cancel</button>
+                                <button
+                                    type="submit"
+                                    className={`w-28 py-2 px-4 font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${loading
+                                        ? "bg-gray-400 cursor-not-allowed"
+                                        : "bg-white-600 text-secondary border-secondary border hover:bg-indigo-700 focus:ring-indigo-500"
+                                        }`}
+                                    disabled={loading} // Disable button when loading is true
+                                >
+                                    {loading ? "Loading..." : "Login"}
+                                </button>
+                                </div>
+
+
+
+                            </form>
+                        </div>
+                    </div></div>
+            )}
+
+                {/* Small large devices */}
+                {LoginModelBox && (
+          <div className="flex sm:hidden fixed inset-0 bg-black bg-opacity-50 justify-center items-center z-[5555555]">
+
                     <div className="bg-white p-6 rounded-lg shadow-lg md:w-[500px] text-center">
                         <div className='flex justify-between items-center'>
                             <h2 className="text-xl font-semibold">User Login!</h2>
