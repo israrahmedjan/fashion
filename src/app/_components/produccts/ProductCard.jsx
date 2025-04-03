@@ -26,7 +26,7 @@ const dispatch = useDispatch();
           </button>
           <button className="p-2 bg-white shadow-md rounded-full hover:bg-gray-100 transition mr-2 mt-2 sm:mr-0 sm:mt-0">   <RefreshCw className="h-5 w-5 text-secondary" />
           </button>
-          <button className="p-2 bg-white shadow-md rounded-full hover:bg-gray-100 transition mr-2 mt-2 sm:mr-0 sm:mt-0">giy
+          <button className="p-2 bg-white shadow-md rounded-full hover:bg-gray-100 transition mr-2 mt-2 sm:mr-0 sm:mt-0">
             <Eye className="h-5 w-5 text-secondary" />
           </button>
         </div>
