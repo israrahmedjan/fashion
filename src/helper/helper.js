@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useSelector } from "react-redux";
 import Login from '@/app/_components/user/Login';
 import { useDispatch } from 'react-redux';
-import { addWishListItems, LoginModelBoxAction } from '@/redux/slices/userSlice';
+import { addUserInfo, addWishListItems, loadOldData, loginAction, LoginModelBoxAction } from '@/redux/slices/userSlice';
 
 async function getCategoriesAPI(slug="") {
 
@@ -66,6 +66,19 @@ const handleLoginFunc = (dispatch,item) => {
     //console.log("User is login!");
     dispatch(addWishListItems(item))
     dispatch(LoginModelBoxAction(false))
+    let wishlistItems = JSON.parse(localStorage.getItem("wishlistItems")) || [];
+
+    // Ensure wishlistItems is always an array
+    if (!Array.isArray(wishlistItems)) {
+        wishlistItems = [];
+    }
+    
+    // Add new item to the array
+    wishlistItems.push(item);
+    
+    // Save updated wishlist back to localStorage
+    localStorage.setItem("wishlistItems", JSON.stringify(wishlistItems));
+    
   }
 };
 
@@ -85,4 +98,23 @@ const UserLoginClose = (dispatch)=>
 {
   dispatch(LoginModelBoxAction(false))
 }
-  export {getCategoriesAPI,productDetail,productByCategoryAPI,handleLoginFunc,UserLoginClose,isUserLogin}
+
+const addOldUserData = (dispatch)=>
+{
+  const user = JSON.parse(localStorage.getItem("user"));
+  //console.log("user data",user);
+  if(user){
+    dispatch(addUserInfo(user))
+  }
+  const isUserLogin = JSON.parse(localStorage.getItem("isUserLogin"));
+  //console.log("is user login",isUserLogin);
+  if(isUserLogin){
+    dispatch(loginAction(isUserLogin))
+  }
+  const wishlistItems = JSON.parse(localStorage.getItem("wishlistItems"));
+  console.log("wishlistItems",wishlistItems);
+  if(wishlistItems){
+    dispatch(addWishListItems(wishlistItems))
+  }
+}
+  export {getCategoriesAPI,productDetail,productByCategoryAPI,handleLoginFunc,UserLoginClose,addOldUserData}

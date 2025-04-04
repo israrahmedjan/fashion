@@ -12,7 +12,7 @@ import { usePathname } from "next/navigation";
 import UserDropdown from "./dashboard";
 import Login from "@/app/_components/user/Login";
 import { useSelector, useDispatch } from "react-redux";
-import { handleLoginFunc, isUserLogin } from "@/helper/helper";
+import { addOldUserData, handleLoginFunc } from "@/helper/helper";
 import { loadOldData } from "@/redux/slices/userSlice";
 
 
@@ -21,12 +21,14 @@ export default function PrimaryMenu() {
     const [cartCount, setCartCount] = useState(2); // Example cart count
     const [isOpen, setIsOpen] = useState(false);
     const isUserLogin = useSelector((state)=>state.user.isUserLogin);
+   
     const dispatch = useDispatch();
 
 useEffect(()=>
 {
 //dispatch((loadOldData()));
-console.log("Old data is called!");
+addOldUserData(dispatch);
+//console.log("Old data is called!");
 },[])
     return (
         <>

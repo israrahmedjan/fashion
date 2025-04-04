@@ -23,6 +23,8 @@ function Login() {
     const [servererror, setservererror] = useState("");
     
     const LoginModelBox = useSelector((state) => state.user.LoginModelBox);
+    const isUserLogin = useSelector((state)=>state.user.isUserLogin);
+    const user = useSelector((state)=>state.user.user);
 
 
     // Yup schema for validation
@@ -65,8 +67,12 @@ function Login() {
             Cookies.set('auth_token', response.data.token, { expires: 7 }); // Expires in 7 days
             dispatch(addUserInfo(response.data.user));
             
-            dispatch(loginAction(true))
-            dispatch(LoginModelBoxAction(false))
+            dispatch(loginAction(true));
+            dispatch(LoginModelBoxAction(false));
+            localStorage.setItem("isUserLogin", JSON.stringify(true));
+            localStorage.setItem("user", JSON.stringify(response.data.user));
+           // console.log("user",user, "and", isUserLogin);
+
             //console.log('Response:', response.data.user);
             setloading(false);
             router.push("/");
@@ -75,7 +81,7 @@ function Login() {
 
             if (error) {
                 //console.log("Some issues Occcures!",error.response.data);
-                setservererror(error.response.data.message);
+               // setservererror(error.response.data.message);
                 setloading(false);
             }
 

@@ -1,11 +1,11 @@
 import Wishlist from "@/app/_components/produccts/Wishlist";
 import { createSlice } from "@reduxjs/toolkit";
-const isUserLogin = JSON.parse(localStorage.getItem("isUserLogin"));
+//const isUserLogin = JSON.parse(localStorage.getItem("isUserLogin"));
 const initialState = {
   value: 0,
-  isUserLogin : (isUserLogin)?true:false,
+  isUserLogin : false,
   LoginModelBox : false,
-  user : localStorage.getItem("user")?JSON.parse(localStorage.getItem("user")):{},
+  user : {}, //localStorage.getItem("user")?JSON.parse(localStorage.getItem("user")):{},
   wishlistItems : []
 };
 
@@ -15,12 +15,13 @@ const userSlice = createSlice({
   reducers: {
     addUserInfo: (state,action) => {
       state.user = action.payload;
-      localStorage.setItem("user",JSON.stringify(state.user))
+      
     //  state.value += 1;
     },
     loginAction: (state,action) => {
+      console.log("Action is called",action.payload);
         state.isUserLogin = action.payload;
-        localStorage.setItem("isUserLogin", JSON.stringify(state.isUserLogin));
+        
       //  state.value += 1;
       },
       LoginModelBoxAction: (state,action) => {
