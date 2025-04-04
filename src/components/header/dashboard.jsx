@@ -9,6 +9,9 @@ const UserDropdown = () => {
   const user = useSelector((state)=>state.user.user);
       const handleLogout = async () => {
           fetch("/api/logout", { method: "POST" }).then(() => {
+             // Remove from localStorage
+              localStorage.removeItem("user");
+              localStorage.removeItem("isUserLogin");
               window.location.href = "/";
               //      router.push("/login"); // Redirect to login page
           });

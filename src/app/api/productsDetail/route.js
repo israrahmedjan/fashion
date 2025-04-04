@@ -103,7 +103,7 @@ const data = await productsCollection
   { maxTimeMS: 60000, allowDiskUse: true }
 ).toArray(); // Convert the aggregation cursor to an array
   
-    console.log("Category Detail Page:", data);
+    //console.log("Category Detail Page:", data);
   
     if (data.length === 0) {
       // If data is empty, return a response indicating no products were found

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useSelector } from "react-redux";
 import Login from '@/app/_components/user/Login';
 import { useDispatch } from 'react-redux';
-import { LoginModelBoxAction } from '@/redux/slices/userSlice';
+import { addWishListItems, LoginModelBoxAction } from '@/redux/slices/userSlice';
 
 async function getCategoriesAPI(slug="") {
 
@@ -27,7 +27,7 @@ async function productDetail(categorySlug="",productSlug="") {
 
 async function productByCategoryAPI(categorySlugs = "", minPrice=10,maxPrice=500, limit="", sort={}) {
   try {
-    console.log("No my slugs is that:", sort);
+    //console.log("No my slugs is that:", sort);
 
     const response = await axios.get('/api/category', {
       params: {
@@ -39,7 +39,7 @@ async function productByCategoryAPI(categorySlugs = "", minPrice=10,maxPrice=500
       },
     });
 
-    console.log("Response in Help:", response.data);
+    //console.log("Response in Help:", response.data);
     return response.data.data;
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -47,7 +47,7 @@ async function productByCategoryAPI(categorySlugs = "", minPrice=10,maxPrice=500
   }
 }
 
-const handleLoginFunc = (dispatch) => {
+const handleLoginFunc = (dispatch,item) => {
  // const isLogin = useSelector((state) => state.user.isUserLogin);
   //if(isClose) return isClose;
  //console.log("Close light box is", isClose);
@@ -56,20 +56,33 @@ const handleLoginFunc = (dispatch) => {
   
  
    if (!token) {
-    console.log("User is not login!")
+    //console.log("User is not login!")
     //setShowLoginModal(true); // Show login modal
     //return true;
  dispatch(LoginModelBoxAction(true))   
   } else {
-    console.log('user is login!');
+   // console.log('user is login!');
     //return false;
     //console.log("User is login!");
+    dispatch(addWishListItems(item))
     dispatch(LoginModelBoxAction(false))
   }
 };
+
+
+const isUserLogin = (dispatch) => {
+   const token = document.cookie.includes('auth_token'); // Check if token exists
+   
+  
+    if (!token) {
+          return false;
+     } else {
+      return true;
+     }
+ };
 
 const UserLoginClose = (dispatch)=>
 {
   dispatch(LoginModelBoxAction(false))
 }
-  export {getCategoriesAPI,productDetail,productByCategoryAPI,handleLoginFunc,UserLoginClose}
+  export {getCategoriesAPI,productDetail,productByCategoryAPI,handleLoginFunc,UserLoginClose,isUserLogin}

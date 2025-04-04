@@ -55,6 +55,7 @@ const data = await productsCollection
     },
     {
       $project: {
+        productId:'$_id',
         productName: '$name',
         image: {
           $arrayElemAt: ['$ProductGallery.image', 0] 

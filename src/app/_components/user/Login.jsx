@@ -64,6 +64,7 @@ function Login() {
 
             Cookies.set('auth_token', response.data.token, { expires: 7 }); // Expires in 7 days
             dispatch(addUserInfo(response.data.user));
+            
             dispatch(loginAction(true))
             dispatch(LoginModelBoxAction(false))
             //console.log('Response:', response.data.user);

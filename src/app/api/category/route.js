@@ -19,7 +19,7 @@ export async function GET(request) {
       const minPrice = searchParams.get("minPrice"); 
       const maxPrice = searchParams.get("maxPrice"); 
       const sort = searchParams.get("sort");
-      console.log("Category slugs",JSON.parse(sort));
+      //console.log("Category slugs",JSON.parse(sort));
       // set sort query
     //   let sortQuery = {}; 
     // if (request.query.sort) {

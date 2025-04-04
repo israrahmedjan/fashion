@@ -12,18 +12,22 @@ import { usePathname } from "next/navigation";
 import UserDropdown from "./dashboard";
 import Login from "@/app/_components/user/Login";
 import { useSelector, useDispatch } from "react-redux";
-import { handleLoginFunc } from "@/helper/helper";
+import { handleLoginFunc, isUserLogin } from "@/helper/helper";
+import { loadOldData } from "@/redux/slices/userSlice";
 
 
 export default function PrimaryMenu() {
     const [category, setCategory] = useState("All Categories");
     const [cartCount, setCartCount] = useState(2); // Example cart count
     const [isOpen, setIsOpen] = useState(false);
-    //const [isLogin, setisLogin] = useState(false);
-    const isLogin = useSelector((state) => state.user.isUserLogin);
+    const isUserLogin = useSelector((state)=>state.user.isUserLogin);
     const dispatch = useDispatch();
 
-
+useEffect(()=>
+{
+//dispatch((loadOldData()));
+console.log("Old data is called!");
+},[])
     return (
         <>
             {/* Login Modal */}
@@ -34,7 +38,6 @@ export default function PrimaryMenu() {
 
 
             <nav className="hidden lg:block fixed top-8 left-0 w-full bg-white shadow-sm z-[9999] !important">
-
                 <div className="flex px-6 h-20 items-center justify-between">
                     <div className=" flex gap-10 items-center w-1/2 justify-between">
                         <div>
@@ -77,7 +80,7 @@ export default function PrimaryMenu() {
                             <span className="hidden md:inline text-sm font-medium">Wishlist</span>
                         </button>
                         {/* User Login and logout */}
-                        {!isLogin ?
+                        {!isUserLogin ?
 
                             <button className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition" onClick={() => handleLoginFunc(dispatch)}>
                                 <User size={22} />
