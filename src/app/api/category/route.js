@@ -63,6 +63,7 @@ export async function GET(request) {
                 },
                 {
                   $project: {
+                    productId:{ $toString: '$_id' },
                     productName: '$name',
                     productSlug: '$slug',
                     price: {

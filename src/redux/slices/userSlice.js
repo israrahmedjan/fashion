@@ -38,6 +38,12 @@ const userSlice = createSlice({
         }
       //  state.value += 1;
       },
+      removeWishListItemSlice: (state, action) => {
+        const productIdToRemove = action.payload;
+        state.wishlistItems = state.wishlistItems.filter(
+          item => item.productId !== productIdToRemove
+        );
+      },
       loadOldData: (state,action) => {
        // state.LoginModelBox = action.payload;
        console.log("Load Old Data!");
@@ -52,5 +58,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { addUserInfo,loginAction,LoginModelBoxAction,addWishListItems,loadOldData } = userSlice.actions;
+export const { addUserInfo,loginAction,LoginModelBoxAction,addWishListItems,loadOldData,removeWishListItemSlice } = userSlice.actions;
 export default userSlice.reducer;

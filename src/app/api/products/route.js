@@ -55,7 +55,14 @@ const data = await productsCollection
     },
     {
       $project: {
-        productId:'$_id',
+        productId: {
+          $convert: {
+            input: '$_id',
+            to: 'string',
+            onError: null,
+            onNull: null
+          }
+        },
         productName: '$name',
         image: {
           $arrayElemAt: ['$ProductGallery.image', 0] 
@@ -81,7 +88,7 @@ const data = await productsCollection
         { status: 404 }
       );
     }
-  
+  console.log("API product ", data)
     // If data is not empty, return the data
     return NextResponse.json(
       { message: "Products Available!", data },

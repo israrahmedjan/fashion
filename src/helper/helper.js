@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import Login from '@/app/_components/user/Login';
 import { useDispatch } from 'react-redux';
 import { addUserInfo, addWishListItems, loadOldData, loginAction, LoginModelBoxAction } from '@/redux/slices/userSlice';
+import { addToWishlist } from './whislist';
 
 async function getCategoriesAPI(slug="") {
 
@@ -48,37 +49,19 @@ async function productByCategoryAPI(categorySlugs = "", minPrice=10,maxPrice=500
 }
 
 const handleLoginFunc = (dispatch,item) => {
- // const isLogin = useSelector((state) => state.user.isUserLogin);
-  //if(isClose) return isClose;
- //console.log("Close light box is", isClose);
-
   const token = document.cookie.includes('auth_token'); // Check if token exists
   
  
    if (!token) {
-    //console.log("User is not login!")
-    //setShowLoginModal(true); // Show login modal
-    //return true;
  dispatch(LoginModelBoxAction(true))   
   } else {
-   // console.log('user is login!');
-    //return false;
-    //console.log("User is login!");
+   
     dispatch(addWishListItems(item))
     dispatch(LoginModelBoxAction(false))
-    let wishlistItems = JSON.parse(localStorage.getItem("wishlistItems")) || [];
+  
+    addToWishlist(item);
 
-    // Ensure wishlistItems is always an array
-    if (!Array.isArray(wishlistItems)) {
-        wishlistItems = [];
-    }
-    
-    // Add new item to the array
-    wishlistItems.push(item);
-    
-    // Save updated wishlist back to localStorage
-    localStorage.setItem("wishlistItems", JSON.stringify(wishlistItems));
-    
+
   }
 };
 
@@ -111,10 +94,15 @@ const addOldUserData = (dispatch)=>
   if(isUserLogin){
     dispatch(loginAction(isUserLogin))
   }
-  const wishlistItems = JSON.parse(localStorage.getItem("wishlistItems"));
-  console.log("wishlistItems",wishlistItems);
-  if(wishlistItems){
-    dispatch(addWishListItems(wishlistItems))
+  const wishlistItems = JSON.parse(localStorage.getItem("wishlist"));
+  //dispatch(addWishListItems(wishlistItems));
+
+  if (Array.isArray(wishlistItems)) {
+    wishlistItems.forEach(item => {
+      dispatch(addWishListItems(item));
+    });
   }
+  
 }
+
   export {getCategoriesAPI,productDetail,productByCategoryAPI,handleLoginFunc,UserLoginClose,addOldUserData}

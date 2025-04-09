@@ -13,7 +13,9 @@ import UserDropdown from "./dashboard";
 import Login from "@/app/_components/user/Login";
 import { useSelector, useDispatch } from "react-redux";
 import { addOldUserData, handleLoginFunc } from "@/helper/helper";
-import { loadOldData } from "@/redux/slices/userSlice";
+import { addWishListItems, loadOldData } from "@/redux/slices/userSlice";
+import { getWishlist } from "@/helper/whislist";
+import Wishlist from "./Wishlist";
 
 
 export default function PrimaryMenu() {
@@ -21,6 +23,9 @@ export default function PrimaryMenu() {
     const [cartCount, setCartCount] = useState(2); // Example cart count
     const [isOpen, setIsOpen] = useState(false);
     const isUserLogin = useSelector((state)=>state.user.isUserLogin);
+    const wishlistItems = useSelector((state)=>state.user.wishlistItems);
+    const [whislist1,setwhislist1] = useState([]);
+    const [isOpenWishlist, setIsOpenWishlist] = useState(false);
    
     const dispatch = useDispatch();
 
@@ -28,8 +33,21 @@ useEffect(()=>
 {
 //dispatch((loadOldData()));
 addOldUserData(dispatch);
+
 //console.log("Old data is called!");
 },[])
+
+const setw = async (w)=>
+
+useEffect(() => {
+    const whislist = getWishlist();
+    dispatch(addWishListItems(whislist));  // Dispatching each item
+    // Dispatch each item separately
+
+   // dispatch(addWishListItems(whislist));
+    
+}, []); // ✅ Only run once on mount
+
     return (
         <>
             {/* Login Modal */}
@@ -40,7 +58,9 @@ addOldUserData(dispatch);
 
 
             <nav className="hidden lg:block fixed top-8 left-0 w-full bg-white shadow-sm z-[9999] !important">
+            {/* <p> { wishlistItems && (<span>{JSON.stringify(wishlistItems,null,2)}</span>)}</p> */}
                 <div className="flex px-6 h-20 items-center justify-between">
+                    
                     <div className=" flex gap-10 items-center w-1/2 justify-between">
                         <div>
                             <Link href={`${process.env.NEXT_PUBLIC_FRONT_DOMAIN}`}>    <Image
@@ -77,10 +97,19 @@ addOldUserData(dispatch);
 
 
                         {/* Wishlist */}
-                        <button className="flex items-center gap-2 text-gray-700 hover:text-red-500 transition">
+                        <button onClick={()=>setIsOpenWishlist(!isOpenWishlist)} className=" relative flex items-center gap-2 text-gray-700 hover:text-red-500 transition">
                             <Heart size={22} />
+                           
+ 
                             <span className="hidden md:inline text-sm font-medium">Wishlist</span>
-                        </button>
+                            {wishlistItems?.length > 0 && (
+  <span className="absolute bg-secondary top-3 left-2 z-20 text-[12px] text-black border border-red-500 rounded-full min-w-[15px] h-[15px] flex items-center justify-center">
+    {wishlistItems.length}
+  </span>
+)}                      </button>
+{isOpenWishlist && (
+    <Wishlist wishlistItems={wishlistItems} setIsOpenWishlist={setIsOpenWishlist} />
+)}
                         {/* User Login and logout */}
                         {!isUserLogin ?
 
