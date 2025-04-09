@@ -4,9 +4,14 @@ import { Home, LogIn, Heart, ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import UserDropdown from "../header/dashboard";
+import Wishlist from "../header/Wishlist";
+import { useState } from "react";
+
 export default function Mainfooter() {
   const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.user.isUserLogin);
+  const [isOpenWishlist, setIsOpenWishlist] = useState(false);
+  const wishlistItems = useSelector((state)=>state.user.wishlistItems);
   return (
     <>
       {/* md and lg devices */}
@@ -73,10 +78,21 @@ export default function Mainfooter() {
 
 
 
-          <Link href="/wishlist" className="flex flex-col items-center text-gray-600 hover:text-black">
-            <Heart className="w-6 h-6" />
+          <button  className=" relative flex flex-col items-center text-gray-600 hover:text-black">
+          {wishlistItems?.length > 0 && (
+  <span className="absolute bg-secondary top-0 left-1 z-20 text-[12px] text-black border border-red-500 rounded-full min-w-[15px] h-[15px] flex items-center justify-center">
+    {wishlistItems.length}
+  </span>
+)}    
+          
+            <Heart className="w-6 h-6" onClick={()=>setIsOpenWishlist(!isOpenWishlist)} />
             <span className="text-xs">Wishlist</span>
-          </Link>
+            {isOpenWishlist && (
+    <Wishlist wishlistItems={wishlistItems} className="relative" />
+)}
+
+                
+          </button>
 
           <Link href="/cart" className="flex flex-col items-center text-gray-600 hover:text-black">
             <ShoppingCart className="w-6 h-6" />
