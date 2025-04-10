@@ -101,7 +101,10 @@ useEffect(() => {
                             )}
                         </button>
                         {isOpenCart && (
-    <Cart cartItems={cartItems}  />
+    <Cart cartItems={cartItems} 
+    isOpenCart={isOpenCart}
+    setIsOpenCart={setIsOpenCart}
+    />
 )}
 
 

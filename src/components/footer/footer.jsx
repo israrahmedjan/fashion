@@ -97,17 +97,22 @@ export default function Mainfooter() {
                 
           </button>
 
-          <button  className=" relative flex flex-col items-center text-gray-600 hover:text-black">
+          <button onClick={()=>setIsOpenCart(!isOpenCart)}  className=" relative flex flex-col items-center text-gray-600 hover:text-black">
           {cartItems?.length > 0 && (
   <span className="absolute bg-secondary top-0 left-1 z-20 text-[12px] text-black border border-red-500 rounded-full min-w-[15px] h-[15px] flex items-center justify-center">
     {cartItems.length}
   </span>
 )}    
           
-            <ShoppingCart className="w-6 h-6" onClick={()=>setIsOpenCart(!isOpenCart)} />
+            <ShoppingCart className="w-6 h-6"  />
             <span className="text-xs">Cart</span>
             {isOpenCart && (
-    <Cart cartItems={cartItems} className="relative" />
+   
+    <Cart cartItems={cartItems} 
+    isOpenCart={isOpenCart}
+    setIsOpenCart={setIsOpenCart}
+    className="relative"
+    />
 )}
 
                 

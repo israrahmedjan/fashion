@@ -1,4 +1,4 @@
-import { addcartItems,removeCartItemSlice } from "@/redux/slices/cartSlice";
+import { addcartItems,removecartItemslice } from "@/redux/slices/cartSlice";
 
 
 const addToCart = (dispatch,product) => {
@@ -31,7 +31,8 @@ const addToCart = (dispatch,product) => {
     Cart = Cart.filter((item) => item.productId !== productId);
     console.log(Cart);
     localStorage.setItem("Cart", JSON.stringify(Cart));
-   dispatch(removeCartItemSlice(productId))
+    console.log("item id",productId);
+   dispatch(removecartItemslice(productId))
     alert("Removed from Cart!");
   };
 
