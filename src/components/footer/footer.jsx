@@ -6,12 +6,15 @@ import { useDispatch, useSelector } from "react-redux";
 import UserDropdown from "../header/dashboard";
 import Wishlist from "../header/Wishlist";
 import { useState } from "react";
+import Cart from "../header/Cart";
 
 export default function Mainfooter() {
   const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.user.isUserLogin);
   const [isOpenWishlist, setIsOpenWishlist] = useState(false);
+  const [isOpenCart, setIsOpenCart] = useState(false);
   const wishlistItems = useSelector((state)=>state.user.wishlistItems);
+  const cartItems = useSelector((state)=>state.cart.cartItems);
   return (
     <>
       {/* md and lg devices */}
@@ -94,10 +97,22 @@ export default function Mainfooter() {
                 
           </button>
 
-          <Link href="/cart" className="flex flex-col items-center text-gray-600 hover:text-black">
-            <ShoppingCart className="w-6 h-6" />
+          <button  className=" relative flex flex-col items-center text-gray-600 hover:text-black">
+          {cartItems?.length > 0 && (
+  <span className="absolute bg-secondary top-0 left-1 z-20 text-[12px] text-black border border-red-500 rounded-full min-w-[15px] h-[15px] flex items-center justify-center">
+    {cartItems.length}
+  </span>
+)}    
+          
+            <ShoppingCart className="w-6 h-6" onClick={()=>setIsOpenCart(!isOpenCart)} />
             <span className="text-xs">Cart</span>
-          </Link>
+            {isOpenCart && (
+    <Cart cartItems={cartItems} className="relative" />
+)}
+
+                
+          </button>
+
           {/* <Link href="/login" className="flex flex-col items-center text-gray-600 hover:text-black">
             <LogIn className="w-6 h-6" onClick={() => handleLoginFunc(dispatch)} />
             <span className="text-xs">Login</span>

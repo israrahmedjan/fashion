@@ -5,6 +5,7 @@ import Login from '@/app/_components/user/Login';
 import { useDispatch } from 'react-redux';
 import { addUserInfo, addWishListItems, loadOldData, loginAction, LoginModelBoxAction } from '@/redux/slices/userSlice';
 import { addToWishlist } from './whislist';
+import { addcartItems } from '@/redux/slices/cartSlice';
 
 async function getCategoriesAPI(slug="") {
 
@@ -102,6 +103,15 @@ const addOldUserData = (dispatch)=>
       dispatch(addWishListItems(item));
     });
   }
+
+  const cartItems = JSON.parse(localStorage.getItem("Cart"));
+  console.log("Cart ITems !")
+  if (Array.isArray(cartItems)) {
+    cartItems.forEach(item => {
+      dispatch((addcartItems(item)));
+    });
+  }
+
   
 }
 

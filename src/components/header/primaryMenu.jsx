@@ -16,6 +16,8 @@ import { addOldUserData, handleLoginFunc } from "@/helper/helper";
 import { addWishListItems, loadOldData } from "@/redux/slices/userSlice";
 import { getWishlist } from "@/helper/whislist";
 import Wishlist from "./Wishlist";
+import { addToCart } from "@/helper/cartlist";
+import Cart from "./Cart";
 
 
 export default function PrimaryMenu() {
@@ -24,8 +26,11 @@ export default function PrimaryMenu() {
     const [isOpen, setIsOpen] = useState(false);
     const isUserLogin = useSelector((state)=>state.user.isUserLogin);
     const wishlistItems = useSelector((state)=>state.user.wishlistItems);
+  
     const [whislist1,setwhislist1] = useState([]);
     const [isOpenWishlist, setIsOpenWishlist] = useState(false);
+    const [isOpenCart, setIsOpenCart] = useState(false);
+    const cartItems = useSelector((state)=>state.cart.cartItems);
    
     const dispatch = useDispatch();
 
@@ -86,14 +91,18 @@ useEffect(() => {
 
 
                         {/* Add to Cart */}
-                        <button className="flex items-center gap-2 text-gray-700 hover:text-secondary transition relative">
+                        <button onClick={()=>setIsOpenCart(!isOpenCart)}  className=" relative flex items-center gap-2 text-gray-700 hover:text-secondary transition relative">
                             <ShoppingCart size={22} />
                             <span className="hidden md:inline text-sm font-medium">Cart</span>
-                            {/* Cart Item Badge */}
-                            {/* <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                                3
-                            </span> */}
+                            {cartItems?.length > 0 && (
+  <span className="absolute bg-secondary top-3 left-2 z-20 text-[12px] text-black border border-red-500 rounded-full min-w-[15px] h-[15px] flex items-center justify-center">
+    {cartItems.length}
+  </span>
+                            )}
                         </button>
+                        {isOpenCart && (
+    <Cart cartItems={cartItems}  />
+)}
 
 
                         {/* Wishlist */}

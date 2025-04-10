@@ -4,6 +4,7 @@ import { ShoppingCart, Heart, Scale, RefreshCw, Eye, Star } from 'lucide-react';
 import Login from '../user/Login';
 import { useSelector,useDispatch } from 'react-redux';
 import { handleLoginFunc, setWhislistItems } from '@/helper/helper';
+import { addToCart } from '@/helper/cartlist';
 
 function ProductCard({ product }) {
   const home_url = process.env.NEXT_PUBLIC_FRONT_DOMAIN;
@@ -61,7 +62,7 @@ const addWishlist = (item)=>{
           </div>
 
           <div className="flex justify-between items-center">
-            <p className="flex px-3 py-1 thin-border items-center gap-1 mt-3 rounded-lg text-secondary hover:bg-gray-100 cursor-pointer">
+            <p onClick={()=>addToCart(dispatch,product)} className="flex px-3 py-1 thin-border items-center gap-1 mt-3 rounded-lg text-secondary hover:bg-gray-100 cursor-pointer">
               <ShoppingCart />
               <span className="text-primary">Add To Cart</span>
             </p>
