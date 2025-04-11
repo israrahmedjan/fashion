@@ -1,11 +1,11 @@
 'use client'
 import { removeFromWishlist } from '@/helper/whislist'
-import { Cross, Delete, DeleteIcon } from 'lucide-react'
+import { Cross, Delete, DeleteIcon, X } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
 import { useDispatch,useSelector } from 'react-redux'
 
-function Wishlist({wishlistItems}) {
+function Wishlist({wishlistItems,isOpenWishlist, setIsOpenWishlist}) {
     const dispatch = useDispatch();
     const HandleRemoveItem = (id)=>
     {
@@ -19,6 +19,9 @@ function Wishlist({wishlistItems}) {
         <>
         {/* Lg Devices */}
             <div className="hidden md:block absolute top-16 right-[100px] bg-white border border-gray-100 rounded-2xl shadow-lg p-4 w-[400px]">
+            <div className='flex justify-between content-center mb-2 text-primary font-semibold'><span>Wishlist Items</span><span className='cursor-pointer' onClick={()=>setIsOpenWishlist(!isOpenWishlist)}><X size={22} /></span></div>
+          <hr />
+        
           {wishlistItems?.length == 0 && (<div className='flex justify-between content-center'><span>No Wishlist product availiable!</span><span><DeleteIcon size={22} /></span></div>)}
           {/* {JSON.stringify(wishlistItems,null,2)} */}
             {wishlistItems.map((item, index) => (
@@ -54,6 +57,9 @@ function Wishlist({wishlistItems}) {
 
 {/* Small Devices */}
 <div className="md:hidden fixed bottom-16 right-4 bg-white border border-gray-100 rounded-xl shadow-lg p-3 w-[90%] max-w-xs z-50">
+<div className='flex justify-between content-center mb-2 text-primary font-semibold'><span>Wishlist Items</span><span className='cursor-pointer' onClick={()=>setIsOpenWishlist(!isOpenWishlist)}><X size={22} /></span></div>
+          <hr />
+       
   {wishlistItems?.length === 0 && (
     <div className="flex justify-between items-center text-sm text-gray-700">
       <span>No Wishlist product available!</span>

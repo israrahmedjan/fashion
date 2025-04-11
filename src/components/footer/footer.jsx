@@ -91,10 +91,11 @@ export default function Mainfooter() {
             <Heart className="w-6 h-6" onClick={()=>setIsOpenWishlist(!isOpenWishlist)} />
             <span className="text-xs">Wishlist</span>
             {isOpenWishlist && (
-    <Wishlist wishlistItems={wishlistItems} className="relative" />
-)}
-
-                
+    <Wishlist wishlistItems={wishlistItems}
+    isOpenWishlist={isOpenWishlist}
+    setIsOpenWishlist={setIsOpenWishlist}
+    />
+            )}
           </button>
 
           <button onClick={()=>setIsOpenCart(!isOpenCart)}  className=" relative flex flex-col items-center text-gray-600 hover:text-black">

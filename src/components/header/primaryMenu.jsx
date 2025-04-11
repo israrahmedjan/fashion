@@ -120,7 +120,7 @@ useEffect(() => {
   </span>
 )}                      </button>
 {isOpenWishlist && (
-    <Wishlist wishlistItems={wishlistItems}  />
+    <Wishlist wishlistItems={wishlistItems} isOpenWishlist={isOpenWishlist} setIsOpenWishlist={setIsOpenWishlist}  />
 )}
                         {/* User Login and logout */}
                         {!isUserLogin ?
