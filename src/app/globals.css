@@ -14,8 +14,12 @@
   }
 }
 
-body {
-  font-family: var(--font-poppins), sans-serif;
+
+/* Custom global styles */
+html, body {
+  height: 100%;
+  font-family: 'Montserrat', sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 .thin-border {
   border: 0.5px solid #E7E9ED;
@@ -23,4 +27,23 @@ body {
 
 .thin-border-bottom {
   border-bottom: 0.5px solid #E7E9ED;
+}
+.product-sizer
+{
+  border: red 1px solid;
+  display: flex;
+  justify-content:stretch;
+  padding: 20px;
+  
+
+}
+.product-item
+{
+width: 200px;
+}
+.testClass
+{
+  display: flex;
+  border: yellow 1px solid;
+  justify-items: flex-end;
 }

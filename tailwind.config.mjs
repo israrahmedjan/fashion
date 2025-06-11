@@ -14,7 +14,8 @@ export default {
         secondary: '#e91e63', // Example secondary color 
       },
       fontFamily: {
-        poppins: ["Poppins", "sans-serif"],
+        poppins: ["Montserrat", "sans-serif"],
+        cookie: ['Cookie', 'cursive'],
       },
     },
   },

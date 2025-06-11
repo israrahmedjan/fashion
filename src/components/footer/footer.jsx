@@ -94,6 +94,7 @@ export default function Mainfooter() {
     <Wishlist wishlistItems={wishlistItems}
     isOpenWishlist={isOpenWishlist}
     setIsOpenWishlist={setIsOpenWishlist}
+    className="relative"
     />
             )}
           </button>

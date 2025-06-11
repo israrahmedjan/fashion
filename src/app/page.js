@@ -1,16 +1,27 @@
 import Image from "next/image";
 import Products from "./_components/produccts/Products";
 import Counter from "@/components/Counter";
+import HeroSlider from "./_components/hero/HeroSlider";
+import ProductGallery from "./_components/produccts/NewProducts";
+
+import FullWidthSlider from "./_components/hero/Slider";
+import Featured from "./_components/produccts/Featured";
+import Discount from "./_components/hero/Discount";
 // import SearchBox from "./_components/produccts/SearchBox";
 
 export default function Home() {
   return (
     <>
-    <div className="py-2 px-4 lg:mt-[180px] mt-[150px] min-h-[600px]">
+    <div className="">
        {/* <SearchBox /> */}
        {/* <h1>Counter file</h1>
        <Counter /> */}
-    <Products />
+       <HeroSlider />
+       <ProductGallery />
+       <FullWidthSlider /> 
+       <Featured />
+       <Discount />
+    {/* <Products /> */}
     </div>
     
      
