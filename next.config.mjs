@@ -6,6 +6,7 @@ const nextConfig = {
         'freepik.com',
         'images.pexels.com',
         'cdn-icons-png.freepik.com',
+        'fashion-teal-two.vercel.app',
         'img.freepik.com'],
     },
   };
