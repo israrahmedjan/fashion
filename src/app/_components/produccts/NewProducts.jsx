@@ -8,7 +8,7 @@ import { ShoppingCart, Heart, Eye } from 'lucide-react';
 const domain = process.env.NEXT_PUBLIC_FRONT_DOMAIN;
 
 const products = [
-  { id: 1, name: 'Red Dress', category: 'women', price: '$49.99', image: `${domain}images/product/product-1.JPG` },
+  { id: 1, name: 'Red Dress', category: 'women', price: '$49.99', image: `${domain}images/product/product-111.JPG` },
   { id: 2, name: 'Men Shirt', category: 'men', price: '$39.99', image: `${domain}images/product/product-2.jpg` },
   { id: 3, name: 'Kids Jacket', category: 'kids', price: '$29.99', image: `${domain}images/product/product-3.jpg` },
   { id: 4, name: 'Blue Skirt', category: 'women', price: '$35.00', image: `${domain}images/product/product-4.jpg` },
