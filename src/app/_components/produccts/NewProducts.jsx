@@ -1,33 +1,60 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, Heart, Eye } from 'lucide-react';
+import { filter } from 'lodash';
 
 const domain = process.env.NEXT_PUBLIC_FRONT_DOMAIN;
 
-const products = [
-  { id: 1, name: 'Red Dress', category: 'women', price: '$49.99', image: `${domain}images/product/product-111.jpg` },
-  { id: 2, name: 'Men Shirt', category: 'men', price: '$39.99', image: `${domain}images/product/product-2.jpg` },
-  { id: 3, name: 'Kids Jacket', category: 'kids', price: '$29.99', image: `${domain}images/product/product-3.jpg` },
-  { id: 4, name: 'Blue Skirt', category: 'women', price: '$35.00', image: `${domain}images/product/product-4.jpg` },
-  { id: 5, name: 'Men Jeans', category: 'men', price: '$59.99', image: `${domain}images/product/product-5.jpg` },
-  { id: 6, name: 'Kid Shoes', category: 'kids', price: '$25.00', image: `${domain}images/product/product-6.jpg` },
-  { id: 7, name: 'Kid Shoes', category: 'kids', price: '$24.00', image: `${domain}images/product/product-2.jpg` },
-  { id: 8, name: 'Kid Shoes', category: 'kids', price: '$27.00', image: `${domain}images/product/product-3.jpg` },
+function formatCategory(cat) {
+  return cat
+    .split('_') // ['mens', 'fashion']
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // ['Mens', 'Fashion']
+    .join(' '); // 'Mens Fashion'
+}
+
+export default function ProductGallery({data}) {
+  const [currentCategory, setCurrentCategory] = useState('all');
+  const [currentCategory1, setCurrentCategory1] = useState('all');
+  const [client,setclient] = useState(false);
+console.log(data);
+const products = data;
+// const products1 = [
+//   { id: 1, name: 'Red Dress', category: 'women', price: '$49.99', image: `${domain}images/product/product-111.jpg` },
+//   { id: 2, name: 'Men Shirt', category: 'men', price: '$39.99', image: `${domain}images/product/product-2.jpg` },
+//   { id: 3, name: 'Kids Jacket', category: 'kids', price: '$29.99', image: `${domain}images/product/product-3.jpg` },
+//   { id: 4, name: 'Blue Skirt', category: 'women', price: '$35.00', image: `${domain}images/product/product-4.jpg` },
+//   { id: 5, name: 'Men Jeans', category: 'men', price: '$59.99', image: `${domain}images/product/product-5.jpg` },
+//   { id: 6, name: 'Kid Shoes', category: 'kids', price: '$25.00', image: `${domain}images/product/product-6.jpg` },
+//   { id: 7, name: 'Kid Shoes', category: 'kids', price: '$24.00', image: `${domain}images/product/product-2.jpg` },
+//   { id: 8, name: 'Kid Shoes', category: 'kids', price: '$27.00', image: `${domain}images/product/product-3.jpg` },
+// ];
+const categories = [
+  "all",
+  ...[...new Set(products.map(item => item.category))]
 ];
 
-const categories = ['all', 'women', 'men', 'kids'];
+console.log("New array is", categories);
+//const categories = ['all', 'cosmetics', 'accessories', 'kidz_fashion','mens_fashion','women_fashion'];
 
-export default function ProductGallery() {
-  const [currentCategory, setCurrentCategory] = useState('all');
 
-  const filteredProducts =
+ const filteredProducts =
     currentCategory === 'all'
       ? products
-      : products.filter((p) => p.category === currentCategory);
+      : products.filter((p) => p.category === currentCategory); 
 
+  
+
+
+
+      useEffect(()=>
+    {
+      setclient(true);
+    },[])
+
+    if(!client) return null;
   return (
     <section className="w-full">
       <div className="w-full md:w-[1167px] px-4 md:px-0 mx-auto mt-32">
@@ -47,7 +74,7 @@ export default function ProductGallery() {
                   }`}
                   onClick={() => setCurrentCategory(cat)}
                 >
-                  {cat}
+                 {formatCategory(cat)}
                 </li>
               ))}
             </ul>
@@ -57,9 +84,9 @@ export default function ProductGallery() {
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           <AnimatePresence>
-            {filteredProducts.map((product) => (
+            {filteredProducts.map((product,i) => (
               <motion.div
-                key={product.id}
+                key={i}
                 layout
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
