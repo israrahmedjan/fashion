@@ -7,6 +7,7 @@ const nextConfig = {
         'images.pexels.com',
         'cdn-icons-png.freepik.com',
         'fashion-teal-two.vercel.app',
+        'res.cloudinary.com',
         'img.freepik.com'],
     },
   };
