@@ -24,8 +24,10 @@ export default async function Home() {
        {/* <SearchBox /> */}
        {/* <h1>Counter file</h1>
        <Counter /> */}
-       {data && (<div><HeroSlider data={data.data} />
-       <ProductGallery data={data.productData} /></div>
+       {data && (<div>
+        {/* <HeroSlider data={data.data} /> */}
+       <ProductGallery data={data.productData} />
+       </div>
       )}
        
       
