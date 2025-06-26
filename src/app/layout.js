@@ -1,8 +1,9 @@
 import { Poppins,Montserrat,Cookie } from "next/font/google";
 import "./globals.css";
-import Mainheader from "@/components/header/header";
+
 import Mainfooter from "@/components/footer/footer";
 import { ProvidersCustomization } from "@/redux/Providers";
+import Header from "@/components/header/header";
 
 
 
@@ -30,7 +31,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
     <body className={`${montserrat.variable}`}>
   <ProvidersCustomization>
-        <Mainheader />
+       <Header />
         {children}
       <Mainfooter />
       </ProvidersCustomization>

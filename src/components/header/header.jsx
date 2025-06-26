@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { Search, User, ShoppingCart,Menu, X } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Header() {
  
@@ -28,7 +29,7 @@ export default function Header() {
       `}
     >
       <div className='flex justify-between mx-12 h-[84px] items-center'>
-        <Logo domain={domain} />
+      <Link href={`${domain}`}  > <Logo domain={domain} /></Link>
         <Nav />
         <Icons />
       </div>

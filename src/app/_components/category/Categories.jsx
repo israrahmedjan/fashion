@@ -78,7 +78,7 @@ function Categories({ slugs = "", handelSlugs }) {
                                     onChange={(e) => handleselectedSlugs(e)}
                                     className='h-5 w-5 '
                                 />
-                                <label className='text-base'>{cat.name}</label>
+                                <label className='text-base '>{cat.name}</label>
                             </div>
                         )
                     })}</div>
