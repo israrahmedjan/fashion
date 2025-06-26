@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'; // Utility for merging classes
 import PriceSlider from './PriceSlider';
 import { productsByFilter } from './operationsApi';
 import Products from './Products';
+import LoadingSpinner from '../general/LoadingSpinner';
 
 
 
@@ -29,8 +30,8 @@ function Category({ slug }) {
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [selectedColor, setselectedColor] = useState([]);
   const [selectCategory, setSelectedCategory] = useState([]);
-  const [products,setProducts] = useState([]);
-  const [loading,setLoading] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [priceRange, setPriceRange] = useState({
     miniMum: 20,
     maximum: 500,
@@ -74,7 +75,7 @@ function Category({ slug }) {
     const data = await productsByFilter(filter);
     setProducts(data);
     setLoading(false);
-    console.log("Our Products",data)
+    console.log("Our Products", data)
   }
   //console.log(selectedSizes);
   useEffect(() => {
@@ -92,7 +93,7 @@ function Category({ slug }) {
       console.log("Called!");
       getProductsHandle(newFilter);
     }, 500);
-    return () =>clearTimeout(timer)
+    return () => clearTimeout(timer)
 
     // API call with latest data
   }, [selectedSizes, selectedColor, priceRange, selectCategory]);
@@ -221,18 +222,15 @@ function Category({ slug }) {
 
           </div>
           <div className='w-full'>
-                  {loading && (  <div className="h-screen w-full flex items-center justify-center">
-  <p className="px-4 py-2 text-center ">
-   Loading..
-  </p>
-</div>)}
-              {(products && products.length>0) ? (<Products items={products} />):(
-                <div className="h-screen w-full flex items-center justify-center">
-  <p className="border border-red-400 px-4 py-2 text-center text-red-500 rounded">
-    No Products Found.
-  </p>
-</div>
-              )}
+            {loading ? (<LoadingSpinner />) :
+              (products && products.length > 0) ? (<Products items={products} />) :
+                (<div className="h-screen w-full flex items-center justify-center">
+                  <p className="border border-red-400 px-4 py-2 text-center text-red-500 rounded">
+                    No Products Found.
+                  </p>
+                </div>)}
+
+
           </div>
         </div>
       </div>
