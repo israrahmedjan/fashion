@@ -19,7 +19,7 @@ console.log("Products by filter", filter)
 
    const data = await response.json();
     console.log('variations:', data);
-   return data;
+   return data.data;
   } catch (error) {
     console.error('Error fetching posts:', error.message);
   }

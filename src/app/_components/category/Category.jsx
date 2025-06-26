@@ -4,9 +4,12 @@ import { Checkbox } from '@/components/ui/checkbox'; // ShadCN component
 import { cn } from '@/lib/utils'; // Utility for merging classes
 import PriceSlider from './PriceSlider';
 import { productsByFilter } from './operationsApi';
+import Products from './Products';
+
+
 
 const sizes = ['Small', 'Medium', 'Large', 'XLarge'];
-const color = ['Red', 'Blue', 'Green', 'Yello'];
+const color = ['Red', 'Blue', 'Green', 'Yellow'];
 const category = [
   {
     name: "Accessories",
@@ -26,8 +29,10 @@ function Category({ slug }) {
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [selectedColor, setselectedColor] = useState([]);
   const [selectCategory, setSelectedCategory] = useState([]);
+  const [products,setProducts] = useState([]);
+  const [loading,setLoading] = useState(false);
   const [priceRange, setPriceRange] = useState({
-    miniMum: 100,
+    miniMum: 20,
     maximum: 500,
   });
   const [filterData, setfilterData] = useState({
@@ -64,7 +69,11 @@ function Category({ slug }) {
   };
 
   const getProductsHandle = async (filter) => {
+    setLoading(true);
+    setProducts([]);
     const data = await productsByFilter(filter);
+    setProducts(data);
+    setLoading(false);
     console.log("Our Products",data)
   }
   //console.log(selectedSizes);
@@ -90,13 +99,13 @@ function Category({ slug }) {
   return (
     <section>
       {/* Medium and large devices */}
-      <div className='flex flex-col w-full md:w-[1167px] border-red-400 border mx-auto'>
+      <div className='flex flex-col w-full md:w-[1167px]  mx-auto'>
         <div className=' '>
           <div className='flex text-base md:text-[15px] gap-2 items-center'><HomeIcon size={20} /><span> Shop  </span><ChevronRight size={15} /><span>Kids Fashion</span></div>
 
         </div>
-        <div className='flex border-green-400 border mt-12'>
-          <div className='w-[25%] border-yellow-400 pb-12'>
+        <div className='flex  mt-12 gap-5'>
+          <div className='w-[25%] '>
 
             {/* Category */}
             <div className='mb-5'>
@@ -211,12 +220,19 @@ function Category({ slug }) {
 
 
           </div>
-          <div className=''>
-            <pre>
-              {JSON.stringify(filterData, null, 2)}
-              <hr></hr>
-              {JSON.stringify(selectCategory, null, 2)}
-            </pre>
+          <div className='w-full'>
+                  {loading && (  <div className="h-screen w-full flex items-center justify-center">
+  <p className="px-4 py-2 text-center ">
+   Loading..
+  </p>
+</div>)}
+              {(products && products.length>0) ? (<Products items={products} />):(
+                <div className="h-screen w-full flex items-center justify-center">
+  <p className="border border-red-400 px-4 py-2 text-center text-red-500 rounded">
+    No Products Found.
+  </p>
+</div>
+              )}
           </div>
         </div>
       </div>

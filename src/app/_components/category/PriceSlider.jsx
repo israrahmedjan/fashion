@@ -43,7 +43,7 @@ export default function PriceSlider({miniMum,maximum,onPriceChange}) {
               <span className='block border-[#ca1515] border-b-2 w-[80px] mt-0'></span>
 
 
-      <div className="relative h-6 top-3">
+      <div className="relative h-6 top-3 w-[80%]">
         {/* Track */}
         <div className="absolute top-1/2 h-1 w-full -translate-y-1/2 rounded bg-gray-200" />
 
@@ -61,7 +61,7 @@ export default function PriceSlider({miniMum,maximum,onPriceChange}) {
           step={step}
           value={minPrice}
           onChange={handleMinChange}
-          className="absolute w-full pointer-events-none accent-[#ca1515] h-1 appearance-none bg-transparent [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-red-500"
+          className="absolute w-[full] pointer-events-none accent-[#ca1515] h-1 appearance-none bg-transparent [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-red-500"
         />
 
         {/* Max Range Input */}
