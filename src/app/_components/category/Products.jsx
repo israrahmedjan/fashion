@@ -2,9 +2,11 @@
 import {motion, AnimatePresence } from 'framer-motion'
 import { Eye, Heart, ShoppingCart } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 function Products({items}) {
+    const domain = process.env.NEXT_PUBLIC_FRONT_DOMAIN;
   return (
     <div>
          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
@@ -20,15 +22,16 @@ function Products({items}) {
                 className=" bg-white hover:shadow-lg transition duration-300 overflow-hidden"
               >
                 {/* Image with icons on hover */}
+              
                 <div className="relative">
-                  <Image
+      <Image
                     src={product.image}
                     alt={product.name}
                     width={260}
                     height={361}
                     className="w-full h-auto object-cover"
-                  />
-
+                  /> 
+                 
                   {/* Animated Icons on Hover */}
                   <div className="absolute inset-0 bg-[#11111]  bg-opacity-10 md:bg-opacity-0 md:group-hover:bg-opacity-10 transition-all duration-300">
                     <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-3">
@@ -54,13 +57,13 @@ function Products({items}) {
 
                 {/* Product Info */}
                 <div className="p-3 text-center md:text-[14px]">
-                  <h2 className="text-base  font-[400] ">{product.name}</h2>
+                      <Link href={`${domain}/product/${product.slug}`} className='cursor-pointer'>  <h2 className="text-base  font-[400] ">{product.name}</h2></Link>
                   <div className="flex justify-center text-yellow-400 mt-1 mb-1">
                     {'★★★★★'.split('').map((_, i) => (
                       <span key={i}>★</span>
                     ))}
                   </div>
-                  <p className="text-[#111111] text-[16px] font-[600]">{product.price}</p>
+                  <p className="text-[#111111] text-[16px] font-[600]">{product.Price}</p>
                 </div>
               </motion.div>
             ))}

@@ -23,58 +23,74 @@ export async function GET(request) {
         }
         //.log("Filter Object", filter);
 
-       const matchStage = {};
-       if (filter.color && filter.color.length > 0) 
-        {
-        matchStage['Variations.color'] = { $in: filter.color };
+        const matchStage = {};
+        if (filter.color && filter.color.length > 0) {
+            matchStage['Variations.color'] = { $in: filter.color };
         }
-        if (filter.size && filter.size.length > 0) 
-        {
-        matchStage['Variations.size'] = { $in: filter.size };
+        if (filter.size && filter.size.length > 0) {
+            matchStage['Variations.size'] = { $in: filter.size };
         }
- if (filter.price && filter.price.miniMum > 0) {
+        if (filter.price && filter.price.miniMum > 0) {
 
-    matchStage['Variations.price'] = {$gte:filter.price.miniMum, $lte:filter.price.maximum,}
-}
-        console.log(filter);
+            matchStage['Variations.price'] = { $gte: filter.price.miniMum, $lte: filter.price.maximum, }
+        }
+        if(filter.category && filter.category.length>0)
+        {
+            const categorySlug = filter.category.map((item,i)=>item.slug);
+            matchStage['Category.slug'] = { $in : categorySlug}
+           // console.log("Now category Slug is",categorySlug);
+        }
 
-//         	"Variations.price": {
-//     $gte:40,
-//     $lte:80,
-//   },
-       console.log("Match Stages",matchStage);
+
+        console.log("Match Stages", matchStage);
         const conn = await connectToDatabase();
         const productsCollection = conn.collection("Products");
 
+        const pipeline = [
+  {
+    $lookup: {
+      from: 'Variations',
+      localField: 'variationsId',
+      foreignField: '_id',
+      as: 'Variations'
+    }
+  },
+  {
+    $lookup: {
+      from: 'Categories',
+      localField: 'categoryId',
+      foreignField: '_id',
+      as: 'Category'
+    }
+  },
+  { $unwind: { path: '$Variations' } },
+  { $unwind: { path: '$Category' } },
+  { $match: matchStage },
+  
+  {
+      $group: {
+        _id: '$_id',
+        name: { $first: '$name' },
+        slug: { $first: '$slug' },
+        image: { $first: '$image' },
+        imageThumb: { $first: '$imageThumb' },
+        Price: { $first: '$Variations.price' },
+        Color: { $first: '$Variations.color' },
+        CategoryName: {
+          $first: '$Category.name'
+        },
+        CategorySlug: { $first: '$Category.slug' }
+      }
+    },
+    // {$count : 'total'}
+];
+
+//console.log(JSON.stringify(pipeline, null, 2));
 
         const data = await productsCollection.aggregate(
-            [
-                {
-                    $lookup: {
-                        from: 'Variations',
-                        localField: 'variationsId',
-                        foreignField: '_id',
-                        as: 'Variations'
-                    }
-                },
-                { $unwind: { path: '$Variations' } },
-                {
-                    $match: matchStage
-                },
-                {
-                    $project: {
-                    name: 1,
-                    slug: 1,
-                    image: 1,
-                    imageThumb: 1,
-                    price: '$Variations.price',
-                    Color: '$Variations.color'
-                    }
-                }
-            ],
+        pipeline,
             { maxTimeMS: 60000, allowDiskUse: true }
         ).toArray();
-
 
 
         // If data is not empty, return the data
@@ -82,7 +98,7 @@ export async function GET(request) {
             { message: "Products Available!", data },
             { status: 200 }
         );
-    
+
     } catch (error) {
         console.error("Error during aggregation:", error.message);
 
