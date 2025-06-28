@@ -1,223 +1,168 @@
-'use client';
+'use client'
 
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
-import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
-import { productDetail } from '@/helper/helper';
-import { ZoomIn, ZoomOut, X } from 'lucide-react';
-import Loader from '@/components/Loader';
+import { Check, CheckIcon, ChevronRight, GitCompare, Heart, HomeIcon, Minus, Plus, ShoppingBag, Star } from 'lucide-react'
 import Image from 'next/image';
-import ReleatedProducts from './ReleatedProducts';
+import React, { useEffect, useState } from 'react'
 
-function ProductDetail() {
-  let home_url = process.env.NEXT_PUBLIC_FRONT_DOMAIN;
 
-  // Using local state to store params after hydration
-  const [params, setParams] = useState({ categorySlug: "", productSlug: "" });
-  const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState([]); // Empty array initially
-  const [selectedSize, setSelectedSize] = useState(null);
-  const [selectedColor, setSelectedColor] = useState(null);
-  const [gallery, setGallery] = useState([]);
-  const [mainImage, setMainImage] = useState(null);
-  const [error, setError] = useState(false);
-  const { categorySlug, productSlug } = useParams();
+const colors = [
+  { name: 'Red', value: '#ca1515' },
+  { name: 'Black', value: '#000000' },
+  { name: 'Skin', value: '#dfb196' },
+];
 
-  // Controls for zoom
-  const Controls = () => {
-    const { zoomIn, zoomOut, resetTransform } = useControls();
-    return (
-      <div className="tools absolute z-10 right-3 top-4 flex text-primary cursor-pointer ">
-        <ZoomIn size={25} onClick={() => zoomIn()} />
-        <ZoomOut size={25} onClick={() => zoomOut()} />
-        <X size={25} onClick={() => resetTransform()} />
-      </div>
-    );
-  };
 
-  // Fetch Product Details
-  const fetchProductDetail = async () => {
-    try {
-      setLoading(true);
-      const response = await productDetail(params.categorySlug, params.productSlug);
-      console.log("Product Detail Found:", response);
+function ProductDetail({ slug }) {
+  const domain = process.env.NEXT_PUBLIC_FRONT_DOMAIN || "";
+  const [client, setclient] = useState(false);
+  const [selectedColor, setSelectedColor] = useState('#000000');
 
-      setProducts(response);
-      setSelectedSize(response[0]?.size || null);
-      setSelectedColor(response[0]?.color || null);
-    } catch (error) {
-      console.error("Error fetching product details:", error);
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  // Get params from URL
+
   useEffect(() => {
-    
-    setParams({ categorySlug, productSlug });
-  }, []);
-
-  // Fetch product details when productSlug changes
-  useEffect(() => {
-    if (params.productSlug) {
-      fetchProductDetail();
-    }
-  }, [params.productSlug]);
-
-  // Update gallery & main image when size or color is selected
-  useEffect(() => {
-    if (!products.length) return;
-    console.log(selectedColor)
-    const selectedProduct = products.find(
-      (product) => product.color === selectedColor
-    );
-console.log("Selected Products", selectedProduct);
-    setMainImage(selectedProduct ? selectedProduct.image : null);
-    setGallery(products.map((product) => ({ color: product.color, thumbnail: product.image })));
-   // console.log("Use effect is called");
-  }, [selectedColor, selectedSize, products]);
-
-  // Show loader while data is loading
-  if (loading) {
-    return <div className='mx-6 h-screen flex items-center justify-center'><Loader /></div>;
-  }
-
-  // Show error message if fetching failed
-  if (error) {
-    return <div className='flex mt-[220px] w-full'><div className='mx-auto'>System Error</div></div>;
-  }
-
+    setclient(true);
+  }, [])
+  if (!client) return null;
   return (
-    <>
-      {products.length > 0 && (
-        <div className='mt-[180px]'>
-           
-          {/* Breadcrumbs */}
-          {products[0]?.Category?.[0]?.name && (
-            <div className='flex text-secondary italic mx-6 pb-3 border-b-2 thin-border-bottom'>
-              <div>
-                <span className='text-primary text-lg'>Home - </span>
-                {products[0]?.Category[0]?.name} / {products[0]?.ProductName}
-              </div>
+    <div>
+      <div className='w-[1167px] mx-auto flex flex-col' >
+        {/* Breadcrums */}
+        <div>
+          <div className="flex items-center text-base md:text-[15px] space-x-1 h-[17px] md:h-[55px]">
+            <HomeIcon size={18} />
+            <ChevronRight size={15} />
+            <span className='font-[500]'>Home</span>
+            <ChevronRight size={15} />
+            <span className='font-[500]'>Women</span>
+            <ChevronRight size={15} />
+            <span>Essential structured blazer</span>
+          </div>
+        </div>
+        {/* Product Image and descriptions */}
+        <div className='flex flex-col md:flex-row mt-2 md:mt-[50px] gap-x-8'>
+          <div className='w-full md:w-[50%]'>
+            <div className=''>
+              <Image
+                src={`${domain}/images/product/details/product-1.JPG`}
+                alt={`hello `}
+                width={260}
+                height={361}
+                className="md:w-full md:h-auto md:object-cover"
+              />
             </div>
-          )}
 
-          {/* Product Details Section */}
-          <div className='flex flex-col lg:flex-row gap-6 mx-6 mt-3'>
-            {/* Left: Product Image & Gallery */}
-            <div className='w-full lg:w-1/2'>
-              {mainImage && (
-                <div className='p-2 thin-border relative shadow-lg'>
-                  <TransformWrapper initialScale={1} initialPositionX={200} initialPositionY={100}>
-                    {({ zoomIn, zoomOut, resetTransform }) => (
-                      <>
-                        <Controls />
-                        <TransformComponent>
-                          <Image
-                            src={mainImage}
-                            alt="Product Image"
-                            width={500}
-                            height={500}
-                            className="object-contain z-10 w-full h-full"
-                            unoptimized
-                          />
-                        </TransformComponent>
-                      </>
-                    )}
-                  </TransformWrapper>
+
+
+          </div>
+          <div className='w-[50%] flex-col'>
+            <h1 className='text-base font-[600] md:text-[30px] text-[#111111]'>Essential structured blazer</h1>
+            <span className='text-base text-[#444444] md:text-[14px] font-[400] leading-8'>Brand: SKMEIMore Men Watches from SKMEI</span>
+            <div className='flex mt-1 md:mt-2'>
+              {Array.from({ length: 6 }).map((_, i) => (
+                <Star key={i} size={14} className='text-yellow-500' />
+              ))
+
+              }
+              <span className='text-[12px] text-[#444444]'>( 138 reviews )</span>
+            </div>
+            <div className='text-base md:text-[30px] text-[#ca1515] pt-2 md:pt-8 font-[600]'>$75</div>
+            <p className='text-base text-[#444444] md:text-[14px] font-[400] mt-2 md:mt-9'>
+              Nemo enim ipsam voluptatem quia aspernatur aut odit aut loret fugit, sed quia
+              consequuntur magni lores eos qui ratione voluptatem sequi nesciunt.
+
+            </p>
+            <div className='flex space-x-2 justify-start items-center mt-4'>
+              <span className='text-base md:text-[14px] font-[600] text-[#111111]'>Quantity : </span>
+              <div className='flex flex-row justify-center items-center gap-x-3 '>
+
+                <div className="relative w-[150px]">
+                  {/* Minus icon on the left */}
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 cursor-pointer">
+                    <Minus size={12} onChange={(e) => console.log("Value is change")} />
+                  </span>
+
+                  {/* Input field */}
+                  <input
+                    type="text"
+                    value="1"
+                    onChange={(e) => console.log("value change")}
+                    className="w-full border border-gray-200 rounded-full text-center h-[40px] md:h-[52px] outline-none px-8"
+                  />
+
+                  {/* Plus icon on the right */}
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer">
+                    <Plus size={12} onChange={(e) => console.log("Value is change")} />
+                  </span>
                 </div>
-              )}
+                <div className='flex justify-center items-center'>
+                  <div className='w-[172px] flex justify-center items-center gap-x-1 h-[52px] rounded-3xl font-[600] text-white bg-[#ca1515]'>
+                    <span className=''><ShoppingBag size={16} /></span>
+                    <span className='text-base md:text-[14px] uppercase'>Add to Cart</span>
+                  </div>
+                </div>
 
-              {/* Product Gallery */}
-              {gallery.length > 0 && (
-                <div className='flex gap-3 mt-2'>
-                  {gallery.map((prod, index) => (
+              </div>
+
+              <div className='border-gray-200 border rounded-full md:p-[15px]'><Heart size={18} className='text-gray-600 font-[800]' /></div>
+              <div className='border-gray-200 border rounded-full md:p-[15px]'><GitCompare size={18} className='text-gray-600 font-[800]' /></div>
+
+            </div>
+            <div className='h-2 border-gray-200 border-t-[1px] md:mt-10 w-full'></div>
+            {/* Meta data */}
+            <div className='text-base md:text-[14px]'>
+              <div className='flex gap-3 leading-10'>
+                <span className='w-[30%] font-[600]' >Availability:</span>
+                <span className='w-[70%] flex justify-start items-center'><input
+                  type="checkbox"
+                  className="h-3 w-3 bg-[#ca1515] accent-[#ca1515] border  rounded"
+                /><span>In Stock</span></span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-[30%] text-sm font-semibold">Available color:</div>
+                <div className='w-[70%]  flex justify-start items-center'>
+                  {colors.map((color) => (
                     <div
-                      key={index}
-                      className={`${prod.color === selectedColor ? "thin-border border-[3px] rounded-lg p-2" : "p-2"}`}
-                      onClick={() => setSelectedColor(prod.color)}
+                      key={color.value}
+                      className="relative w-6 h-6 cursor-pointer rounded-full border border-gray-300"
                     >
-                      <Image src={prod.thumbnail} width={100} height={100} alt="Product Image" unoptimized />
+                      <input
+                        type="radio"
+                        name="color"
+                        value={color.value}
+                        checked={selectedColor === color.value}
+                        onChange={() => setSelectedColor(color.value)}
+                        className="absolute inset-0 opacity-0 cursor-pointer"
+                      />
+                      <span
+                        className="block w-full h-full rounded-full"
+                        style={{ backgroundColor: color.value }}
+                      ></span>
+                      {selectedColor === color.value && (
+                        <Check
+                          size={14}
+                          className="absolute text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                        />
+                      )}
                     </div>
                   ))}
                 </div>
-              )}
-            </div>
 
-            {/* Right: Product Information */}
-            <div className='w-full lg:w-1/2'>
-              <div className='text-primary mb-6'>
-                    <h1 className='text-2xl mb-2'>{products[0]?.ProductName}</h1>
-                    <hr></hr>
-                {products.map((product, index) => (
-                  <div key={index} className='flex flex-col'>
-                    {(selectedSize == product.size) && (<div><h3 className="text-base lg:text-[30px] font-semibold mt-2">{product.name}</h3>
-                    <p className="text-sm mt-2">Size: {product.size} | Color: {product.color}</p>
-                    <p className="font-bold text-lg text-secondary">Price: ${product.price}</p></div>)}
-                    
-                  </div>
-                ))}
               </div>
 
-              <hr />
+              
 
-              {/* Filter Options */}
-              <div className="flex gap-4 mb-4 mt-4">
-                {/* Size & Color Filters */}
-                <div>
-                  <div className="text-primary">
-                    {/* Size Filter */}
-                    <div className="mb-4">
-                      <p>Select Size:</p>
-                      <div className="flex gap-2 mt-2">
-                        {products.map((prod, i) => (
-                          <button
-                            key={i}
-                            className={`border px-3 py-1 ${
-                              selectedSize === prod.size ? "border-secondary border text-primary" : "bg-gray-100"
-                            }`}
-                            onClick={() => setSelectedSize(prod.size)}
-                          >
-                            {prod.size}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
 
-                    {/* Color Filter */}
-                    <div className='mb-[100px]'>
-                      <p>Select Color:</p>
-                      <div className="flex gap-2 mt-2">
-                        {products.map((prod, i) => (
-                          <button
-                            key={i}
-                            className={`w-8 h-8 rounded-full border-2 ${
-                              selectedColor === prod.color ? "border-secondary" : "border-transparent"
-                            }`}
-                            style={{ backgroundColor: prod.color }}
-                            onClick={() => setSelectedColor(prod.color)}
-                          ></button>
-                          
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
-      )}
-{products && (<div>
-             <ReleatedProducts categorySlug={categorySlug} />
-             
-            </div>
-            )}
 
-    </>
-  );
+        {/* Descriptions  */}
+
+        <div className=''>Descriptions section</div>
+        <div className=''>Realted Products</div>
+      </div>
+    </div>
+  )
 }
 
-export default ProductDetail;
+export default ProductDetail

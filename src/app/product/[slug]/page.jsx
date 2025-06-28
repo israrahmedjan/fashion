@@ -1,12 +1,16 @@
 
 
+import ProductDetail from '@/app/_components/produccts/ProductDetail';
 import React from 'react'
 
 function page({params }) {
-  const {slug} = params;
+ const slug = params?.slug; // This is safe and works
   return (
   <div className='mt-[100px]'>
-    this is product detail page - {slug}
+   
+   
+   {slug && (<ProductDetail slug={slug} />)}
+    
   </div>
   )
 }
