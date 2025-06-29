@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, Heart, Eye } from 'lucide-react';
 import { filter } from 'lodash';
+import Link from 'next/link';
 
 const domain = process.env.NEXT_PUBLIC_FRONT_DOMAIN;
 
@@ -19,7 +20,7 @@ export default function ProductGallery({data}) {
   const [currentCategory, setCurrentCategory] = useState('all');
   const [currentCategory1, setCurrentCategory1] = useState('all');
   const [client,setclient] = useState(false);
-console.log(data);
+console.log("products",data);
 const products = data;
 // const products1 = [
 //   { id: 1, name: 'Red Dress', category: 'women', price: '$49.99', image: `${domain}images/product/product-111.jpg` },
@@ -129,7 +130,7 @@ console.log("New array is", categories);
 
                 {/* Product Info */}
                 <div className="p-3 text-center md:text-[14px]">
-                  <h2 className="text-base  font-[400] ">{product.name}</h2>
+                 <Link href={`${domain}product/${product.productSlug}`}> <h2 className="text-base  font-[400] ">{product.name}</h2></Link>
                   <div className="flex justify-center text-yellow-400 mt-1 mb-1">
                     {'★★★★★'.split('').map((_, i) => (
                       <span key={i}>★</span>

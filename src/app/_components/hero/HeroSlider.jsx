@@ -3,6 +3,7 @@ import { JsonWebTokenError } from 'jsonwebtoken'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import { motion } from "framer-motion";
 
 
 function HeroSlider({data}) {
@@ -36,9 +37,13 @@ let newArry = [dataFormatted.mens_fashion[0],
 return (
 
     <>
-
-    {/* Medium and large devices */}
-    <section className='hidden md:block'>
+    <motion.section
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="hidden md:block"
+    >
+    
 {/* <div>{JSON.stringify(data,null,2)}</div> */}
       <div className='grid grid-cols-2 gap-3 mt-[100px]  text-[#111111]'>
        {dataFormatted.women_fashion.length>0 && (
@@ -88,7 +93,7 @@ return (
 
 
 
-    </section>
+    </motion.section>
 
     {/* ✅ Mobile-only layout */}
 <section className="block md:hidden mt-[60px] px-4 text-[#111111]">
