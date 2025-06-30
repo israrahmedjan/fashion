@@ -97,17 +97,19 @@ console.log("New array is", categories);
               >
                 {/* Image with icons on hover */}
                 <div className="relative">
-                  <Image
+                 <Link href={`${domain}product/${product.productSlug}`} className="block cursor-pointer"> 
+                 <Image
                     src={product.image}
                     alt={product.name}
                     width={260}
                     height={361}
                     className="w-full h-auto object-cover"
                   />
+                  </Link>
 
                   {/* Animated Icons on Hover */}
-                  <div className="absolute inset-0 bg-[#11111]  bg-opacity-10 md:bg-opacity-0 md:group-hover:bg-opacity-10 transition-all duration-300">
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-3">
+                 <div className="absolute inset-0 bg-[#11111] bg-opacity-10 md:bg-opacity-0 md:group-hover:bg-opacity-10 transition-all duration-300 pointer-events-none">
+   <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-3">
                       {[ShoppingCart, Heart, Eye].map((Icon, index) => (
                         <motion.button
                           key={index}

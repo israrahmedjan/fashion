@@ -72,18 +72,9 @@ function ProductDetail({ product }) {
         )}
       </AnimatePresence>
 
-      <div className="mt-10 text-center">
-        <button
-          onClick={() => clear()}
-          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
-        >
-          Clear Cart
-        </button>
-      </div>
+   
     </div>
-<pre>
-{JSON.stringify(success,null,2)}
-</pre>
+
 
  
       {product && (
@@ -139,7 +130,7 @@ function ProductDetail({ product }) {
             transition={{ duration: 0.5 }}
             className="w-full md:w-1/2 flex flex-col"
           >
-            <h1 className='text-lg font-semibold md:text-2xl text-[#111]'>{product?.name}</h1>
+            <h1 className='text-lg font-semibold md:text-2xl text-[#111111]'>{product?.name}</h1>
             <span className='text-sm text-[#444]'>Brand: SKMEI</span>
             <div className='flex mt-1'>
               {Array.from({ length: 6 }).map((_, i) => (

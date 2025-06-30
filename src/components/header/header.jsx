@@ -1,24 +1,33 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Search, User, ShoppingCart,Menu, X } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { Search, User, ShoppingCart,Menu, X, Trash2  } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-
+import useCart from '@/store/cart'
+ 
+const domain = process.env.NEXT_PUBLIC_FRONT_DOMAIN
 export default function Header() {
  
-  const domain = process.env.NEXT_PUBLIC_FRONT_DOMAIN
+  
 
   const [visible, setVisible] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [client,setclient] = useState(false);
+  
 
 
   useEffect(() => {
     // Show header with delay
+    setclient(true)
     const timer = setTimeout(() => setVisible(true), 100);
     return () => clearTimeout(timer);
   }, []);
 
+
+
+
+  if(!client) return null
   return (
     <>
       {/* Initial Big Header (visible on load only) */}
@@ -88,7 +97,7 @@ function Nav() {
   return (
     <nav className="hidden md:flex items-center gap-6 text-[#111111] uppercase text-[15px] font-medium">
       {["Home", "Shop","Services","About","Blogs","Contact"].map((item) => (
-        <a key={item} href="#" className="hover:text-blue-600 transition-colors duration-200">
+        <a key={item} href="#" className="hover:text-[#ca1515] transition-colors duration-200">
           {item}
         </a>
       ))}
@@ -98,13 +107,103 @@ function Nav() {
 
 // Reusable Icons
 function Icons() {
+  const {item,RemoveItem} = useCart();
+   const cartItems = item;
+     const dropdownRef = useRef(null);
+     const [isOpen, setIsOpen] = useState(false);
+     useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+
   return (
     <div className="flex items-center gap-4 text-[#111111] font-medium ">
       <span className='text-[12px] font-[400]'>Login / Register</span>
-      <Search className="w-5 h-5 cursor-pointer hover:text-blue-600 transition-colors duration-200" />
-      <User className="w-5 h-5 cursor-pointer hover:text-blue-600 transition-colors duration-200" />
-      <ShoppingCart className="w-5 h-5 cursor-pointer hover:text-blue-600 transition-colors duration-200" />
-    
+      {/* {JSON.stringify(item,null,2)} */}
+      <Search className="w-5 h-5 cursor-pointer hover:text-[#ca1515] transition-colors duration-200" />
+      <User className="w-5 h-5 cursor-pointer hover:text-[#ca1515] transition-colors duration-200" />
+  <div className="relative" ref={dropdownRef}>
+    <div className='flex gap-2 relative'>
+       {(item && item.length>0) && (<span className='absolute -top-2 left-4 bg-black text-[10px] text-white w-4 h-4 text-center rounded-full'>{item.length}</span>)}
+  <ShoppingCart
+    className="w-5 h-5 cursor-pointer hover:text-[#ca1515] transition-colors duration-200"
+    onClick={() => setIsOpen(!isOpen)}
+  />
+ 
+  </div>
+  
+
+  {isOpen && (
+    <div className="absolute right-0 mt-2 w-80 bg-white border rounded-lg shadow-lg z-50">
+      <div className="p-4">
+        <h4 className="font-[500] text-lg mb-3 border-gray-200 border-b pb-2"> Your Cart</h4>
+
+        {cartItems.length === 0 ? (
+          <p className="text-sm text-[#111111]">No items in cart</p>
+        ) : (
+          <>
+            <ul className="space-y-3 max-h-60 overflow-y-auto pr-1 custom-scrollbar">
+              {cartItems.map((item) => (
+                <li
+                  key={item._id}
+                  className="flex justify-between items-start text-sm border-gray-100 border-b-[1px] pb-2"
+                >
+                  <div>
+                    <p className="font-medium">{item.productName}</p>
+                    {item?.color && (<p className="text-xs text-[#444]">Color: {item.color}</p>)}
+                    <p className="text-xs text-[#444]">Qty: {item.qty}</p>
+
+                  </div>
+                  <div className="text-right">
+                    <p className="font-[500]">$ {item.price*item.qty}</p>
+                    <button
+                      className="text-[#ca1515] text-xs mt-1 hover:text-red-700"
+                      onClick={() => RemoveItem(item._id)}
+                    >
+                      <Trash2 className="w-4 h-4 inline-block mr-1" />
+                      Delete
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            {/* Total and Checkout */}
+            <div className="mt-4 pt-3">
+              <div className="flex justify-between font-[500] mb-2">
+                <span>Total:</span>
+                <span>
+                 
+                  {cartItems.reduce(
+                    (total, item) => total + item.price * item.qty,
+                    0
+                  )}
+                </span>
+              </div>
+              <div className='flex justify-between gap-3 items-center'>
+              <Link href={`${domain}cart`} className="w-full text-center bg-[#ca1515] hover:bg-[#111111] text-white text-sm font-[500] py-2 rounded transition">
+                View Cart
+              </Link>
+              <button className="w-full bg-[#ca1515] hover:bg-[#111111] text-white text-sm font-[500] py-2 rounded transition">
+                Checkout
+              </button>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  )}
+</div>
+
     </div>
   )
 }
