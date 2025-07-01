@@ -15,6 +15,7 @@ const useCart = create(persist(
       }),
       RemoveItem: (id) =>
       set((state) => {
+        
         return {item: state.item.filter((product) => product._id !== id)}
        
       }),

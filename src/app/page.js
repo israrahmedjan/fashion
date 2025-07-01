@@ -15,36 +15,39 @@ import { getHomedata } from "@/lib/apiHelpers.js";
 export default async function Home() {
   const data = await getHomedata(1);
 
-
-
- // console.log("Home data recied",data);
   return (
     <>
-    <div className="">
-       {/* <SearchBox /> */}
-       {/* <h1>Counter file</h1>
-       <Counter /> */}
-       {data && (<div>
-        <HeroSlider data={data.data} />
-       <ProductGallery data={data.productData} />
-       </div>
-      )}
-       
-      
-       <FullWidthSlider /> 
-       <Featured />
-       <Discount />
-       <ShippingInfo />
-       <Socials />
-    {/* <Products /> */}
-    </div>
-    
-     
-    
+      <main className="w-full overflow-hidden">
+        {/* Uncomment when ready */}
+        {/* <SearchBox /> */}
+        {/* <h1>Counter file</h1>
+        <Counter /> */}
 
-   
+        {data && (
+          <div className="space-y-8 md:space-y-12">
+            <HeroSlider data={data.data} />
+            <ProductGallery data={data.productData} />
+          </div>
+        )}
 
-    
+        {/* Responsive full-width sections */}
+        <section className="w-full">
+          <FullWidthSlider />
+        </section>
+
+        <section className="px-4 md:px-8 lg:px-16 space-y-8">
+          <Featured />
+          <Discount />
+          <ShippingInfo />
+        </section>
+
+        <footer className="bg-gray-100 py-6 px-4">
+          <Socials />
+        </footer>
+
+        {/* Optional: Products Section */}
+        {/* <Products /> */}
+      </main>
     </>
   );
 }
