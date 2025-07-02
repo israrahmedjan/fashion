@@ -1,6 +1,6 @@
 'use client';
 
-import { Check, CheckIcon, ChevronRight, GitCompare, Heart, HomeIcon, Minus, Plus, ShoppingBag, Star, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, CheckIcon, ChevronRight, GitCompare, Heart, HomeIcon, Minus, Plus, ShoppingBag, Star, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
@@ -14,6 +14,7 @@ function ProductDetail({ product }) {
   const [selectedSize, setSelectedSize] = useState(product?.Variations[0]?.size);
   const [activeTab, setActiveTab] = useState('description');
   const [fileterProduct, setfilterProduct] = useState(product?.Variations[0]);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const { add,item,clear,success,setMessage } = useCart();
 
@@ -44,6 +45,25 @@ function ProductDetail({ product }) {
   const VariationsSizeHandle = (color, size) => {
     setSelectedSize(size);
   };
+
+const showPrevious = (val) => {
+    setCurrentIndex((val) =>
+      val === 0 ? product.Variations.length - 1 : val - 1
+    );
+    setSelectedColor(product.Variations[currentIndex]?.color);
+    setfilterProduct(product.Variations[currentIndex])
+  };
+
+  const showNext = (val) => {
+    setCurrentIndex((val) =>
+      val === product.Variations.length - 1 ? 0 : val + 1
+    
+    );
+   
+    setSelectedColor(product.Variations[currentIndex]?.color);
+    setfilterProduct(product.Variations[currentIndex])
+  };
+
 
   useEffect(() => {
     setclient(true);
@@ -94,11 +114,11 @@ function ProductDetail({ product }) {
          
           
           <div className="w-full md:w-1/2  ">
-<div className='flex justify-start items-center gap-2'>
+<div className='flex justify-start items-start gap-2'>
             <div>{product.Variations?.length > 0 && (
               <div>
                 {product.Variations.map((item, i) => (
-                  <div key={i} className='md:w-[120px] md:h-[150px] mt-3 border border-gray-300'>
+                  <div key={i} className='md:w-[120px] md:h-[150px] mb-3 border border-gray-300 shadow-md'>
                     <Image
                       src={item.imageThumb}
                       alt='thumb image'
@@ -112,12 +132,17 @@ function ProductDetail({ product }) {
               </div>
             )}</div>
 
-            <div className='w-full'> <motion.div
+            <div className='w-full relative md:w-[410px] md:h-[550px]'> 
+                <div className='absolute top-1/2 left-2 cursor-pointer bg-[#f8f8f8] p-2 rounded-full' onClick={()=>showPrevious(-1)}><ArrowLeft size={18} className="text-[#111111] font-[500]" /></div>
+              <div className='absolute top-1/2 right-2 cursor-pointer bg-[#f8f8f8] p-2 rounded-full' onClick={()=>{showNext(1)} }><ArrowRight size={18} className="text-[#111111] font-[500]" /></div>
+              <motion.div
               key={fileterProduct.image}
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
             >
+              
+            
               <Image
                 src={fileterProduct.image}
                 alt="product image"
@@ -125,6 +150,7 @@ function ProductDetail({ product }) {
                 height={500}
                 className="w-full object-cover"
               />
+             
             </motion.div></div>
             </div>
           
@@ -227,7 +253,7 @@ function ProductDetail({ product }) {
       )}
 
       {/* Tabs */}
-      <div className="w-full mt-[150px]">
+      <div className="w-full mt-[50px]">
         <div className="flex flex-wrap gap-4 border-b border-gray-300 mb-4">
           {tabs.map((tab) => (
             <button
