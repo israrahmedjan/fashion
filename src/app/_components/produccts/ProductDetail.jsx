@@ -90,9 +90,29 @@ function ProductDetail({ product }) {
       )}
 
       {fileterProduct && (
-        <div className="flex flex-col md:flex-row mt-4 md:mt-10 gap-4 md:gap-8">
-          <div className="w-full md:w-1/2">
-            <motion.div
+        <div className="w-full flex flex-col md:flex-row mt-4 md:mt-10 gap-4 md:gap-8 ">
+         
+          
+          <div className="w-full md:w-1/2  ">
+<div className='flex justify-start items-center gap-2'>
+            <div>{product.Variations?.length > 0 && (
+              <div>
+                {product.Variations.map((item, i) => (
+                  <div key={i} className='md:w-[120px] md:h-[150px] mt-3 border border-gray-300'>
+                    <Image
+                      src={item.imageThumb}
+                      alt='thumb image'
+                      width={120}
+                      height={150}
+                      onClick={() => VariationsColorHandle(item.color, item.size)}
+                      className='object-center w-full h-full'
+                    />
+                  </div>
+                ))}
+              </div>
+            )}</div>
+
+            <div className='w-full'> <motion.div
               key={fileterProduct.image}
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
@@ -105,23 +125,10 @@ function ProductDetail({ product }) {
                 height={500}
                 className="w-full object-cover"
               />
-            </motion.div>
-            {product.Variations?.length > 0 && (
-              <div className='flex flex-wrap gap-2 mt-4'>
-                {product.Variations.map((item, i) => (
-                  <div key={i} className='w-20 h-16 border border-gray-300'>
-                    <Image
-                      src={item.imageThumb}
-                      alt='thumb image'
-                      width={100}
-                      height={100}
-                      onClick={() => VariationsColorHandle(item.color, item.size)}
-                      className='object-center w-full h-full'
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
+            </motion.div></div>
+            </div>
+          
+           
           </div>
 
           <motion.div
@@ -220,7 +227,7 @@ function ProductDetail({ product }) {
       )}
 
       {/* Tabs */}
-      <div className="w-full mt-10">
+      <div className="w-full mt-[150px]">
         <div className="flex flex-wrap gap-4 border-b border-gray-300 mb-4">
           {tabs.map((tab) => (
             <button
