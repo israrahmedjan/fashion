@@ -41,7 +41,7 @@ export default async function Home() {
           <ShippingInfo />
         </section>
 
-        <footer className="bg-gray-100 py-6 px-4">
+        <footer className="bg-white py-0 px-0">
           <Socials />
         </footer>
 
