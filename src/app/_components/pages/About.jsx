@@ -71,7 +71,7 @@ export default function About() {
             <div className="relative h-64 w-full">
               <Image
                 src={item.image}
-                alt={item.title}
+                alt={item.image}
                 layout="fill"
                 objectFit="cover"
               />
