@@ -23,7 +23,7 @@ setclient(true);
             {["payment-1", "payment-2", "payment-3", "payment-4", "payment-5"].map((card) => (
               <Image
                 key={card}
-                src={`${domain}images/payment/${card}.PNG`} // You must save these images in public/cards/
+                src={`${domain}images/payment/${card}.png`} // You must save these images in public/cards/
                 alt={card}
                 width={40}
                 height={24}
