@@ -26,7 +26,7 @@ const aboutItems = [
   {
     title: 'Our Story',
     description: 'From a small styling studio to an online fashion hub — our journey is rooted in passion and purpose.',
-    image: `${domain}images/services/4.png`,
+    image: `${domain}images/services/4.PNG`,
   },
   {
     title: 'Ethical Fashion',
