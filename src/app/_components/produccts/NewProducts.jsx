@@ -39,11 +39,11 @@ function ProductGallery({ data }) {
   }, [])
 
   return (
-    <section className="w-full">
-       <div className="w-full md:w-[1167px] px-4 md:px-0 mx-auto mt-32">
+    
+       <div className="w-full md:w-[1167px] px-4 md:px-0 mx-auto mt-3 md:mt-32">
      {(filterProducts && filterProducts.length>0) && (
 
-      <div className="flex justify-between items-center flex-wrap mb-6">
+      <div className="flex flex-col md:flex-row justify-between items-start flex-wrap mb-6">
           <div>
            
             <h1 className="text-base md:text-[24px] font-[600] text-[#111111]">New Products</h1>
@@ -51,12 +51,12 @@ function ProductGallery({ data }) {
           </div>
 
             <div>
-            <ul className="flex gap-4 mt-4 md:mt-0">
+            <ul className="flex flex-col md:flex-row gap-4 mt-4 md:mt-0">
               {category.map((cat) => (
                 <li
                   key={cat.slug}
                   className={`cursor-pointer text-base md:text-[14px] font-[400]  hover:text-black  capitalize ${
-                    currentCategory === cat.slug ? 'text-black font-bold border-[#ca1515] border-b-2' : ''
+                    currentCategory === cat.slug ? 'text-black font-bold md:border-[#ca1515] md:border-b-2' : ''
                   }`}
                   onClick={() => filterProductHandle(cat.slug)}
                 >
@@ -73,7 +73,7 @@ function ProductGallery({ data }) {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                
-                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-7">
+                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7 mt-10">
 
             {filterProducts.map((product,i) => (
              
@@ -136,7 +136,7 @@ function ProductGallery({ data }) {
      )}
     
     </div>
-    </section>
+ 
   )
 }
 
