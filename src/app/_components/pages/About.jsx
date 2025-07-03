@@ -1,51 +1,42 @@
 'use client';
 
-import React from 'react';
 import Image from 'next/image';
-import { ChevronRight, HomeIcon } from 'lucide-react';
-import Link from 'next/link';
+import { HomeIcon, ChevronRight, CheckCircle } from 'lucide-react';
 
 const domain = process.env.NEXT_PUBLIC_FRONT_DOMAIN;
 
-const aboutItems = [
+const sections = [
   {
-    title: 'Our Mission',
-    description: 'To empower individuals through fashion with personalized style advice and curated collections that reflect confidence and comfort.',
-    image: `${domain}images/services/1.PNG`,
-  },
-  {
-    title: 'Our Vision',
-    description: 'To become a global destination for fashion solutions, where every customer finds their unique style identity.',
-    image: `${domain}images/services/2.PNG`,
-  },
-  {
-    title: 'Customer Commitment',
-    description: 'We deliver premium quality and tailored experiences, ensuring every customer walks away feeling inspired.',
-    image: `${domain}images/services/3.PNG`,
-  },
-  {
-    title: 'Our Story',
-    description: 'From a small styling studio to an online fashion hub — our journey is rooted in passion and purpose.',
+    title: 'Who We Are',
+    description:
+      'We are a fashion-forward brand dedicated to helping individuals express themselves through style Our journey started with a small boutique and has grown into a global online destination for curated fashion collections. We are a fashion-forward brand dedicated to helping individuals express themselves through style Our journey started with a small boutique and has grown into a global online destination for curated fashion collections. We are a fashion-forward brand dedicated to helping individuals express themselves through style Our journey started with a small boutique and has grown into a global online destination for curated fashion collections.We are a fashion-forward brand dedicated to helping individuals express themselves through style Our journey started with a small boutique and has grown into a global online destination for curated fashion collections.',
     image: `${domain}images/services/4.PNG`,
   },
   {
-    title: 'Ethical Fashion',
-    description: 'We’re committed to ethical sourcing, sustainability, and reducing fashion waste wherever possible.',
-    image: `${domain}images/services/5.PNG`,
-  },
-  {
-    title: 'Diverse Team',
-    description: 'Our diverse team of stylists, marketers, and designers collaborate to bring fashion-forward ideas to life.',
+    title: 'Our Mission',
+      description:
+      'We are a fashion-forward brand dedicated to helping individuals express themselves through style Our journey started with a small boutique and has grown into a global online destination for curated fashion collections. We are a fashion-forward brand dedicated to helping individuals express themselves through style Our journey started with a small boutique and has grown into a global online destination for curated fashion collections. We are a fashion-forward brand dedicated to helping individuals express themselves through style Our journey started with a small boutique and has grown into a global online destination for curated fashion collections.We are a fashion-forward brand dedicated to helping individuals express themselves through style Our journey started with a small boutique and has grown into a global online destination for curated fashion collections.',
     image: `${domain}images/services/2.PNG`,
   },
+  {
+    title: 'What We Offer',
+    description:
+      'We are a fashion-forward brand dedicated to helping individuals express themselves through style Our journey started with a small boutique and has grown into a global online destination for curated fashion collections. We are a fashion-forward brand dedicated to helping individuals express themselves through style Our journey started with a small boutique and has grown into a global online destination for curated fashion collections. We are a fashion-forward brand dedicated to helping individuals express themselves through style Our journey started with a small boutique and has grown into a global online destination for curated fashion collections.We are a fashion-forward brand dedicated to helping individuals express themselves through style Our journey started with a small boutique and has grown into a global online destination for curated fashion collections.',    image: `${domain}images/services/3.png`,
+  },
+];
+
+const highlights = [
+  'Personalized Styling Services',
+  'Eco-conscious Fashion',
+  'Dedicated Customer Support',
+  'Trusted by Thousands Worldwide',
 ];
 
 export default function About() {
   return (
-    <main className="max-w-7xl mx-auto py-12 px-6 mt-14">
-      
+    <main className="max-w-7xl mx-auto px-6 py-12 mt-[75px] mb-14">
       {/* Breadcrumb */}
-      <div className="flex items-center text-sm md:text-base space-x-1 h-auto md:h-[55px]">
+      <div className="flex items-center text-sm md:text-base space-x-1 mb-6">
         <HomeIcon size={18} />
         <ChevronRight size={15} />
         <span className="font-medium">Home</span>
@@ -53,35 +44,53 @@ export default function About() {
         <span className="font-medium text-[#ca1515]">About Us</span>
       </div>
 
-      {/* Section Header */}
-      <div className="text-center mt-6 mb-10">
+      {/* Header */}
+      {/* <div className="text-center mb-12">
         <h1 className="text-3xl font-bold">About Us</h1>
-        <p className="text-gray-600 mt-2 max-w-2xl mx-auto">
-          Learn more about who we are, what we stand for, and how we bring fashion to life.
+        <p className="text-gray-600 max-w-2xl mx-auto mt-2">
+          Discover our story, vision, and what makes us your trusted fashion partner.
         </p>
-      </div>
+      </div> */}
 
-      {/* Grid Section */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {aboutItems.map((item, i) => (
-          <div
-            key={i}
-            className="border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
-          >
-            <div className="relative h-64 w-full">
-              <Image
-                src={item.image}
-                alt={item.image}
-                layout="fill"
-                objectFit="cover"
-              />
-            </div>
-            <div className="p-6">
-              <h2 className="text-base md:text-[16px] font-[500] mb-2">{item.title}</h2>
-              <p className="text-gray-600 text-sm leading-relaxed">{item.description}{`${domain}images/services/2.PNG`}</p>
-            </div>
+      {/* Sections */}
+      {sections.map((section, i) => (
+        <div
+          key={i}
+          className={`flex flex-col md:flex-row ${
+            i % 2 === 1 ? 'md:flex-row-reverse' : ''
+          } items-center gap-10 mb-16`}
+        >
+          {/* Image */}
+          <div className="relative w-full md:w-1/2 h-72 md:h-96 rounded overflow-hidden shadow">
+            <Image
+              src={section.image}
+              alt={section.title}
+              layout="fill"
+              objectFit="cover"
+            />
           </div>
-        ))}
+
+          {/* Text */}
+          <div className="md:w-1/2">
+            <h2 className="text-2xl font-semibold mb-4">{section.title}</h2>
+            <p className="text-gray-600 text-[15px] leading-relaxed">
+              {section.description}
+            </p>
+          </div>
+        </div>
+      ))}
+
+      {/* Highlights */}
+      <div className="bg-gray-100 py-10 px-6 rounded-lg shadow-sm mt-10">
+        <h2 className="text-2xl font-semibold text-center mb-6">Why Choose Us</h2>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+          {highlights.map((item, idx) => (
+            <div key={idx} className="flex items-center gap-3">
+              <CheckCircle size={22} className="text-[#ca1515]" />
+              <span className="text-sm text-gray-700 font-medium">{item}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </main>
   );
