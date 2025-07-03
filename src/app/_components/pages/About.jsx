@@ -11,17 +11,17 @@ const aboutItems = [
   {
     title: 'Our Mission',
     description: 'To empower individuals through fashion with personalized style advice and curated collections that reflect confidence and comfort.',
-    image: `${domain}images/services/1.png`,
+    image: `${domain}images/services/1.PNG`,
   },
   {
     title: 'Our Vision',
     description: 'To become a global destination for fashion solutions, where every customer finds their unique style identity.',
-    image: `${domain}images/services/2.png`,
+    image: `${domain}images/services/2.PNG`,
   },
   {
     title: 'Customer Commitment',
     description: 'We deliver premium quality and tailored experiences, ensuring every customer walks away feeling inspired.',
-    image: `${domain}images/services/3.png`,
+    image: `${domain}images/services/3.PNG`,
   },
   {
     title: 'Our Story',
@@ -31,12 +31,12 @@ const aboutItems = [
   {
     title: 'Ethical Fashion',
     description: 'We’re committed to ethical sourcing, sustainability, and reducing fashion waste wherever possible.',
-    image: `${domain}images/services/5.png`,
+    image: `${domain}images/services/5.PNG`,
   },
   {
     title: 'Diverse Team',
     description: 'Our diverse team of stylists, marketers, and designers collaborate to bring fashion-forward ideas to life.',
-    image: `${domain}images/services/2.png`,
+    image: `${domain}images/services/2.PNG`,
   },
 ];
 
