@@ -78,7 +78,7 @@ export default function About() {
             </div>
             <div className="p-6">
               <h2 className="text-base md:text-[16px] font-[500] mb-2">{item.title}</h2>
-              <p className="text-gray-600 text-sm leading-relaxed">{item.description}</p>
+              <p className="text-gray-600 text-sm leading-relaxed">{item.description}{`${domain}images/services/2.PNG`}</p>
             </div>
           </div>
         ))}
