@@ -110,11 +110,11 @@ const showPrevious = (val) => {
       )}
 
       {fileterProduct && (
-        <div className="w-full flex flex-col md:flex-row mt-4 md:mt-10 gap-4 md:gap-8 ">
+        <div className="w-full flex flex-col md:flex-row mt-4 md:mt-10 gap-4 md:gap-2 ">
          
           
           <div className="w-full md:w-1/2  ">
-<div className='flex justify-start items-start gap-2'>
+<div className='flex justify-center items-start gap-2'>
             <div>{product.Variations?.length > 0 && (
               <div>
                 {product.Variations.map((item, i) => (
