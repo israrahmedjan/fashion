@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { Search, User, ShoppingCart,Menu, X, Trash2  } from 'lucide-react'
+import { Search, User, ShoppingCart,Menu, X, Trash2 ,ChevronDown  } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import useCart from '@/store/cart'
@@ -94,13 +94,68 @@ function Logo({ domain }) {
 
 // Reusable Nav
 function Nav() {
+
+  const [isShopOpen, setIsShopOpen] = useState(false);
+  //const navItems = ["Home", "Shop", "Services", "About", "Blogs", "Contact"];
+  const navItems = [
+  { name: 'Home', slug: '' },
+  { name: 'Shop', slug: '' },
+  { name: 'Services', slug: 'services' },
+  { name: 'About', slug: 'about' },
+  { name: 'Blogs', slug: 'blogs' },
+  { name: 'Contact', slug: 'contact' },
+];
   return (
-    <nav className="hidden md:flex items-center gap-6 text-[#111111] uppercase text-[15px] font-medium">
-      {["Home", "Shop","Services","About","Blogs","Contact"].map((item) => (
-        <a key={item} href="#" className="hover:text-[#ca1515] transition-colors duration-200">
-          {item}
-        </a>
-      ))}
+<nav className="hidden md:flex items-center gap-6 text-[#111111] uppercase text-[15px] font-medium relative">
+      {navItems.map((item) =>
+        item.name === "Shop" ? (
+          <div
+            key={item}
+            className="relative"
+            onMouseEnter={() => setIsShopOpen(true)}
+            onMouseLeave={() => setIsShopOpen(false)}
+          >
+            {/* Shop Link with Icon */}
+            <div className="flex items-center gap-1 cursor-pointer">
+              <span className="hover:text-[#ca1515] transition-colors duration-200">
+                {item.name}
+              </span>
+              <ChevronDown size={16} />
+            </div>
+
+            {/* Dropdown Menu (No margin-top to avoid hover gap) */}
+            <div
+              className={`absolute left-0 text-[14px] font-[400] top-7 bg-white border rounded shadow-lg min-w-[250px] z-50 transition-all duration-200 ${
+                isShopOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+              }`}
+            >
+              <Link href={`${domain}category/mens_fashion`} className="block px-4 py-2 border-gray-100 border-b-[1px] hover:bg-gray-100 text-black">
+                Men's Fashion
+              </Link>
+              <Link href={`${domain}category/women_fashion`} className="block px-4 py-2 border-gray-100 border-b-[1px] hover:bg-gray-100 text-black">
+                Women's Fashion
+              </Link>
+              <Link href={`${domain}category/kidz_fashion`} className="block px-4 py-2 border-gray-100 border-b-[1px] hover:bg-gray-100 text-black">
+                Kidz's Fashion
+              </Link>
+              <Link href={`${domain}category/cosmetics`} className="block px-4 py-2 border-gray-100 border-b-[1px] hover:bg-gray-100 text-black">
+                Cosmitics
+              </Link>
+              <Link href={`${domain}category/accessories`} className="block px-4 py-2 border-gray-100 border-b-[1px] hover:bg-gray-100 text-black">
+                Accessories
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <Link
+            key={item.name}
+            href={`${domain}${item.slug}`}
+            className="hover:text-[#ca1515] transition-colors duration-200"
+          >
+            {item.name}
+          </Link>
+        )
+      )}
     </nav>
   )
 }
