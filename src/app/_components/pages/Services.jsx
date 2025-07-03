@@ -10,37 +10,37 @@ const services = [
   {
     title: 'Personal Styling',
     description: 'Tailored fashion advice to enhance your wardrobe.',
-    image: `${domain}images/services/1.png`,
+    image: `${domain}images/services/1.PNG`,
   },
   {
     title: 'Wardrobe Audit',
     description: 'Organize and refresh your current clothing collection.',
-     image: `${domain}images/services/2.png`,
+     image: `${domain}images/services/2.PNG`,
   },
   {
     title: 'Event Consultation',
     description: 'Choose the perfect outfit for special occasions.',
-     image: `${domain}images/services/3.png`,
+     image: `${domain}images/services/3.PNG`,
   },
     {
     title: 'Personal Styling',
     description: 'Choose the perfect outfit for special occasions.',
-     image: `${domain}images/services/4.png`,
+     image: `${domain}images/services/4.PNG`,
   },
     {
     title: 'Wardrobe Audit',
     description: 'Choose the perfect outfit for special occasions.',
-     image: `${domain}images/services/5.png`,
+     image: `${domain}images/services/5.PNG`,
   },
     {
     title: 'Event Consultation',
     description: 'Choose the perfect outfit for special occasions.',
-     image: `${domain}images/services/2.png`,
+     image: `${domain}images/services/2.PNG`,
   },
     {
     title: 'Wardrobe Audit',
     description: 'Organize and refresh your current clothing collection.',
-     image: `${domain}images/services/2.png`,
+     image: `${domain}images/services/2.PNG`,
   },
 ];
 

@@ -21,7 +21,8 @@ const sections = [
   {
     title: 'What We Offer',
     description:
-      'We are a fashion-forward brand dedicated to helping individuals express themselves through style Our journey started with a small boutique and has grown into a global online destination for curated fashion collections. We are a fashion-forward brand dedicated to helping individuals express themselves through style Our journey started with a small boutique and has grown into a global online destination for curated fashion collections. We are a fashion-forward brand dedicated to helping individuals express themselves through style Our journey started with a small boutique and has grown into a global online destination for curated fashion collections.We are a fashion-forward brand dedicated to helping individuals express themselves through style Our journey started with a small boutique and has grown into a global online destination for curated fashion collections.',    image: `${domain}images/services/3.png`,
+      'We are a fashion-forward brand dedicated to helping individuals express themselves through style Our journey started with a small boutique and has grown into a global online destination for curated fashion collections. We are a fashion-forward brand dedicated to helping individuals express themselves through style Our journey started with a small boutique and has grown into a global online destination for curated fashion collections. We are a fashion-forward brand dedicated to helping individuals express themselves through style Our journey started with a small boutique and has grown into a global online destination for curated fashion collections.We are a fashion-forward brand dedicated to helping individuals express themselves through style Our journey started with a small boutique and has grown into a global online destination for curated fashion collections.',    
+      image: `${domain}images/services/3.PNG`,
   },
 ];
 
