@@ -251,11 +251,11 @@ setisOpensarchBox(false);
         <p className="text-sm text-gray-500">Type a keyword like "Men" or "Shirt"</p>
 
         {/* Responsive Input Row */}
-        <div className="flex flex-col md:flex-row w-full gap-2">
+        <div className="flex flex-col md:flex-row w-full gap-2 md:gap-0">
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full md:w-1/3 px-4 py-2 border border-gray-200 rounded-md md:rounded-l-md focus:outline-none"
+            className="w-full md:w-1/3 px-4 py-2 border-r-0 border border-gray-200 rounded-md md:rounded-l-md md:rounded-r-none focus:outline-none"
           >
             <option value="">All</option>
             <option value="women_fashion">Women’s fashion</option>
@@ -278,12 +278,13 @@ setisOpensarchBox(false);
             className="w-full md:w-1/2 px-4 py-2 border border-gray-200 focus:outline-none"
           />
 
-          <button
-            onClick={() => handleSearch(query, selectedCategory)}
-            className="w-full md:w-1/6 bg-[#ca1515] text-white font-medium rounded-md md:rounded-r-md px-4 py-2 hover:bg-gray-600 transition"
-          >
-            Search
-          </button>
+         <button
+  onClick={() => handleSearch(query, selectedCategory)}
+  className="w-full md:w-1/6 bg-[#ca1515] text-white font-medium rounded-md md:rounded-r-md md:rounded-l-none px-4 py-2 hover:bg-gray-600 transition"
+>
+  Search
+</button>
+
         </div>
 
         {loading && <div>Loading...</div>}
