@@ -76,20 +76,29 @@ const showPrevious = (val) => {
 
     <div className="relative">
       <AnimatePresence>
-        {success && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: +250 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: +250 }}
-            transition={{ duration: 0.4 }}
-            className="fixed top-14 left-[70%] -translate-x-1/2 z-50 bg-green-500 text-white px-6 py-4 rounded-2xl shadow-lg flex items-center gap-3"
-          >
-            <span className="font-semibold">Item successfully added to cart!</span>
-            <button onClick={() => setMessage(false)}>
-              <X className="w-4 h-4" />
-            </button>
-          </motion.div>
-        )}
+{success && (
+  <motion.div
+    initial={{ opacity: 0, scale: 0.95, y: 250 }}
+    animate={{ opacity: 1, scale: 1, y: 0 }}
+    exit={{ opacity: 0, scale: 0.95, y: 250 }}
+    transition={{ duration: 0.4 }}
+    className="fixed top-6 md:top-14 left-0 md:left-1/2 transform md:-translate-x-1/2 z-50 
+               bg-green-500 text-white py-3 md:py-4 px-4 md:px-6 rounded-lg 
+               shadow-lg flex items-center justify-between gap-3 
+               w-full md:w-auto max-w-full md:max-w-fit mx-4 md:mx-0"
+  >
+    <div className="flex items-center gap-2">
+      <Check className="w-5 h-5 md:w-6 md:h-6 text-white" />
+      <span className="font-semibold text-sm md:text-base">Item successfully added to cart!</span>
+    </div>
+    <button onClick={() => setMessage(false)} className="hover:text-gray-200">
+      <X className="w-4 h-4" />
+    </button>
+  </motion.div>
+)}
+
+
+
       </AnimatePresence>
 
    
