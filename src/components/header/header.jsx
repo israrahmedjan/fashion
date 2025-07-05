@@ -233,7 +233,7 @@ const [searchResult,setsearchResult] = useState()
         className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-[60%] text-center space-y-4 relative z-50"
       >
         <h2 className="text-xl font-semibold text-gray-800">Search Products</h2>
-        <p className="text-sm text-gray-500">Type a keyword and press enter</p>
+        <p className="text-sm text-gray-500">Type a keyword Men or shirt</p>
 
         {/* Category + Search + Button in one tight row */}
         <div className="flex w-full">
@@ -272,8 +272,9 @@ const [searchResult,setsearchResult] = useState()
             Search
           </button>
         </div>
+              
           {(searchResult && searchResult.length>0 && (
-   <div className="flex flex-col gap-4 p-4 max-h-[300px] overflow-auto">
+   <div className="flex flex-col gap-4 p-4 max-h-[300px] overflow-scroll">
   {searchResult.map((product) => (
     <div
       key={product._id}

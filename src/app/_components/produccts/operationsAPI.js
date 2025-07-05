@@ -39,12 +39,15 @@ export async function searchProducts(name="Mens",category="cosmetics") {
     //Agar response theek nahi hai (e.g. 404, 500)
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
+      
     }
 
    const data = await response.json();
     console.log('variations:', data);
    return data.data;
   } catch (error) {
-    console.error('Error fetching posts:', error.message);
+    
+    return [];
+   // console.error('Error fetching posts:', error.message);
   }
 }

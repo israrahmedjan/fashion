@@ -37,7 +37,7 @@ const pipleine =   [
     { $unwind: { path: '$Category' } },
     {
       $match: {
-        name: { $regex: 'shirt', $options: 'i' }
+        name: { $regex: name, $options: 'i' }
       }
     }
   ];
