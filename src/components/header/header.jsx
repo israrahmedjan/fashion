@@ -172,7 +172,8 @@ const [query, setquery] = useState("");
 const [isOpen, setIsOpen] = useState(false);
 const [isOpensarchBox,setisOpensarchBox] = useState();
 const [selectedCategory, setSelectedCategory] = useState('');
-const [searchResult,setsearchResult] = useState()
+const [searchResult,setsearchResult] = useState();
+const [loading,setloading] = useState(false);
      useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -183,15 +184,21 @@ const [searchResult,setsearchResult] = useState()
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  //  setisOpensarchBox(false)
+
+  console.log("Icon box called")
+  }, [isOpensarchBox]);
 
   const handleSearch= async (name,category)=>{
 
 //console.log("hell", name,category)
+setloading(true);
  const data = await searchProducts(name,category);
  setsearchResult(data);
  console.log("Serch products fuund here", data);
+setloading(false);
 
+// 
 }
   return (
     <div className="flex items-center gap-4 text-[#111111] font-medium ">
@@ -241,7 +248,7 @@ const [searchResult,setsearchResult] = useState()
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-1/3 px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-1/3 px-4 py-2 border border-gray-200 rounded-l-md focus:outline-none"
           >
             <option value="">All</option>
             <option value="electronics">Electronics</option>
@@ -261,7 +268,7 @@ const [searchResult,setsearchResult] = useState()
                 handleSearch(query, selectedCategory);
               }
             }}
-            className="w-1/2 px-4 py-2 border-t border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-1/2 px-4 py-2 border-t border-b border-gray-100 outline-none"
           />
 
           {/* Search Button */}
@@ -273,6 +280,7 @@ const [searchResult,setsearchResult] = useState()
           </button>
         </div>
               
+              {loading && (<div>loading..</div>)}
           {(searchResult && searchResult.length>0 && (
    <div className="flex flex-col gap-4 p-4 max-h-[300px] overflow-scroll">
   {searchResult.map((product) => (
@@ -289,17 +297,17 @@ const [searchResult,setsearchResult] = useState()
 
       {/* Details */}
       <div className="flex-1">
-        <h3 className="text-base font-semibold text-gray-800">{product.name}</h3>
-        <p className="text-sm text-gray-500">{product.description}</p>
-        <p className="text-sm text-blue-600 font-medium mt-1">${product.price}</p>
+        <h3 className="text-base font-[500] text-[#111111]">{product.name}</h3>
+        <p className="text-sm text-[#444]">{product.description}</p>
+        <p className="text-sm text-[#ca1515] font-[#500] mt-1">${product.price}</p>
         <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded inline-block mt-1">
           {product?.Category?.name}
         </span>
       </div>
 
       {/* View Icon */}
-      <button className="text-blue-600 hover:text-blue-800 transition">
-        <Eye size={20} />
+      <button className="text-[#ca1515] hover:text-gray-500 transition">
+       <Link href={`${domain}product/${product.slug}`}> <Eye size={20} /></Link>
       </button>
     </div>
   ))}
