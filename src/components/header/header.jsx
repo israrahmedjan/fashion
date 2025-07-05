@@ -1,13 +1,14 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { Search, User, ShoppingCart, Menu, X, Trash2, ChevronDown, Eye } from 'lucide-react'
+import { Search, User, ShoppingCart,  Menu, X, Trash2, ChevronDown, Eye } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import useCart from '@/store/cart'
 import { motion, AnimatePresence } from 'framer-motion';
 import { searchProducts } from '@/app/_components/produccts/operationsAPI'
 import { usePathname } from 'next/navigation';
+
 
 const domain = process.env.NEXT_PUBLIC_FRONT_DOMAIN
 export default function Header() {
@@ -54,7 +55,7 @@ export default function Header() {
       <header className="block md:hidden fixed inset-x-0 top-0 z-30 bg-white shadow-md h-[64px]">
         <div className="flex items-center justify-between px-4 h-full">
           <Logo domain={domain} />
-
+            <Icons />
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="text-black focus:outline-none"
@@ -174,6 +175,7 @@ function Icons() {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [searchResult, setsearchResult] = useState();
   const [loading, setloading] = useState(false);
+  
  const pathname = usePathname();
   useEffect(() => {
     function handleClickOutside(event) {
@@ -221,175 +223,192 @@ setisOpensarchBox(false);
           />
 
         </div>
-        {isOpensarchBox && (
-          <AnimatePresence>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black bg-opacity-50 h-screen  z-50 flex items-start justify-center pt-24"
-            >
-              {/* Close icon */}
-              <button
-                className="absolute top-5 right-5 text-white hover:text-gray-300 z-50"
-                onClick={() => setisOpensarchBox(false)}
+      {isOpensarchBox && (
+  <AnimatePresence>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black bg-opacity-50 h-screen z-50 flex items-start justify-center pt-24 px-4"
+    >
+      {/* Close icon */}
+      <button
+        className="absolute top-5 right-5 text-white hover:text-gray-300 z-50"
+        onClick={() => setisOpensarchBox(false)}
+      >
+        <X size={28} />
+      </button>
+
+      {/* Search Box */}
+      <motion.div
+        initial={{ y: -30, opacity: 0, scale: 0.95 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        exit={{ y: -20, opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+        className="bg-white p-4 md:p-8 rounded-xl shadow-2xl w-full max-w-full md:max-w-[60%] text-center space-y-4 relative z-50"
+      >
+        <h2 className="text-xl font-semibold text-gray-800">Search Products</h2>
+        <p className="text-sm text-gray-500">Type a keyword like "Men" or "Shirt"</p>
+
+        {/* Responsive Input Row */}
+        <div className="flex flex-col md:flex-row w-full gap-2">
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="w-full md:w-1/3 px-4 py-2 border border-gray-200 rounded-md md:rounded-l-md focus:outline-none"
+          >
+            <option value="">All</option>
+            <option value="women_fashion">Women’s fashion</option>
+            <option value="mens_fashion">Men’s fashion</option>
+            <option value="kidz_fashion">Kid’s fashion</option>
+            <option value="cosmetics">Cosmetics</option>
+             <option value="accessories">Accessories</option>
+          </select>
+
+          <input
+            type="text"
+            placeholder="Search..."
+            onChange={(e) => setquery(e.target.value)}
+            value={query}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleSearch(query, selectedCategory);
+              }
+            }}
+            className="w-full md:w-1/2 px-4 py-2 border border-gray-200 focus:outline-none"
+          />
+
+          <button
+            onClick={() => handleSearch(query, selectedCategory)}
+            className="w-full md:w-1/6 bg-[#ca1515] text-white font-medium rounded-md md:rounded-r-md px-4 py-2 hover:bg-gray-600 transition"
+          >
+            Search
+          </button>
+        </div>
+
+        {loading && <div>Loading...</div>}
+
+        {searchResult?.length > 0 && (
+          <div className="flex flex-col gap-4 p-2 max-h-[300px] overflow-y-auto">
+            {searchResult.map((product) => (
+              <div
+                key={product._id}
+                className="flex flex-col sm:flex-row items-center gap-4 bg-white p-4 rounded-lg shadow hover:shadow-md transition"
               >
-                <X size={28} />
-              </button>
-
-              {/* Search Box */}
-              <motion.div
-                initial={{ y: -30, opacity: 0, scale: 0.95 }}
-                animate={{ y: 0, opacity: 1, scale: 1 }}
-                exit={{ y: -20, opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4, ease: 'easeOut' }}
-                className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-[60%] text-center space-y-4 relative z-50"
-              >
-                <h2 className="text-xl font-semibold text-gray-800">Search Products</h2>
-                <p className="text-sm text-gray-500">Type a keyword Men or shirt</p>
-
-                {/* Category + Search + Button in one tight row */}
-                <div className="flex w-full">
-                  {/* Category Dropdown */}
-                  <select
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="w-1/3 px-4 py-2 border border-gray-200 rounded-l-md focus:outline-none"
-                  >
-                    <option value="">All</option>
-                    <option value="electronics">Electronics</option>
-                    <option value="clothing">Clothing</option>
-                    <option value="books">Books</option>
-                    <option value="toys">Toys</option>
-                  </select>
-
-                  {/* Search Input */}
-                  <input
-                    type="text"
-                    placeholder="Search..."
-                    onChange={(e) => setquery(e.target.value)}
-                    value={query}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        handleSearch(query, selectedCategory);
-                      }
-                    }}
-                    className="w-1/2 px-4 py-2 border-t border-b border-gray-100 outline-none"
-                  />
-
-                  {/* Search Button */}
-                  <button
-                    onClick={() => handleSearch(query, selectedCategory)}
-                    className="w-1/6 bg-[#ca1515] text-white font-medium rounded-r-md px-4 py-2 hover:bg-gray-600 transition"
-                  >
-                    Search
-                  </button>
+                <img
+                  src={product.imageThumb}
+                  alt={product.name}
+                  className="w-20 h-28 object-cover rounded-md border"
+                />
+                <div className="flex-1 text-left">
+                  <h3 className="text-base font-semibold text-gray-800">{product.name}</h3>
+                  <p className="text-sm text-gray-600">{product.description}</p>
+                  <p className="text-sm text-[#ca1515] font-medium mt-1">${product.price}</p>
+                  <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded inline-block mt-1">
+                    {product?.Category?.name}
+                  </span>
                 </div>
-
-                {loading && (<div>loading..</div>)}
-                {(searchResult && searchResult.length > 0 && (
-                  <div className="flex flex-col gap-4 p-4 max-h-[300px] overflow-scroll">
-                    {searchResult.map((product) => (
-                      <div
-                        key={product._id}
-                        className="flex items-center gap-4 bg-white p-4 rounded-lg shadow hover:shadow-md transition"
-                      >
-                        {/* Thumbnail */}
-                        <img
-                          src={product.imageThumb}
-                          alt={product.name}
-                          className="w-20 h-28 object-cover rounded-md border"
-                        />
-
-                        {/* Details */}
-                        <div className="flex-1">
-                          <h3 className="text-base font-[500] text-[#111111]">{product.name}</h3>
-                          <p className="text-sm text-[#444]">{product.description}</p>
-                          <p className="text-sm text-[#ca1515] font-[#500] mt-1">${product.price}</p>
-                          <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded inline-block mt-1">
-                            {product?.Category?.name}
-                          </span>
-                        </div>
-
-                        {/* View Icon */}
-                        <button className="text-[#ca1515] hover:text-gray-500 transition">
-                          <Link href={`${domain}product/${product.slug}`}> <Eye size={20} /></Link>
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-
-                ))}
-              </motion.div>
-
-
-            </motion.div>
-          </AnimatePresence>
-        )}
-
-
-
-        {isOpen && (
-          <div className="absolute right-0 mt-2 w-80 bg-white border rounded-lg shadow-lg z-50">
-            <div className="p-4">
-              <h4 className="font-[500] text-lg mb-3 border-gray-200 border-b pb-2"> Your Cart</h4>
-
-              {cartItems.length === 0 ? (
-                <p className="text-sm text-[#111111]">No items in cart</p>
-              ) : (
-                <>
-                  <ul className="space-y-3 max-h-60 overflow-y-auto pr-1 custom-scrollbar">
-                    {cartItems.map((item) => (
-                      <li
-                        key={item._id}
-                        className="flex justify-between items-start text-sm border-gray-100 border-b-[1px] pb-2"
-                      >
-                        <div>
-                          <p className="font-medium">{item.productName}</p>
-                          {item?.color && (<p className="text-xs text-[#444]">Color: {item.color}</p>)}
-                          <p className="text-xs text-[#444]">Qty: {item.qty}</p>
-
-                        </div>
-                        <div className="text-right">
-                          <p className="font-[500]">$ {item.price * item.qty}</p>
-                          <button
-                            className="text-[#ca1515] text-xs mt-1 hover:text-red-700"
-                            onClick={() => RemoveItem(item._id)}
-                          >
-                            <Trash2 className="w-4 h-4 inline-block mr-1" />
-                            Delete
-                          </button>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* Total and Checkout */}
-                  <div className="mt-4 pt-3">
-                    <div className="flex justify-between font-[500] mb-2">
-                      <span>Total:</span>
-                      <span>
-
-                        {cartItems.reduce(
-                          (total, item) => total + item.price * item.qty,
-                          0
-                        )}
-                      </span>
-                    </div>
-                    <div className='flex justify-between gap-3 items-center'>
-                      <Link href={`${domain}cart`} className="w-full text-center bg-[#ca1515] hover:bg-[#111111] text-white text-sm font-[500] py-2 rounded transition">
-                        View Cart
-                      </Link>
-                      <button className="w-full bg-[#ca1515] hover:bg-[#111111] text-white text-sm font-[500] py-2 rounded transition">
-                        Checkout
-                      </button>
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
+                <Link href={`${domain}product/${product.slug}`}>
+                  <button className="text-[#ca1515] hover:text-gray-500 transition">
+                    <Eye size={20} />
+                  </button>
+                </Link>
+              </div>
+            ))}
           </div>
         )}
+      </motion.div>
+    </motion.div>
+  </AnimatePresence>
+)}
+
+
+
+{isOpen && (
+  <AnimatePresence>
+    <motion.div
+      initial={{ opacity: 0, x: 80 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 80 }}
+      transition={{ duration: 0.35, ease: 'easeOut' }}
+      className="absolute -right-3 top-9 w-80 bg-white border border-gray-200 rounded-xl shadow-2xl z-50"
+    >
+      {/* Arrow on top */}
+      <div className="absolute -top-2 right-6 w-4 h-4 bg-white border-l border-t border-gray-200 rotate-45 z-40"></div>
+
+      <div className="p-4 bg-gradient-to-br from-white via-gray-50 to-white rounded-xl relative z-50">
+        <div className="flex items-center gap-2 mb-3 border-b border-gray-200 pb-2">
+          <ShoppingCart size={20} className="text-[#ca1515]" />
+          <h4 className="text-lg font-semibold text-[#111111]">Your Cart</h4>
+        </div>
+
+        {cartItems.length === 0 ? (
+          <p className="text-sm text-gray-500 text-center py-6">🛒 Cart is empty</p>
+        ) : (
+          <>
+            <ul className="space-y-3 max-h-60 overflow-y-auto pr-1 custom-scrollbar">
+              {cartItems.map((item) => (
+                <motion.li
+                  key={item._id}
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 30 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex justify-between items-start text-sm border-b border-gray-100 pb-2"
+                >
+                  <div>
+                    <p className="font-medium text-[#111111]">{item.productName}</p>
+                    {item?.color && (
+                      <p className="text-xs text-gray-500">Color: {item.color}</p>
+                    )}
+                    <p className="text-xs text-gray-500">Qty: {item.qty}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-semibold text-[#111111]">${item.price * item.qty}</p>
+                    <button
+                      className="text-red-500 text-xs mt-1 hover:text-red-700"
+                      onClick={() => RemoveItem(item._id)}
+                    >
+                      <Trash2 className="w-4 h-4 inline-block mr-1" />
+                      Delete
+                    </button>
+                  </div>
+                </motion.li>
+              ))}
+            </ul>
+
+            {/* Total & Checkout */}
+            <div className="mt-4 pt-3 border-t border-gray-100">
+              <div className="flex justify-between text-sm font-semibold text-[#111111] mb-2">
+                <span>Total:</span>
+                <span>
+                  $
+                  {cartItems.reduce(
+                    (total, item) => total + item.price * item.qty,
+                    0
+                  )}
+                </span>
+              </div>
+              <div className="flex justify-between gap-3 items-center">
+                <Link
+                  href={`${domain}cart`}
+                  className="w-full text-center bg-[#ca1515] hover:bg-[#111111] text-white text-sm font-medium py-2 rounded-md transition"
+                >
+                  View Cart
+                </Link>
+                <button className="w-full bg-[#ca1515] hover:bg-[#111111] text-white text-sm font-medium py-2 rounded-md transition">
+                  Checkout
+                </button>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    </motion.div>
+  </AnimatePresence>
+)}
+
+
       </div>
 
     </div>
