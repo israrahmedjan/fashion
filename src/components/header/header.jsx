@@ -1,10 +1,12 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { Search, User, ShoppingCart,Menu, X, Trash2 ,ChevronDown  } from 'lucide-react'
+import { Search, User, ShoppingCart,Menu, X, Trash2 ,ChevronDown, Eye  } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import useCart from '@/store/cart'
+import { motion ,AnimatePresence} from 'framer-motion';
+import { searchProducts } from '@/app/_components/produccts/operationsAPI'
  
 const domain = process.env.NEXT_PUBLIC_FRONT_DOMAIN
 export default function Header() {
@@ -27,6 +29,7 @@ export default function Header() {
 
 
 
+
   if(!client) return null
   return (
     <>
@@ -40,7 +43,7 @@ export default function Header() {
       <div className='flex justify-between mx-12 h-[84px] items-center'>
       <Link href={`${domain}`}  > <Logo domain={domain} /></Link>
         <Nav />
-        <Icons />
+        <Icons  />
       </div>
     </header>
 
@@ -162,10 +165,14 @@ function Nav() {
 
 // Reusable Icons
 function Icons() {
-  const {item,RemoveItem} = useCart();
-   const cartItems = item;
-     const dropdownRef = useRef(null);
-     const [isOpen, setIsOpen] = useState(false);
+const {item,RemoveItem} = useCart();
+const cartItems = item;
+const dropdownRef = useRef(null);
+const [query, setquery] = useState("");
+const [isOpen, setIsOpen] = useState(false);
+const [isOpensarchBox,setisOpensarchBox] = useState();
+const [selectedCategory, setSelectedCategory] = useState('');
+const [searchResult,setsearchResult] = useState()
      useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -178,12 +185,19 @@ function Icons() {
     };
   }, []);
 
+  const handleSearch= async (name,category)=>{
 
+//console.log("hell", name,category)
+ const data = await searchProducts(name,category);
+ setsearchResult(data);
+ console.log("Serch products fuund here", data);
+
+}
   return (
     <div className="flex items-center gap-4 text-[#111111] font-medium ">
       <span className='text-[12px] font-[400]'>Login / Register</span>
       {/* {JSON.stringify(item,null,2)} */}
-      <Search className="w-5 h-5 cursor-pointer hover:text-[#ca1515] transition-colors duration-200" />
+      <Search className="w-5 h-5 cursor-pointer hover:text-[#ca1515] transition-colors duration-200" onClick={()=>setisOpensarchBox(!isOpensarchBox)} />
       <User className="w-5 h-5 cursor-pointer hover:text-[#ca1515] transition-colors duration-200" />
   <div className="relative" ref={dropdownRef}>
     <div className='flex gap-2 relative'>
@@ -194,7 +208,111 @@ function Icons() {
   />
  
   </div>
-  
+{isOpensarchBox && (
+  <AnimatePresence>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black bg-opacity-50 h-screen  z-50 flex items-start justify-center pt-24"
+    >
+      {/* Close icon */}
+      <button
+        className="absolute top-5 right-5 text-white hover:text-gray-300 z-50"
+        onClick={() => setisOpensarchBox(false)}
+      >
+        <X size={28} />
+      </button>
+
+      {/* Search Box */}
+      <motion.div
+        initial={{ y: -30, opacity: 0, scale: 0.95 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        exit={{ y: -20, opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+        className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-[60%] text-center space-y-4 relative z-50"
+      >
+        <h2 className="text-xl font-semibold text-gray-800">Search Products</h2>
+        <p className="text-sm text-gray-500">Type a keyword and press enter</p>
+
+        {/* Category + Search + Button in one tight row */}
+        <div className="flex w-full">
+          {/* Category Dropdown */}
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="w-1/3 px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+          >
+            <option value="">All</option>
+            <option value="electronics">Electronics</option>
+            <option value="clothing">Clothing</option>
+            <option value="books">Books</option>
+            <option value="toys">Toys</option>
+          </select>
+
+          {/* Search Input */}
+          <input
+            type="text"
+            placeholder="Search..."
+            onChange={(e) => setquery(e.target.value)}
+            value={query}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleSearch(query, selectedCategory);
+              }
+            }}
+            className="w-1/2 px-4 py-2 border-t border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+
+          {/* Search Button */}
+          <button
+            onClick={() => handleSearch(query, selectedCategory)}
+            className="w-1/6 bg-[#ca1515] text-white font-medium rounded-r-md px-4 py-2 hover:bg-gray-600 transition"
+          >
+            Search
+          </button>
+        </div>
+          {(searchResult && searchResult.length>0 && (
+   <div className="flex flex-col gap-4 p-4 max-h-[300px] overflow-auto">
+  {searchResult.map((product) => (
+    <div
+      key={product._id}
+      className="flex items-center gap-4 bg-white p-4 rounded-lg shadow hover:shadow-md transition"
+    >
+      {/* Thumbnail */}
+      <img
+        src={product.imageThumb}
+        alt={product.name}
+        className="w-20 h-28 object-cover rounded-md border"
+      />
+
+      {/* Details */}
+      <div className="flex-1">
+        <h3 className="text-base font-semibold text-gray-800">{product.name}</h3>
+        <p className="text-sm text-gray-500">{product.description}</p>
+        <p className="text-sm text-blue-600 font-medium mt-1">${product.price}</p>
+        <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded inline-block mt-1">
+          {product?.Category?.name}
+        </span>
+      </div>
+
+      {/* View Icon */}
+      <button className="text-blue-600 hover:text-blue-800 transition">
+        <Eye size={20} />
+      </button>
+    </div>
+  ))}
+</div>
+
+      ))}
+      </motion.div>
+
+    
+    </motion.div>
+  </AnimatePresence>
+)}
+
+
 
   {isOpen && (
     <div className="absolute right-0 mt-2 w-80 bg-white border rounded-lg shadow-lg z-50">

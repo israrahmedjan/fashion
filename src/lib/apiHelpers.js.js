@@ -7,7 +7,7 @@ const domain = process.env.NEXT_PUBLIC_FRONT_DOMAIN;
 export async function getHomedata(page=1) {
    
     try {
-console.log("Home api helper called");
+//console.log("Home api helper called");
   const queryString = new URLSearchParams({
       page,
     }).toString();
@@ -20,7 +20,7 @@ console.log("Home api helper called");
     // }
 
     const data = await response.json();
-    console.log('Home data:', data);
+  //  console.log('Home data:', data);
    return data;
   } catch (error) {
     console.error('Error fetching posts:', error.message);
