@@ -111,56 +111,100 @@ function Nav() {
     { name: 'Contact', slug: 'contact' },
   ];
   return (
-    <nav className="hidden md:flex items-center gap-6 text-[#111111] uppercase text-[15px] font-medium relative">
-      {navItems.map((item) =>
-        item.name === "Shop" ? (
-          <div
-            key={item}
-            className="relative"
-            onMouseEnter={() => setIsShopOpen(true)}
-            onMouseLeave={() => setIsShopOpen(false)}
-          >
-            {/* Shop Link with Icon */}
-            <div className="flex items-center gap-1 cursor-pointer">
-              <span className="hover:text-[#ca1515] transition-colors duration-200">
-                {item.name}
-              </span>
-              <ChevronDown size={16} />
-            </div>
-
-            {/* Dropdown Menu (No margin-top to avoid hover gap) */}
-            <div
-              className={`absolute left-0 text-[14px] font-[400] top-7 bg-white border rounded shadow-lg min-w-[250px] z-50 transition-all duration-200 ${isShopOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-                }`}
-            >
-              <Link href={`${domain}category/mens_fashion`} className="block px-4 py-2 border-gray-100 border-b-[1px] hover:bg-gray-100 text-black">
-                Men's Fashion
-              </Link>
-              <Link href={`${domain}category/women_fashion`} className="block px-4 py-2 border-gray-100 border-b-[1px] hover:bg-gray-100 text-black">
-                Women's Fashion
-              </Link>
-              <Link href={`${domain}category/kidz_fashion`} className="block px-4 py-2 border-gray-100 border-b-[1px] hover:bg-gray-100 text-black">
-                Kidz's Fashion
-              </Link>
-              <Link href={`${domain}category/cosmetics`} className="block px-4 py-2 border-gray-100 border-b-[1px] hover:bg-gray-100 text-black">
-                Cosmitics
-              </Link>
-              <Link href={`${domain}category/accessories`} className="block px-4 py-2 border-gray-100 border-b-[1px] hover:bg-gray-100 text-black">
-                Accessories
-              </Link>
-            </div>
-          </div>
-        ) : (
-          <Link
-            key={item.name}
-            href={`${domain}${item.slug}`}
-            className="hover:text-[#ca1515] transition-colors duration-200"
-          >
+ <nav className="hidden md:flex items-center gap-6 text-[#111111] uppercase text-[15px] font-medium relative">
+  {navItems.map((item) =>
+    item.name === "Shop" ? (
+      <div
+        key={item.name}
+        className="relative"
+        onMouseEnter={() => setIsShopOpen(true)}
+        onMouseLeave={() => setIsShopOpen(false)}
+      >
+        {/* Shop Link with Icon */}
+        <div className="flex items-center gap-1 cursor-pointer">
+          <span className="hover:text-[#ca1515] transition-colors duration-200">
             {item.name}
-          </Link>
-        )
-      )}
-    </nav>
+          </span>
+          <ChevronDown size={16} />
+        </div>
+
+        {/* Advanced Dropdown */}
+        <div
+          className={`absolute left-0 top-7 bg-white border border-gray-200 rounded-l-lg shadow-xl z-50 transition-all duration-300 ease-in-out
+            ${isShopOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-4'}
+            before:content-[''] before:absolute before:top-[-10px] before:left-0
+            before:border-l-[15px] before:border-b-[10px] before:border-l-white before:border-b-transparent
+          `}
+        >
+          <div className="w-[750px] p-6 flex flex-wrap gap-2">
+            {/* Category Items */}
+            {[
+              {
+                title: "Men's Fashion",
+                desc: "T-Shirts, Shirts, Jeans",
+                slug: 'mens_fashion',
+                img: '/images/categories/category-1.jpg'
+              },
+              {
+                title: "Women's Fashion",
+                desc: "Dresses, Tops, Skirts",
+                slug: 'women_fashion',
+                img: '/images/categories/category-2.jpg'
+              },
+              {
+                title: "Kids' Fashion",
+                desc: "Clothes for kids",
+                slug: 'kidz_fashion',
+                img: '/images/categories/category-3.jpg'
+              },
+              {
+                title: "Cosmetics",
+                desc: "Makeup & Beauty Kits",
+                slug: 'cosmetics',
+                img: '/images/categories/category-4.jpg'
+              },
+              {
+                title: "Accessories",
+                desc: "Watches, Bags, Jewelry",
+                slug: 'accessories',
+                img: '/images/categories/category-5.jpg'
+              }
+            ].map((cat) => (
+              <Link
+                href={`${domain}category/${cat.slug}`}
+                key={cat.slug}
+                className="w-[30%] min-w-[220px] group flex items-start gap-4 text-left hover:shadow-md p-3 rounded-lg transition"
+              >
+                <img
+                  src={cat.img}
+                  alt={cat.title}
+                  className="w-16 h-16 object-cover border border-gray-200"
+                />
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-800 group-hover:text-[#ca1515]">
+                    {cat.title}
+                  </h4>
+                  <p className="text-xs text-gray-500 mt-1">{cat.desc}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    ) : (
+      <Link
+        key={item.name}
+        href={`${domain}${item.slug}`}
+        className="hover:text-[#ca1515] transition-colors duration-200"
+      >
+        {item.name}
+      </Link>
+    )
+  )}
+</nav>
+
+
+
   )
 }
 
