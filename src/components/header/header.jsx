@@ -18,15 +18,16 @@ export default function Header() {
   const [visible, setVisible] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [client, setclient] = useState(false);
-
+const pathname = usePathname();
 
 
   useEffect(() => {
     // Show header with delay
+    setMobileMenuOpen(false);
     setclient(true)
     const timer = setTimeout(() => setVisible(true), 100);
     return () => clearTimeout(timer);
-  }, []);
+  }, [pathname]);
 
 
 
@@ -51,31 +52,89 @@ export default function Header() {
 
 
       {/* Small devices */}
+<header className="block md:hidden fixed inset-x-0 top-0 z-30 bg-white shadow-md h-[64px]">
+  <div className="flex items-center justify-between px-4 h-full">
+    <Logo domain={domain} />
+    <Icons />
+    <button
+      onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+      className="text-black focus:outline-none"
+    >
+      {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+    </button>
+  </div>
 
-      <header className="block md:hidden fixed inset-x-0 top-0 z-30 bg-white shadow-md h-[64px]">
-        <div className="flex items-center justify-between px-4 h-full">
-          <Logo domain={domain} />
-            <Icons />
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-black focus:outline-none"
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-
-        {/* ✅ Dropdown Menu */}
-        {mobileMenuOpen && (
-          <div className="absolute top-full left-0 w-full bg-white shadow-md transition-all duration-300">
-            <nav className="flex flex-col p-4 space-y-2">
-              <a href="#" className="text-sm font-semibold text-gray-700">Home</a>
-              <a href="#" className="text-sm font-semibold text-gray-700">Shop</a>
-              <a href="#" className="text-sm font-semibold text-gray-700">Contact</a>
-              <a href="#" className="text-sm font-semibold text-gray-700">About</a>
-            </nav>
+  {/* ✅ Dropdown Menu */}
+<AnimatePresence>
+  {mobileMenuOpen && (
+    <motion.div
+      initial={{ x: '100%', opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: '100%', opacity: 0 }}
+      transition={{ duration: 0.4, ease: 'easeInOut' }}
+      className="absolute top-full left-0 w-full bg-white shadow-md z-40"
+    >
+      <nav className="flex flex-col p-4 space-y-2">
+ <Link href={`${domain}`} className="text-sm font-semibold text-gray-700">Home</Link>
+  <Link href={`${domain}services`} className="text-sm font-semibold text-gray-700">Services</Link>
+       
+       
+        {/* Shop with dropdown */}
+        <details className="group">
+          <summary className="text-sm font-semibold text-gray-700 cursor-pointer list-none flex justify-between items-center">
+            Shop
+            <ChevronDown className="w-4 h-4 group-open:rotate-180 transition-transform" />
+          </summary>
+          <div className="mt-2 pl-4 space-y-3">
+            {[
+              {
+                slug: 'mens_fashion',
+                img: '/images/categories/category-1.jpg',
+                name: "Men's Fashion",
+              },
+              {
+                slug: 'women_fashion',
+                img: '/images/categories/category-2.jpg',
+                name: "Women's Fashion",
+              },
+              {
+                slug: 'kidz_fashion',
+                img: '/images/categories/category-3.jpg',
+                name: "Kids' Fashion",
+              },
+              {
+                slug: 'cosmetics',
+                img: '/images/categories/category-4.jpg',
+                name: 'Cosmetics',
+              },
+              {
+                slug: 'accessories',
+                img: '/images/categories/category-5.jpg',
+                name: 'Accessories',
+              },
+            ].map((cat) => (
+              <a
+                key={cat.slug}
+                href={`${domain}category/${cat.slug}`}
+                className="flex items-center gap-3"
+              >
+                <img src={cat.img} alt={cat.name} className="w-10 h-10 object-cover border" />
+                <span className="text-sm text-gray-700">{cat.name}</span>
+              </a>
+            ))}
           </div>
-        )}
-      </header>
+        </details>
+
+        <Link href={`${domain}contact`} className="text-sm font-semibold text-gray-700">Contact</Link>
+       
+        <Link href={`${domain}about`} className="text-sm font-semibold text-gray-700">About Us</Link>
+      </nav>
+    </motion.div>
+  )}
+</AnimatePresence>
+
+</header>
+
 
 
     </>
