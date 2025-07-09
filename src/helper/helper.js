@@ -1,118 +1,52 @@
-import React from 'react'
-import axios from 'axios';
-import { useSelector } from "react-redux";
-import Login from '@/app/_components/user/Login';
-import { useDispatch } from 'react-redux';
-import { addUserInfo, addWishListItems, loadOldData, loginAction, LoginModelBoxAction } from '@/redux/slices/userSlice';
-import { addToWishlist } from './whislist';
-import { addcartItems } from '@/redux/slices/cartSlice';
+import User from "@/models/userModel";
+import { NextResponse } from "next/server";
+//import bcryptjs from 'bcryptjs';
 
-async function getCategoriesAPI(slug="") {
-
-  const response = await axios.get('/api/categories',
-    
-  );
-  return response.data.data;
-}
+import bcryptjs  from "bcryptjs"; 
+import jwt from 'jsonwebtoken';
 
 
-async function productDetail(categorySlug="",productSlug="") {
-//console.log("My slug",productSlug);
-  const response = await axios.get('/api/productsDetail', {
-    params: {
-      productSlug: productSlug,
-      categorySlug: categorySlug
-    },
-  });
-  return response.data.data;
-}
 
-async function productByCategoryAPI(categorySlugs = "", minPrice=10,maxPrice=500, limit="", sort={}) {
+const sendMail = async ({email,emailType,userId}) => {
+
   try {
-    //console.log("No my slugs is that:", sort);
+   if (email !== "" && emailType === "VERIFY" && userId !== "") {
 
-    const response = await axios.get('/api/category', {
-      params: {
-        categorySlugs: categorySlugs,
-        minPrice:minPrice,
-        maxPrice:maxPrice,
-        limit: 6,
-        sort: JSON.stringify(sort), // Include sort if needed
-      },
-    });
 
-    //console.log("Response in Help:", response.data);
-    return response.data.data;
+      const hashVerifyToken = await bcryptjs.hash(email,10)
+      const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: {
+        verifyToken:hashVerifyToken,
+        verifyTokenExpiry:Date.now()
+      } },
+      { new: true } // returns the updated document
+    );
+        return { success: true, message: "Email sent successfully", updatedUser };
+
+
+    }
+    else
+    {
+       return { success: false, message: "Failed to send email" };
+    }
   } catch (error) {
-    console.error("Error fetching products:", error);
-    return null; // Return null or an empty array if there's an error
+    console.log("Send Email Error", error.message)
   }
+  
 }
 
-const handleLoginFunc = (dispatch,item) => {
-  const token = document.cookie.includes('auth_token'); // Check if token exists
-  
- 
-   if (!token) {
- dispatch(LoginModelBoxAction(true))   
-  } else {
-   
-    dispatch(addWishListItems(item))
-    dispatch(LoginModelBoxAction(false))
-  
-    addToWishlist(item);
 
-
-  }
-};
-
-
-const isUserLogin = (dispatch) => {
-   const token = document.cookie.includes('auth_token'); // Check if token exists
-   
-  
-    if (!token) {
-          return false;
-     } else {
-      return true;
-     }
- };
-
-const UserLoginClose = (dispatch)=>
+const getDataFromToken = (request)=>
 {
-  dispatch(LoginModelBoxAction(false))
-}
-
-const addOldUserData = (dispatch)=>
-{
-  const user = JSON.parse(localStorage.getItem("user"));
-  //console.log("user data",user);
-  if(user){
-    dispatch(addUserInfo(user))
-  }
-  const isUserLogin = JSON.parse(localStorage.getItem("isUserLogin"));
-  //console.log("is user login",isUserLogin);
-  if(isUserLogin){
-    dispatch(loginAction(isUserLogin))
-  }
-  const wishlistItems = JSON.parse(localStorage.getItem("wishlist"));
-  //dispatch(addWishListItems(wishlistItems));
-
-  if (Array.isArray(wishlistItems)) {
-    wishlistItems.forEach(item => {
-      dispatch(addWishListItems(item));
-    });
-  }
-
-  const cartItems = JSON.parse(localStorage.getItem("Cart"));
-  console.log("Cart ITems !")
-  if (Array.isArray(cartItems)) {
-    cartItems.forEach(item => {
-      dispatch((addcartItems(item)));
-    });
-  }
-
+ try {
+  
+  const token = request.cookies.get("token")?.value || "";
+  const decodedToken = jwt.verify(token,process.env.JWT_SECRET);
+  return decodedToken.id;
+ } catch (error) {
+  console.log("Get Token section", error.message)
+ }
   
 }
-
-  export {getCategoriesAPI,productDetail,productByCategoryAPI,handleLoginFunc,UserLoginClose,addOldUserData}
+  export {sendMail,getDataFromToken}

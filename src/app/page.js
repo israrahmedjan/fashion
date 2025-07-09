@@ -1,6 +1,4 @@
-import Image from "next/image";
-import Products from "./_components/produccts/Products";
-import Counter from "@/components/Counter";
+
 import HeroSlider from "./_components/hero/HeroSlider";
 
 import FullWidthSlider from "./_components/hero/Slider";

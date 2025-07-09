@@ -1,9 +1,10 @@
 import { Poppins,Montserrat,Cookie } from "next/font/google";
 import "./globals.css";
 
-import Mainfooter from "@/components/footer/footer";
+
 import { ProvidersCustomization } from "@/redux/Providers";
-import Header from "@/components/header/header";
+import Header from "./_components/header/header";
+import MainFooter from "./_components/footer/footer";
 
 
 
@@ -33,7 +34,7 @@ export default function RootLayout({ children }) {
   <ProvidersCustomization>
        <Header />
         {children}
-      <Mainfooter />
+      <MainFooter />
       </ProvidersCustomization>
       </body>
     </html>
