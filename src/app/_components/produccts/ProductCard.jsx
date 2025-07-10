@@ -21,7 +21,7 @@ export default function ProductCard({product}) {
   
     if(!exist){
       add({productId:product._id,productName:product.name,qty:1,...product}); // product = { id: 1, name: "Product A", price: 100 }
-    setMessage("Product added successfully", "success");
+    setMessage("Product added in cart successfully", "success");
     }
     
   
@@ -32,7 +32,7 @@ const addWishItemHandle = (product) => {
   
     if(!exist){
       addwish({productId:product._id,productName:product.name,qty:1,...product}); // product = { id: 1, name: "Product A", price: 100 }
-    setMessage("Product added successfully", "success");
+    setMessage("Product added wishlist successfully", "success");
     }
     
   
