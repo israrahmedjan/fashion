@@ -1,81 +1,69 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { ShoppingCart, Heart, Scale, RefreshCw, Eye, Star } from 'lucide-react';
-import Login from '../user/Login';
-import { useSelector,useDispatch } from 'react-redux';
-import { handleLoginFunc, setWhislistItems } from '@/helper/helper';
-import { addToCart } from '@/helper/cartlist';
+'use client';
 
-function ProductCard({ product }) {
-  const home_url = process.env.NEXT_PUBLIC_FRONT_DOMAIN;
-  const wishlistItems = useSelector((state)=>state.user.wishlistItems);
-   
- 
-const dispatch = useDispatch();
+import Image from 'next/image';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { ShoppingCart, Heart, Eye } from 'lucide-react';
+import { Star } from 'lucide-react';
 
-const addWishlist = (item)=>{
-  
- handleLoginFunc(dispatch,item);
-
-//  let newItem = [...wishlistItems,item];
- 
-//  setWhislistItems(dispatch,newItem)
-//  console.log("Called!", newItem);
-}
+export default function ProductCard({product}) {
   return (
-    <>
-      <div className="group relative rounded-lg mt-2 mx-1 p-2 thin-border text-[12px] lg:text-[14px] shadow-lg">
-        <img
-          src={product.image}
-          alt={product.productName}
-          className="w-full h-[250px] object-cover p-2 lg:p-0 rounded-md transition-transform duration-300 group-hover:scale-105"
+    <Card className="group relative overflow-hidden rounded-none border-none">
+      {/* Product Image */}
+      <div className="relative w-full h-[350px]">
+        <Image
+           src={product.image}
+          alt="Men Shirt"
+          fill
+          className="object-cover"
         />
-        <div className="absolute top-3 right-3  flex flex-col gap-2">
-        <button className="p-2 bg-white shadow-md rounded-full hover:bg-gray-100 transition mr-2 mt-2 sm:mr-0 sm:mt-0">
 
-            <Heart className="h-5 w-5  text-secondary" onClick={()=>addWishlist(product)} />
-          </button>
-          <button className="p-2 bg-white shadow-md rounded-full hover:bg-gray-100 transition mr-2 mt-2 sm:mr-0 sm:mt-0">   
-            <RefreshCw className="h-5 w-5 text-secondary" />
-          </button>
-          <button className="p-2 bg-white shadow-md rounded-full hover:bg-gray-100 transition mr-2 mt-2 sm:mr-0 sm:mt-0">
-            <Eye className="h-5 w-5 text-secondary" />
-          </button>
-        </div>
+        {/* Hover Icons */}
+<div className="absolute top-3 right-3 flex flex-col items-center gap-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+    <div 
+    className="w-12 h-12 border-gray-200 border bg-gray-50 rounded-full p-0 flex items-center justify-center transform scale-75 opacity-0 translate-y-2 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100 group-hover:translate-y-0 delay-200" onClick={()=>console.log("Button")}>
+    <ShoppingCart size={20} className='text-[#444] font-serif' /> {/* ✅ Use size prop here */}
+</div>
+   <div 
+    className="w-12 h-12 border-gray-200 border bg-gray-50 rounded-full p-0 flex items-center justify-center transform scale-75 opacity-0 translate-y-2 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100 group-hover:translate-y-0 delay-200" onClick={()=>console.log("Button")}>
+    <Heart size={20} className='text-[#444] font-serif' /> {/* ✅ Use size prop here */}
+</div>
+  <div 
+    className="w-12 h-12 border-gray-200 border bg-gray-50 rounded-full p-0 flex items-center justify-center transform scale-75 opacity-0 translate-y-2 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100 group-hover:translate-y-0 delay-200" onClick={()=>console.log("Button")}>
+    <Eye size={20} className='text-[#444] font-serif' /> {/* ✅ Use size prop here */}
+</div>
+</div>
 
-        {/* Product Details */}
-        <div className="mt-4 text-center p-2">
-          <div className="flex justify-between items-center lg:text-[14px] mb-2 italic">
-            <span>{product.categoryName}</span>
-            <span className="flex flex-row items-center text-primary">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div className="text-secondary" key={i}>
-                  <Star size={15} />
-                </div>
-              ))}
-            </span>
-          </div>
-          <div className="flex pb-3 thin-border-bottom">
-            <Link href={`${home_url}product/${product.categorySlug}/${product.productSlug}`}>
-              <h3 className="font-semibold text-left text-primary cursor-pointer">{product.productName}</h3>
-            </Link>
-          </div>
 
-          <div className="flex justify-between items-center">
-            <p onClick={()=>addToCart(dispatch,product)} className="flex px-3 py-1 thin-border items-center gap-1 mt-3 rounded-lg text-secondary hover:bg-gray-100 cursor-pointer">
-              <ShoppingCart />
-              <span className="text-primary">Add To Cart</span>
-            </p>
-            <p className="text-gray-600">${product.price}</p>
-          </div>
-        </div>
+
+
+
+
       </div>
 
-      
-     
-      {/*  */}
-    </>
+      {/* Product Details */}
+      <CardContent className="text-center py-4 space-y-1">
+        <div className="flex justify-center items-center gap-1 text-yellow-500">
+          {Array(5)
+            .fill(0)
+            .map((_, i) => (
+              <Star key={i} className="h-4 w-4 fill-yellow-500 stroke-yellow-500" />
+            ))}
+        </div>
+
+        <h4 className="font-[500] text-sm md:text-[14px] text-[#111111]">{product.name}</h4>
+  <div className="flex items-center flex-col justify-center mt-4 gap-2">
+    <div className="text-[#111111] font-[600] text-sm md:text-[16px]">
+    ${product.price}
+  </div>
+  <button className="flex gap-2 font-[500] text-[16px] hover:border-gray-200 hover:border-b  text-[#ca1515]  pl-2 pr-2 pt-1 pb-1  rounded-md transition">
+    <ShoppingCart className="w-5 h-5" /><span>Add to Cart</span>
+  </button>
+
+
+</div>
+
+      </CardContent>
+    </Card>
   );
 }
-
-export default ProductCard;
