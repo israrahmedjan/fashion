@@ -14,7 +14,7 @@ export default function Dashboard({ userData, setUserData }) {
   const logOutHandle = async () => {
     const data = await userLogout();
     if (data.success) {
-      setMessage('User LogOut successfully.', 'success');
+      setMessage('User Log Out successfully.', 'success');
       setUserData(null);
     }
   };

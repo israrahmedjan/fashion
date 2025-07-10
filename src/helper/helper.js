@@ -1,4 +1,4 @@
-import User from "@/models/userModel";
+
 import { NextResponse } from "next/server";
 //import bcryptjs from 'bcryptjs';
 
@@ -49,4 +49,14 @@ const getDataFromToken = (request)=>
  }
   
 }
-  export {sendMail,getDataFromToken}
+// const addToCart = (product)=>
+//   {
+//  const { add } = useCart();
+//   add({productId:product._id,productName:product.name,qty:1,...item});
+//    //add(item);
+// console.log("Item added");
+//   }  
+export {sendMail,getDataFromToken}
+
+
+  

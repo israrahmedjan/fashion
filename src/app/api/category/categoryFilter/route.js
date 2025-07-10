@@ -71,7 +71,7 @@ export async function GET(request) {
       $group: {
         _id: '$_id',
         name: { $first: '$name' },
-        slug: { $first: '$slug' },
+        productSlug: { $first: '$slug' },
         image: { $first: '$image' },
         imageThumb: { $first: '$imageThumb' },
         Price: { $first: '$Variations.price' },
