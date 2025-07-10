@@ -41,7 +41,12 @@ export default function Dashboard({ userData ,setUserData}) {
         onClick={() => setOpen(!open)}
         className="flex items-center gap-2 font-[500] text-[#111111] hover:text-[#ca1515] transition"
       >
-        Welcome, {userData.name}
+       
+
+        <h2 className="relative text-base md:text-[14px] text-left text-[#111111] font-[600] uppercase after:content-[''] after:block after:h-[2px] after:w-[50px] after:bg-[#ca1515]">
+  Welcome, {userData.name}
+</h2>
+
         <ChevronDown size={18} />
       </button>
 
