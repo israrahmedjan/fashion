@@ -29,8 +29,8 @@ function UserLogin({setuserLogin}) {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: ""
+      email: "israr@gmail.com",
+      password: "israr123"
     }
   });
   const { message,type,setMessage } = useMessageStore();

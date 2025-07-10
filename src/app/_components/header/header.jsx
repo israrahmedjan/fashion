@@ -12,9 +12,12 @@ import { usePathname } from 'next/navigation';
 import UserComponent from '../user/Login'
 import useMessageStore from '@/store/useMessageStore'
 import Message from '../user/messages'
+import { isUserLogin } from '../user/userOperations'
+import Dashboard from '../user/Dashboard'
 
 
 const domain = process.env.NEXT_PUBLIC_FRONT_DOMAIN
+
 export default function Header() {
 
 
@@ -24,6 +27,20 @@ export default function Header() {
   const [client, setclient] = useState(false);
 const pathname = usePathname();
 const {message,clearMessage} = useMessageStore();
+const [userData,setUserData] = useState(null);
+
+    const userDataHandle = async ()=>
+    {
+      const data = await isUserLogin();
+      console.log("Token Data",data);
+      if(data.success)
+      {
+       // setUserData(data.user);
+        setUserData(data);
+      }
+       
+    }
+
 
   useEffect(() => {
     // Show header with delay
@@ -35,16 +52,20 @@ const {message,clearMessage} = useMessageStore();
 
 
   useEffect(() => {
+    userDataHandle();
     if (message) {
       const timer = setTimeout(() => {
-        clearMessage()
+        
+        clearMessage();
       }, 7000)
 
       return () => clearTimeout(timer)
     }
-  }, [message, clearMessage])
+    
+  }, [message, clearMessage,setUserData])
 
 
+ 
   if (!client) return null
   return (
     <>
@@ -58,7 +79,8 @@ const {message,clearMessage} = useMessageStore();
         <div className='flex justify-between mx-12 h-[84px] items-center'>
           <Link href={`${domain}`}  > <Logo domain={domain} /></Link>
           <Nav />
-          <Icons />
+          <Icons userData={userData} setUserData={setUserData} />
+   
                       {message && (<div className='fixed z-50'>
 <Message />
 </div>)}
@@ -70,7 +92,12 @@ const {message,clearMessage} = useMessageStore();
 <header className="block md:hidden fixed inset-x-0 top-0 z-30 bg-white shadow-md h-[64px]">
   <div className="flex items-center justify-between px-4 h-full">
     <Logo domain={domain} />
-    <Icons />
+       
+
+     <Icons userData={userData} setUserData={setUserData} />
+                          {message && (<div className='fixed z-50'>
+<Message />
+</div>)}
     <button
       onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
       className="text-black focus:outline-none"
@@ -283,7 +310,7 @@ function Nav() {
 }
 
 // Reusable Icons
-function Icons() {
+function Icons({userData,setUserData}) {
   const { item, RemoveItem } = useCart();
   const cartItems = item;
   const dropdownRef = useRef(null);
@@ -329,7 +356,9 @@ setisOpensarchBox(false);
 },[pathname])
   return (
     <div className="flex items-center gap-4 text-[#111111] font-[600] ">
-      <span className='text-[12px] font-[400] cursor-pointer' onClick={()=>setuserLogin(!userLogin)}>Login / Register</span>
+ {(userData && (userData.success === true)) ? ( <Dashboard userData={userData.user} setUserData={setUserData} />):
+ (  <span className='text-[12px] font-[400] cursor-pointer' onClick={()=>setuserLogin(!userLogin)}>Login / Register</span>)}
+  
       {/* {JSON.stringify(item,null,2)} */}
       <Search className="w-5 h-5 cursor-pointer hover:text-[#ca1515] transition-colors duration-200" onClick={() => setisOpensarchBox(!isOpensarchBox)} />
       <Heart className="w-5 h-5 cursor-pointer hover:text-[#ca1515] transition-colors duration-200" />
