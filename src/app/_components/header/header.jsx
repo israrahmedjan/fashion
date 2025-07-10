@@ -7,7 +7,7 @@ import Link from 'next/link'
 import useCart from '@/store/cart'
 import { motion, AnimatePresence } from 'framer-motion';
 import { searchProducts } from '@/app/_components/produccts/operationsAPI'
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 import UserComponent from '../user/Login'
 import useMessageStore from '@/store/useMessageStore'
@@ -28,11 +28,11 @@ export default function Header() {
 const pathname = usePathname();
 const {message,clearMessage} = useMessageStore();
 const [userData,setUserData] = useState(null);
-
+   
     const userDataHandle = async ()=>
     {
       const data = await isUserLogin();
-      console.log("Token Data",data);
+      
       if(data.success)
       {
        // setUserData(data.user);
@@ -44,6 +44,7 @@ const [userData,setUserData] = useState(null);
 
   useEffect(() => {
     // Show header with delay
+
     setMobileMenuOpen(false);
     setclient(true)
     const timer = setTimeout(() => setVisible(true), 100);
@@ -321,9 +322,16 @@ function Icons({userData,setUserData}) {
   const [searchResult, setsearchResult] = useState();
   const [loading, setloading] = useState(false);
   const [userLogin,setuserLogin] = useState(false);
+  const searchParams = useSearchParams();
+  const loginFromProtected = searchParams.get('login'); // this will be "1" if present
   
  const pathname = usePathname();
   useEffect(() => {
+
+    if(loginFromProtected)
+    {
+      setuserLogin(true)
+    }
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsOpen(false);

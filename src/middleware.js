@@ -1,25 +1,28 @@
 import { NextResponse } from 'next/server';
+import useMessageStore from './store/useMessageStore';
+export function middleware(request) {
+  const token = request.cookies.get('token')?.value; // Check for the token in cookies
 
-export function middleware(req) {
-  const token = req.cookies.get('auth_token'); // Check for the token in cookies
 
-  // Protect routes starting with `/dashboard` or any other path you want to secure
-  if (req.nextUrl.pathname.startsWith('/dashboard') && !token) {
-    return NextResponse.redirect(new URL('/login', req.url)); // Redirect to login if no token
+  // If token does not exist and user tries to visit /profile
+  if (!token && request.nextUrl.pathname.startsWith('/profile')) {
+    // Redirect to login page
+    return NextResponse.redirect(new URL('/?login=1', request.url));
   }
-  //  // Protect routes starting with `/dashboard` or any other path you want to secure
-  //  if (req.nextUrl.pathname.startsWith('/') && !token) {
-  //   return NextResponse.redirect(new URL('/login', req.url)); // Redirect to login if no token
-  // }
+ if (!token && request.nextUrl.pathname.startsWith('/orders')) {
+    // Redirect to login page
+    return NextResponse.redirect(new URL('/?login=1', request.url));
+  }
 
- // Allow access if token is present or not a protected route
+  // Otherwise allow the request to continue
   return NextResponse.next();
 }
 
 // Define routes that should run the middleware
 export const config = {
   matcher: [
-    '/dashboard/:path*',
+    '/profile/:path*',
+    '/orders/:path*',
     '/', 
   ], // Apply middleware to `/dashboard` and its subpaths
 };
