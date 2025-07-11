@@ -22,8 +22,8 @@ export default function MessageComponent() {
              w-full md:w-auto max-w-full md:max-w-fit mx-4 md:mx-0"
         >
           <div className="flex items-center gap-2">
-            <div className='w-5 h-5 md:w-7 md:h-7 border-white border rounded-full text-white text-center flex justify-center items-center'>
-              <Check size={15} />
+            <div className='w-5 h-5 md:w-5 md:h-5 bg-green-500 border-green-800 border rounded-full text-white text-center flex justify-center items-center'>
+              <Check size={12} />
             </div> 
             <div className="font-[400] text-sm md:text-[14px]">
               <p className='text-start'>{message}!</p>

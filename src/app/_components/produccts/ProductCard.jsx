@@ -3,42 +3,52 @@
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart, Heart, Eye } from 'lucide-react';
+import { ShoppingCart, Heart, Eye, ShoppingBag } from 'lucide-react';
 import { Star } from 'lucide-react';
 import Link from 'next/link';
 import useMessageStore from '@/store/useMessageStore';
 import useCart from '@/store/cart';
 import useWish from '@/store/useWishStore';
+import { useState } from 'react';
+import { Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription, 
+  DialogHeader  } from '@/components/ui/dialog';
 
 
 export default function ProductCard({product}) {
   const {add,item} = useCart();
   const {addwish,itemwish} = useWish();
   const {setMessage} =useMessageStore();
+  const [open, setOpen] = useState(false);
   const domain = process.env.NEXT_PUBLIC_FRONT_DOMAIN;
    const addToCartHandle = (product) => {
     const exist = item.some((item)=>item.productId === product._id)
   
     if(!exist){
       add({productId:product._id,productName:product.name,qty:1,...product}); // product = { id: 1, name: "Product A", price: 100 }
-    setMessage("Product added in cart successfully", "success");
+    setMessage(`"${product.name}" has been added to your cart!`, "success");
     }
     
   
   }
 
 const addWishItemHandle = (product) => {
-    const exist = item.some((item)=>item.productId === product._id)
+    const exist = itemwish.some((item)=>item.productId === product._id)
   
     if(!exist){
       addwish({productId:product._id,productName:product.name,qty:1,...product}); // product = { id: 1, name: "Product A", price: 100 }
-    setMessage("Product added wishlist successfully", "success");
+   setMessage(`"${product.name}" has been added to your wishlist!`, "success");
     }
     
   
   }
 
   return (
+    <>
+    
+    
     <Card className="group relative overflow-hidden rounded-none border-none">
  
       {/* Product Image */}
@@ -62,7 +72,7 @@ const addWishItemHandle = (product) => {
     <Heart size={20} className=' font-serif' /> {/* ✅ Use size prop here */}
 </div>
   <div 
-    className="w-10 h-10 border-gray-200 border text-[#444] hover:bg-[#ca1515] hover:text-white cursor-pointer bg-gray-50 rounded-full p-0 flex items-center justify-center transform scale-75 opacity-0 translate-y-2 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100 group-hover:translate-y-0 delay-200" onClick={()=>console.log("Button")}>   <Eye size={20} className=' font-serif' /> {/* ✅ Use size prop here */}
+    className="w-10 h-10 border-gray-200 border text-[#444] hover:bg-[#ca1515] hover:text-white cursor-pointer bg-gray-50 rounded-full p-0 flex items-center justify-center transform scale-75 opacity-0 translate-y-2 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100 group-hover:translate-y-0 delay-200" onClick={() => setOpen(true)}>   <Eye size={20} className=' font-serif' /> {/* ✅ Use size prop here */}
 </div>
 </div>
 
@@ -89,7 +99,7 @@ const addWishItemHandle = (product) => {
     ${product.price}
   </div>
   <button className="flex gap-2 font-[500] text-[15px] hover:border-gray-200 hover:border-b  text-[#ca1515]  pl-2 pr-2 pt-1 pb-1  rounded-md transition" onClick={()=>addToCartHandle(product)}>
-    <ShoppingCart className="w-5 h-5" /><span>Add to Cart</span>
+    <ShoppingBag className="w-5 h-5" /><span>Add to Cart</span>
   </button>
 
 
@@ -97,5 +107,76 @@ const addWishItemHandle = (product) => {
 
       </CardContent>
     </Card>
+{/* Light Box model */}
+
+<Dialog open={open} onOpenChange={setOpen} >
+ <DialogContent
+  className="
+    w-full max-w-2xl 
+    max-h-[90vh] overflow-y-auto 
+    p-4 md:p-6 
+    m-4 
+    rounded-lg 
+    bg-white
+    shadow-lg
+    animate-in fade-in zoom-in-95
+  "
+>
+    <DialogHeader>
+      <DialogTitle>{product.name}</DialogTitle>
+      <DialogDescription className="text-sm text[#11111]">
+        Product Details
+      </DialogDescription>
+    </DialogHeader>
+
+    <div className="flex flex-col md:flex-row gap-6 mt-4">
+      {/* Product Image */}
+     <div className="relative w-full  md:max-w-[400px] md:max-h-[450px]  rounded-md overflow-hidden">
+  <Image
+    src={product.image}
+    alt={product.name}
+    width={800}
+    height={800}
+    className="w-full h-auto object-cover"
+  />
+</div>
+
+
+      {/* Product Info */}
+      <div className="flex-1 space-y-3">
+        <div className="text-lg font-[500] text-[#111111] flex justify-between items-center gap-3"><span>{product.name}</span>
+<span className="text-base md:text-[16px] font-[500] text-[#ca1515]">${product.price}</span>
+
+        </div>
+        
+        <div className="text-sm text-[#111111]">
+          <strong>Category:</strong> {product.categoryName}
+        </div>
+        <div className="text-sm text-[#111111]">
+          <strong>Brand:</strong> {product.brand ? product.brand:"None"}
+        </div>
+        <div className="text-sm text-[#111111]">
+          <strong>Description:</strong><br />
+          {product.description}
+        </div>
+
+     
+
+ <div className='bg-[#ca1515] text-white px-4 py-2 rounded-3xl flex justify-center items-center gap-2'
+               onClick={() => {
+            addToCartHandle(product);
+            setOpen(false);
+          }}>
+                <ShoppingBag size={16} />
+                <span className='text-sm uppercase cursor-pointer'>Add to Cart</span>
+              </div>
+
+      </div>
+    </div>
+  </DialogContent>
+</Dialog>
+
+
+    </>
   );
 }

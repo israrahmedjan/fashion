@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { Search, User, ShoppingCart,  Menu, X, Trash2, ChevronDown, Eye, HeartPulse, Heart } from 'lucide-react'
+import { Search, User, ShoppingCart,  Menu, X, Trash2, ChevronDown, Eye, HeartPulse, Heart, ShoppingBag } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import useCart from '@/store/cart'
@@ -388,8 +388,8 @@ setisOpensarchBox(false);
             />
  
           {(item && item.length > 0) && (<span className='absolute -top-2 left-9 bg-black text-[10px] text-white w-4 h-4 text-center rounded-full'>{item.length}</span>)}
-          <ShoppingCart
-            className="w-5 h-5 cursor-pointer hover:text-[#ca1515] transition-colors duration-200"
+          <ShoppingBag 
+            className="w-4 h-5 cursor-pointer hover:text-[#ca1515] transition-colors duration-200"
             onClick={() => setIsOpen(!isOpen)}
           />
 

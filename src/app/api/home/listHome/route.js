@@ -66,6 +66,7 @@ const productData = await productCollection.aggregate(
       $project: {
         name: 1,
         price: 1,
+        description: 1,
         categoryName: '$category.name',
         productSlug: '$slug',
         image: 1,

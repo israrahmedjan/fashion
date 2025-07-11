@@ -72,11 +72,12 @@ export async function GET(request) {
         _id: '$_id',
         name: { $first: '$name' },
         productSlug: { $first: '$slug' },
+        description:{ $first: '$description' },
         image: { $first: '$image' },
         imageThumb: { $first: '$imageThumb' },
-        Price: { $first: '$Variations.price' },
+        price: { $first: '$Variations.price' },
         Color: { $first: '$Variations.color' },
-        CategoryName: {
+        categoryName: {
           $first: '$Category.name'
         },
         CategorySlug: { $first: '$Category.slug' }

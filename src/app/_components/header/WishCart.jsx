@@ -27,7 +27,7 @@ function WishCart() {
         </div>
 
         {itemwish.length === 0 ? (
-          <p className="text-sm text-gray-500 text-center py-6">🛒 Cart is empty</p>
+          <p className="text-sm text-gray-500 text-center py-6">Wish item is empty</p>
         ) : (
           <>
             <ul className="space-y-3 max-h-60 overflow-y-auto pr-1 custom-scrollbar">
@@ -73,7 +73,7 @@ function WishCart() {
                   )}
                 </span>
               </div>
-              <div className="flex justify-between gap-3 items-center">
+              {/* <div className="flex justify-between gap-3 items-center">
                 <Link
                   href={`${domain}cart`}
                   className="w-full text-center bg-[#ca1515] hover:bg-[#111111] text-white text-sm font-medium py-2 rounded-md transition"
@@ -83,7 +83,7 @@ function WishCart() {
                 <button className="w-full bg-[#ca1515] hover:bg-[#111111] text-white text-sm font-medium py-2 rounded-md transition">
                   Checkout
                 </button>
-              </div>
+              </div> */}
             </div>
           </>
         )}
