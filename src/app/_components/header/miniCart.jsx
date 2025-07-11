@@ -80,9 +80,10 @@ function MiniCart() {
                 >
                   View Cart
                 </Link>
-                <button className="w-full bg-[#ca1515] hover:bg-[#111111] text-white text-sm font-medium py-2 rounded-md transition">
+                <Link
+                  href={`${domain}checkout`} className="text-center w-full bg-[#ca1515] hover:bg-[#111111] text-white text-sm font-medium py-2 rounded-md transition">
                   Checkout
-                </button>
+                </Link>
               </div>
             </div>
           </>

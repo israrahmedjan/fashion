@@ -9,11 +9,15 @@ const Dashboard = ({ userData, setUserData }) => {
   const user = useSelector((state) => state.user.user);
 
   const handleLogout = async () => {
-    fetch("/api/logout", { method: "POST" }).then(() => {
-      localStorage.removeItem("user");
-      localStorage.removeItem("isUserLogin");
-      window.location.href = "/";
-    });
+   
+
+    try {
+        const result = await fetch("api/user/logout");
+      //  console.log("Logout result",result);
+        setUserData([])
+    } catch (error) {
+        console.log(error);
+    }
   };
 
   return (
@@ -57,7 +61,7 @@ const Dashboard = ({ userData, setUserData }) => {
               className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition"
             >
               <LogOut size={20} className="mr-2" />
-              Log Out
+              Log Out 
             </button>
           </div>
         )}

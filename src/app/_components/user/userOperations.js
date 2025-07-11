@@ -103,3 +103,31 @@ export async function userLogout() {
     console.error('Error during user signup:', error.message);
   }
 }
+
+
+// Add Customer Data 
+
+export async function addCustomer( data ) {
+  try {
+    console.log("Data is", data);
+
+    const response = await fetch(`${domain}/api/user/addcustomer`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log('Customer data:', result);
+    return result;
+    
+  } catch (error) {
+    console.error('Error during user signup:', error.message);
+  }
+}
