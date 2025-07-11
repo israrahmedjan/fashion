@@ -115,7 +115,6 @@ const addWishItemHandle = (product) => {
     w-full max-w-2xl 
     max-h-[90vh] overflow-y-auto 
     p-4 md:p-6 
-    m-4 
     rounded-lg 
     bg-white
     shadow-lg
