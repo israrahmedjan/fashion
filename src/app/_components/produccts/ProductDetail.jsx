@@ -6,6 +6,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { motion ,AnimatePresence} from 'framer-motion';
 import useCart from '@/store/cart';
+import useMessageStore from '@/store/useMessageStore';
 
 function ProductDetail({ product }) {
   const domain = process.env.NEXT_PUBLIC_FRONT_DOMAIN || "";
@@ -16,15 +17,16 @@ function ProductDetail({ product }) {
   const [fileterProduct, setfilterProduct] = useState(product?.Variations[0]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const { add,item,clear,success,setMessage } = useCart();
+  const { add,item,clear,success } = useCart();
+  const {setMessage} = useMessageStore();
 
        
   const handleAddTocart = (item) => {
     add({productId:product._id,productName:product.name,qty:1,...item}); // product = { id: 1, name: "Product A", price: 100 }
-
-  setTimeout(() => {
-    setMessage(false)
-  }, 5000);
+ setMessage(`"${product.name}" has been added to your cart!`, "success");
+  // setTimeout(() => {
+  //   setMessage(false)
+  // }, 5000);
   }
 
 
@@ -74,36 +76,7 @@ const showPrevious = (val) => {
   return (
     <div className="max-w-screen-xl w-full px-4 mx-auto flex flex-col">
 
-    <div className="relative">
-      <AnimatePresence>
-{success && (
-  <motion.div
-    initial={{ opacity: 0, scale: 0.95, y: 250 }}
-    animate={{ opacity: 1, scale: 1, y: 0 }}
-    exit={{ opacity: 0, scale: 0.95, y: 250 }}
-    transition={{ duration: 0.4 }}
-    className="fixed top-6 md:top-14 left-0 md:left-1/2 transform md:-translate-x-1/2 z-50 
-               bg-green-500 text-white py-3 md:py-4 px-4 md:px-6 rounded-lg 
-               shadow-lg flex items-center justify-between gap-3 
-               w-full md:w-auto max-w-full md:max-w-fit mx-4 md:mx-0"
-  >
-    <div className="flex items-center gap-2">
-      <Check className="w-5 h-5 md:w-6 md:h-6 text-white" />
-      <span className="font-semibold text-sm md:text-base">Item successfully added to cart!</span>
-    </div>
-    <button onClick={() => setMessage(false)} className="hover:text-gray-200">
-      <X className="w-4 h-4" />
-    </button>
-  </motion.div>
-)}
-
-
-
-      </AnimatePresence>
-
-   
-    </div>
-
+ 
 
  
       {product && (
