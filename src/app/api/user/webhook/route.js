@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { headers } from "next/headers";
 import Stripe from "stripe";
 import connectToDatabase from "@/lib/dbconfig";
 import User from "@/models/userModel";
