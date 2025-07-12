@@ -17,6 +17,22 @@ import useCart from '@/store/cart';
 import { ChevronRight, HomeIcon } from 'lucide-react';
 import { useEffect, useState } from "react"
 import { addCustomer } from "../user/userOperations"
+import { loadStripe } from "@stripe/stripe-js";
+
+
+
+const cartItems = [
+  {
+    name: "Product 1",
+    price: 1999, // in cents = $19.99
+    quantity: 1,
+  },
+  {
+    name: "Product 2",
+    price: 2999,
+    quantity: 2,
+  },
+];
 
 const formSchema = z.object({
   firstName: z.string().min(1),
@@ -35,7 +51,9 @@ const formSchema = z.object({
 
 export default function Checkout() {
     const { item } = useCart();
-    const [client,setclient] = useState(false)
+    const [client,setclient] = useState(false);
+    const [total,setTotal] = useState(null);
+    const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -55,12 +73,54 @@ export default function Checkout() {
   })
 
   const onSubmit = async (data) => {
-    console.log("Form Data:", data)
-    const result = await addCustomer(data);
-    console.log("Customer", result);
+  //  console.log("Form Data:", data)
+  //  const result = await addCustomer(data);
+    console.log("Customer", cartItems);
+    console.log("Items", item)
+
+ const res = await fetch("/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ items: item,customerData:data }),
+    });
+    const transectionData = await res.json();
+
+    if (transectionData.url) {
+      window.location.href = transectionData.url;
+    }
+
     // Handle order submission
   }
+
+ const handleCheckout = async () => {
+    // const res = await fetch("/api/checkout", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({ items: cartItems }),
+    // });
+    // const data = await res.json();
+
+    // if (data.url) {
+    //   window.location.href = data.url;
+    // }
+  };
+
+  
 useEffect(() => {
+    if (item && item.length > 0) {
+      const calculatedTotal = item.reduce((acc, itm) => acc + parseInt(itm.price), 0);
+      setTotal(calculatedTotal);
+    } else {
+      setTotal(0); // In case item is empty or undefined
+    }
+  }, [item]); // ✅ Dependency: Re-run when `item` changes
+
+
+useEffect(() => {
+            
+        
+               
+           
             setclient(true)
             //setCartItems(item);
        
@@ -69,6 +129,14 @@ useEffect(() => {
         if (!client) return null;
   return (
         <div className="max-w-[1167px] w-full px-4 mx-auto flex flex-col">
+
+  {/* <button
+      className="bg-black text-white px-4 py-2 rounded-md"
+      onClick={handleCheckout}
+    >
+      Pay with Stripe
+    </button> */}
+
               {item && (
     <div className="flex items-center text-sm md:text-base space-x-1 h-auto md:h-[55px] mt-4">
       <HomeIcon size={18} />
@@ -213,24 +281,32 @@ useEffect(() => {
       {/* Order Summary */}
       <div className="bg-gray-100 p-6 rounded-md shadow-md">
         <h2 className="text-lg font-semibold mb-4">YOUR <span className="text-blue-600">ORDER</span></h2>
-       {item.length>0 ? "Find":"No data"}
-        <div className="border-b border-gray-300 pb-2">
+       {item.length>0 ? (
+        <div>
+             <div className="border-b border-gray-300 pb-2">
           <div className="flex justify-between font-semibold">
             <span>Product</span>
             <span>Total</span>
           </div>
           <div className="mt-2 space-y-1 text-sm text-gray-700">
-            <div className="flex justify-between"><span>01. Chain buck bag</span><span>$30.00</span></div>
+            {item.map((itm,i)=>
+            ( <div className="flex justify-between" key={i}><span>{`${i+1} - ${itm.productName} `}</span><span>${itm.price}</span></div>)
+            )}
+            {/* <div className="flex justify-between"><span>01. Chain buck bag</span><span>$30.00</span></div>
             <div className="flex justify-between"><span>02. Zip-pocket tote</span><span>$170.00</span></div>
             <div className="flex justify-between"><span>03. Black jean</span><span>$170.00</span></div>
-            <div className="flex justify-between"><span>04. Cotton shirt</span><span>$110.00</span></div>
+            <div className="flex justify-between"><span>04. Cotton shirt</span><span>$110.00</span></div> */}
           </div>
         </div>
 
         <div className="mt-4 space-y-2 text-sm font-semibold">
-          <div className="flex justify-between"><span>Subtotal</span><span className="text-red-600">$750.00</span></div>
-          <div className="flex justify-between"><span>Total</span><span className="text-red-600">$750.00</span></div>
+          <div className="flex justify-between"><span>Subtotal</span><span className="text-red-600">
+            ${total}</span></div>
+          <div className="flex justify-between"><span>Total</span><span className="text-red-600">${total}</span></div>
         </div>
+        </div>
+       ):(<div>No Items Found.</div>)}
+       
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="mt-6 space-y-4">
@@ -293,6 +369,7 @@ useEffect(() => {
         </Form>
       </div>
     </div>
+   
     </div>
   )
 }
