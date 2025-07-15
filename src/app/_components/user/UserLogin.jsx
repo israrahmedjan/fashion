@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import useMessageStore from '@/store/useMessageStore';
 import { useRouter } from 'next/navigation';
+import useUserStore from '@/store/useUserStore';
 
 
 import {
@@ -26,11 +27,13 @@ const formSchema = z.object({
 });
 
 function UserLogin({setuserLogin}) {
+  const {user} = useUserStore();
   const form = useForm({
+  
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "israr@gmail.com",
-      password: "israr123"
+      email: user?.email || "israr@gmail.com",
+      password: user?.password
     }
   });
   const { message,type,setMessage } = useMessageStore();
@@ -39,7 +42,7 @@ function UserLogin({setuserLogin}) {
   async function onSubmit(values) {
     console.log(values);
 
-//    console.log(values);
+   console.log(values);
 setLoading(true);
 const result = await userSignIn(values);
 if(result.success)

@@ -19,6 +19,9 @@ import { useEffect, useState } from "react"
 import { addCustomer } from "../user/userOperations"
 import { loadStripe } from "@stripe/stripe-js";
 
+import { useStore } from "zustand"
+import useUserStore from "@/store/useUserStore"
+
 
 
 const cartItems = [
@@ -50,9 +53,11 @@ const formSchema = z.object({
 })
 
 export default function Checkout() {
-    const { item } = useCart();
+    const { item,clear } = useCart();
     const [client,setclient] = useState(false);
     const [total,setTotal] = useState(null);
+    const {setUser} = useUserStore();
+    
     const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -86,6 +91,9 @@ export default function Checkout() {
     const transectionData = await res.json();
 
     if (transectionData.url) {
+      console.log("Transection Data",transectionData?.userData?.user);
+      setUser(transectionData?.userData?.user);
+      clear();
       window.location.href = transectionData.url;
     }
 

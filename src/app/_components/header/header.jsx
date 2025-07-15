@@ -533,7 +533,7 @@ setisOpensarchBox(false);
 
 {isOpen && (
 <div>
-  <MiniCart />
+  <MiniCart setIsOpen={setIsOpen} />
 </div>
 )}
 

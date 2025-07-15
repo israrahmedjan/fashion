@@ -4,7 +4,7 @@ import { ShoppingCart, Trash2 } from 'lucide-react'
 import React from 'react'
 import useCart from '@/store/cart'
 import Link from 'next/link'
-function MiniCart() {
+function MiniCart({setIsOpen}) {
     const {item,RemoveItem} = useCart();
     const domain = process.env.NEXT_PUBLIC_FRONT_DOMAIN;
   return (
@@ -81,7 +81,7 @@ function MiniCart() {
                   View Cart
                 </Link>
                 <Link
-                  href={`${domain}checkout`} className="text-center w-full bg-[#ca1515] hover:bg-[#111111] text-white text-sm font-medium py-2 rounded-md transition">
+                  href={`${domain}checkout`} onClick={()=>setIsOpen(false)} className="text-center w-full bg-[#ca1515] hover:bg-[#111111] text-white text-sm font-medium py-2 rounded-md transition">
                   Checkout
                 </Link>
               </div>

@@ -1,9 +1,10 @@
 import React from 'react'
+import TransectionSuccess from '../_components/general/transectionSuccess'
 
 function page() {
   return (
-    <div className='h-screen flex justify-center items-center '>
-        <h1 className='text-2xl text-green-600 font-[500] p-2 border-green-500 border-[1px]'>Your transection have been successfully done!</h1>
+    <div className='h-screen w-full flex items-center justify-center'>
+       <TransectionSuccess />
     </div>
   )
 } 
