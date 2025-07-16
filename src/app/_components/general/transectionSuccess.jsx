@@ -50,7 +50,9 @@ console.log("In correct bloxk")
           </div>
 
           <p className="mb-4 text-sm sm:text-base text-[#111111]">
-            Your account has been created. You can now log in to track your order status.
+            { (user.password != "") ? ("Your account has been created. You can now log in to track your order status."):
+            ("An account has already been created with this email. You can use it to check the status of your order.") }
+            
           </p>
 
           <div className="bg-white border border-gray-200 p-4 rounded-md mb-4 text-sm text-[#111111]">
@@ -65,31 +67,17 @@ console.log("In correct bloxk")
             </p>
           </div>
 <div className="w-1/2 mx-auto">
-{user.password != "" ? (<div>
-     <div
-           
-            className="flex justify-center items-center gap-2 px-4 
-            py-2 sm:px-5 sm:py-2.5 bg-[#ca1515] text-white text-sm sm:text-base font-medium 
-            rounded-full hover:bg-gray-700 transition"
-            onClick={()=>handleSignIn()}
-          >
-            <LogIn className="w-4 h-4 flex justify-end" />
-            Login to your Account
-          </div>
-</div>):(<div>
 
-     <div
+ <div
            
             className="flex justify-center items-center gap-2 px-4 
-            py-2 sm:px-5 sm:py-2.5 bg-[#ca1515] text-white text-sm sm:text-base font-medium 
+            py-2 sm:px-5 sm:py-2.5 bg-[#ca1515] cursor-pointer text-white text-sm sm:text-base font-medium 
             rounded-full hover:bg-gray-700 transition"
             onClick={()=>handleSignIn()}
           >
             <LogIn className="w-4 h-4 flex justify-end" />
             Login to your Account
           </div>
-</div>)}
-         
           </div>
         </div>
       )}

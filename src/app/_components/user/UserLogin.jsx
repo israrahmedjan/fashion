@@ -28,6 +28,7 @@ const formSchema = z.object({
 
 function UserLogin({setuserLogin}) {
   const {user} = useUserStore();
+  const [error,setError] = useState(null);
   const form = useForm({
   
     resolver: zodResolver(formSchema),
@@ -56,8 +57,14 @@ router.push("/");
 //setIsLogin(true);
 console.log("In correct bloxk")
 }
+else
+{
+  setError("User name or password is invalid!");
+  setLoading(false);
+}
 
   //
+
   console.log("Mu result is ", result);
 
   }
@@ -77,7 +84,6 @@ console.log("In correct bloxk")
  <h2 className="relative text-[20px] text-left text-[#111111] font-[600] mb-6 uppercase after:content-[''] after:block after:h-[2px] after:w-[50px] after:bg-[#ca1515] after:mt-2 after:ml-0">
   Login to Your Account
 </h2>
-
 
 
 
@@ -126,6 +132,7 @@ console.log("In correct bloxk")
 
 
             {/* Submit Button */}
+             {error && (<div className='text-base md:text-[15px] font-[500] italic text-[#ca1515]'>{error}</div>)}
             <Button
               type="submit"
               disabled={loading}
@@ -138,6 +145,8 @@ console.log("In correct bloxk")
         </Form>
 
         {/* Optional Links */}
+        
+       
         <p className="text-[14px] font-medium text-center mt-6 text-gray-500">
           Forgot your password?{' '}
           <a href="#" className="text-[#111111]">Reset here</a>

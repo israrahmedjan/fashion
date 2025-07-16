@@ -56,7 +56,7 @@ export default function Checkout() {
     const { item,clear } = useCart();
     const [client,setclient] = useState(false);
     const [total,setTotal] = useState(null);
-    const {setUser} = useUserStore();
+    const {setUser,user} = useUserStore();
     
     const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
   const form = useForm({
@@ -70,7 +70,7 @@ export default function Checkout() {
       state: "Punjab",
       zip: "54000",
       phone: "+92-300-1234567",
-      email: "ahmedjan@example.com",
+      email: user.email,
       createAccount: false,
       cheque: false,
       paypal: false,
