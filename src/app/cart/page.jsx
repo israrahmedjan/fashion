@@ -3,7 +3,9 @@ import CartDetail from '../_components/cart/cartDetail'
 
 function page() {
   return (
+    <>
     <div className='mt-[120px]'><CartDetail /></div>
+    </>
   )
 }
 

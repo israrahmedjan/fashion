@@ -84,7 +84,7 @@ export default function CartDetail() {
       </tr>
     </thead>
     <tbody>
-      {item.map((item) => (
+      {item && item.map((item) => (
         <tr key={item._id} className="border-b">
           <td className="py-5">
             <div className="flex items-center gap-2">
@@ -114,7 +114,8 @@ export default function CartDetail() {
             </div>
           </td>
           <td className="py-5 text-[#ca1515] font-[600]">
-            $ {item.price.toFixed(1)}
+            $ {item.price}
+            
           </td>
           <td className="py-5">
             <div className="flex items-center gap-6">
@@ -152,7 +153,7 @@ export default function CartDetail() {
 
 {/* Mobile-friendly stacked version */}
 <div className="block md:hidden">
-  {item.map((item) => (
+  {item && item.map((item) => (
     <div key={item._id} className="border p-4 rounded-lg mb-4 bg-white shadow-sm">
       <div className="flex gap-4 mb-2">
         <div className="w-[80px] h-[80px] overflow-hidden rounded">
@@ -181,7 +182,7 @@ export default function CartDetail() {
       <p className="text-sm">
         <span className="font-semibold">Price:</span>{' '}
         <span className="text-[#ca1515] font-semibold">
-          ${item.price.toFixed(1)}
+          ${item.price}
         </span>
       </p>
 
@@ -207,7 +208,7 @@ export default function CartDetail() {
       <p className="text-sm">
         <span className="font-semibold">Total:</span>{' '}
         <span className="text-[#ca1515] font-semibold">
-          ${ (item.price * item.qty).toFixed(1) }
+          {/* ${ (item.price * item.qty).toFixed(1) } */}
         </span>
       </p>
 
