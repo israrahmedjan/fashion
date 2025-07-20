@@ -131,3 +131,25 @@ export async function addCustomer( data ) {
     console.error('Error during user signup:', error.message);
   }
 }
+
+
+export async function myOrders(email = "israr@gmail.com") {
+  try {
+    console.log("Data is", email);
+
+    const response = await fetch(`${domain}/api/user/myOrders?email=${encodeURIComponent(email)}`, {
+      method: 'GET',
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log('my orders data:', result.data);
+    return result.data;
+
+  } catch (error) {
+    console.error('Error during fetching orders:', error.message);
+  }
+}

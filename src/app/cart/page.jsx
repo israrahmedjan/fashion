@@ -1,7 +1,9 @@
 import React from 'react'
 import CartDetail from '../_components/cart/cartDetail'
 
-function page() {
+async function page() {
+
+  
   return (
     <>
     <div className='mt-[120px]'><CartDetail /></div>
