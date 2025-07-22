@@ -24,18 +24,7 @@ import useUserStore from "@/store/useUserStore"
 
 
 
-const cartItems = [
-  {
-    name: "Product 1",
-    price: 1999, // in cents = $19.99
-    quantity: 1,
-  },
-  {
-    name: "Product 2",
-    price: 2999,
-    quantity: 2,
-  },
-];
+
 
 const formSchema = z.object({
   firstName: z.string().min(1),
@@ -70,7 +59,7 @@ export default function Checkout() {
       state: "Punjab",
       zip: "54000",
       phone: "+92-300-1234567",
-      email: user.email,
+      email: user?.email,
       createAccount: false,
       cheque: false,
       paypal: false,
