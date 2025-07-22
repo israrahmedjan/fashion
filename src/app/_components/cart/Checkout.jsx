@@ -69,8 +69,8 @@ export default function Checkout() {
   const onSubmit = async (data) => {
   //  console.log("Form Data:", data)
   //  const result = await addCustomer(data);
-    console.log("Customer", cartItems);
-    console.log("Items", item)
+  //  console.log("Customer", cartItems);
+    //console.log("Items", item)
 
  const res = await fetch("/api/checkout", {
       method: "POST",
