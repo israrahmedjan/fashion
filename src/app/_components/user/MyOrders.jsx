@@ -1,267 +1,122 @@
-'use client';
+'use client'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { ChevronRight, HomeIcon } from "lucide-react";
+import Link from "next/link";
 
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import { ChevronRight, HomeIcon, Star, StarIcon, View, X } from 'lucide-react';
-import useCart from '@/store/cart';
-import { AnimatePresence, motion } from 'framer-motion';
-import { format } from 'date-fns';
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
+import useUserStore from "@/store/useUserStore";
+import { useEffect, useState } from "react";
+import { myOrdersAPI } from "./userOperations";
+import LoadingSpinner from "../general/LoadingSpinner";
+export default function MyOrders() {
+  const [items,setItems] = useState();
+  const {user} = useUserStore();
+  const getOrderData = async ()=>
+  {
+    const ordersData = await myOrdersAPI(user?.email);
+    console.log("My orders in client Components", ordersData);
+    setItems(ordersData);
+  }
+  useEffect(()=>{
 
+    getOrderData();
+  },[])
+  return (
+    <div className="max-w-screen-xl w-full px-4 mx-auto flex flex-col space-y-6">
+      {/* Breadcrumb */}
+     
+      {(items && items.length>0) ? (<div>
+      {items && (
+        <div className="flex flex-wrap items-center text-sm md:text-base gap-1 mt-4">
+          <HomeIcon size={18} />
+          <ChevronRight size={15} />
+          <span className="font-medium">Home</span>
+          <ChevronRight size={15} />
+          <Link href="#"><span className="font-medium">My Orders</span></Link>
+          <ChevronRight size={15} />
+          <span>Orders</span>
+        </div>
+      )}
 
-export default function MyOrders({items}) {
+      {/* Accordion for Orders */}
+      <Accordion type="single" collapsible className="w-full">
+        {items.map((item, index) => (
+          <AccordionItem key={item._id} value={`item-${item._id}`} className="border-b">
+            <AccordionTrigger className="px-4 py-3 hover:bg-gray-100 w-full text-left">
+              <div className="flex flex-col md:flex-row text-base md:text-[15px] flex-wrap md:justify-between gap-2 w-full">
+                <span><strong className="font-[500]">{index + 1}</strong></span>
 
+<span className="max-w-xs break-all text-sm">
+                  <strong className="font-[600]">Email</strong>
+                  <span className="block">{item.customers.email}</span>
+                </span>
+                <span className="max-w-xs break-all text-sm">
+                  <strong className="font-[600]">SessionID</strong>
+                  <span className="block">{item.stripeSessionId}</span>
+                </span>
 
-    const [client, setclient] = useState(false);
+                 <span className="max-w-xs break-all text-sm">
+                  <strong className="font-[600]">Total </strong>
+                  <span className="block">${item.totalAmount/100}</span>
+                </span>
 
-    useEffect(() => {
-        setclient(true)
-        //setCartItems(item);
-        console.log("Use effect is called!", items);
-    }
-        , [])
-    if (!client) return null;
-    return (
-        <div className="max-w-[1167px] w-full px-4 mx-auto flex flex-col">
- 
+                <span className="max-w-xs break-all text-sm">
+                  <strong className="font-[600]">Date</strong>
+                  <span className="block">
+                    <span>
+  {new Date(item.createdAt).toLocaleString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+    timeZone: "Asia/Karachi"
+  })}
+</span>
+                  </span>
+                </span>
 
-  {items && (
-    <div className="flex items-center text-sm md:text-base space-x-1 h-auto md:h-[55px] mt-4">
-      <HomeIcon size={18} />
-      <ChevronRight size={15} />
-      <span className="font-medium">Home</span>
-      <ChevronRight size={15} />
-      <span>My Orders</span>
-    </div>
-  )}
-
-  <div className="mt-10">
-    <div className="overflow-x-auto">
-  {/* Table for md and larger screens */}
-<div className="overflow-x-auto hidden md:block">
-  <table className="min-w-full">
-    <thead>
-      <tr className="border-b font-[600] text-base md:text-[18px] uppercase">
-       <th className="p-2">#</th>
-        <th className="text-left py-6">SessionID</th>
-         <th className="text-left py-6">Total Ammount</th>
-        <th className="text-left py-6">Date</th>
-       
-        <th className="text-left py-6">Status</th>
-         <th className="text-left py-6">Detail View</th>
-        
-      </tr>
-    </thead>
-    <tbody>
-      {items && items.map((item,index) => (
-        <tr key={item._id} className="border-b">
-            <td className="py-5">
-            <div className="flex items-center gap-2">
-              <div className="">
-               {index+1}
+                 <span className="max-w-xs break-all text-sm">
+                  <strong className="font-[600]">Status </strong>
+                  <span className="block">{item.status}</span>
+                </span>
               </div>
-              <div>
-              
+            </AccordionTrigger>
+
+            <AccordionContent>
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>#</TableHead>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Price</TableHead>
+                      <TableHead>Quantity</TableHead>
+                      <TableHead>Total</TableHead>
+                    </TableRow>
+                  </TableHeader>
+
+                  <TableBody>
+                    {(item.products || []).map((prod, i) => (
+                      <TableRow key={i}>
+                        <TableCell>{i + 1}</TableCell>
+                        <TableCell>{prod.name}</TableCell>
+                        <TableCell>${prod.price}</TableCell>
+                        <TableCell>{prod.quantity}</TableCell>
+                         <TableCell>{prod.quantity*prod.price}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
               </div>
-            </div>
-          </td>
-          <td className="py-5">
-            <div className="flex items-center gap-2">
-              <div className="w-[200px] whitespace-pre-line break-words ">
-                {item.stripeSessionId}
-                {/* <Image
-                  src={item.image}
-                  alt={item.name}
-                  width={90}
-                  height={90}
-                  className="w-full h-full object-cover"
-                  unoptimized
-                /> */}
-              </div>
-                          </div>
-          </td>
-         
-          <td className="py-5">
-            <div className="flex items-center gap-6">
-             {item.totalAmount}
-            </div>
-          </td>
-           <td className="py-5 text-[#ca1515] font-[600]">
-            {format(new Date(item.createdAt), 'dd MMM yyyy, hh:mm a')}
-            
-          </td>
-          <td className="p-2">
-            {item.status}
-          </td>
-          <td className="p-2">
-            <div className='flex items-center my-auto '>
-            
-<Dialog>
-  <DialogTrigger asChild>
-    <button className="text-blue-600 hover:text-blue-800 transition">View</button>
-  </DialogTrigger>
-
-  <DialogContent className="max-w-xl">
-    <DialogHeader>
-      <DialogTitle>Product Details</DialogTitle>
-      <DialogDescription>
-        {/* You can add description or subtitle here */}
-      </DialogDescription>
-    </DialogHeader>
-
-    {/* Content inside lightbox */}
-    <div className="space-y-2">
-      <p><strong>Name:</strong>Name</p>
-      <p><strong>Description:</strong> </p>
-      <p><strong>Slug:</strong> </p>
-
-  
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
+      </div>):(<div>
+        <LoadingSpinner />
+      </div>)}
     </div>
-  </DialogContent>
-</Dialog>
-
-            <button
-              
-              className=" p-1"
-            >
-              <View size={25} />
-
-
-
-              
-            </button>
-            </div>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
-
-
-
-
-
-{/* Mobile-friendly stacked version */}
-<div className="block md:hidden">
-  {items && items.map((item) => (
-    <div key={item._id} className="border p-4 rounded-lg mb-4 bg-white shadow-sm">
-      <div className="flex gap-4 mb-2">
-        <div className="w-[80px] h-[80px] overflow-hidden rounded">
-          {/* <Image
-            src={item.image}
-            alt={item.name}
-            width={80}
-            height={80}
-            className="w-full h-full object-cover"
-            unoptimized
-          /> */}
-        </div>
-        <div>
-          <p className="font-semibold text-base">{item.status}</p>
-          {/* {item?.color && (
-            <p className="text-sm text-gray-500">Color: {item.status}</p>
-          )}
-          <div className="flex gap-1">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <StarIcon key={i} size={14} className="text-yellow-500" />
-            ))}
-          </div> */}
-        </div>
-      </div>
-
-      <p className="text-sm">
-        <span className="font-semibold">Price:</span>{' '}
-        <span className="text-[#ca1515] font-semibold">
-          ${item.status}
-        </span>
-      </p>
-
-      <div className="my-2">
-        <p className="font-semibold">Quantity:</p>
-        <div className="flex items-center gap-6 mt-1">
-          <button
-            
-            className="px-2 py-1 bg-gray-100 rounded hover:bg-gray-300"
-          >
-            -
-          </button>
-          <span>{item.qty}</span>
-          <button
-           
-            className="px-2 py-1 bg-gray-100 rounded hover:bg-gray-300"
-          >
-            +
-          </button>
-        </div>
-      </div>
-
-      <p className="text-sm">
-        <span className="font-semibold">Total:</span>{' '}
-        <span className="text-[#ca1515] font-semibold">
-          {/* ${ (item.price * item.qty).toFixed(1) } */}
-        </span>
-      </p>
-
-      <div className="text-right mt-3">
-        <button
-                    className="text-[#ca1515] border border-[#ca1515] rounded-full p-1"
-        >
-          <X size={15} />
-        </button>
-      </div>
-    </div>
-  ))}
-</div>
-
-    </div>
-
-    <div className="flex flex-col gap-6 md:flex-row justify-between mt-6">
-      <div className="flex flex-wrap gap-4 font-[600] justify-between">
-        <button className="bg-gray-100 px-4 py-2">Continue Shopping</button>
-        <button className="bg-gray-100 px-4 py-2">Update Cart</button>
-      </div>
-
-      <div className="w-full flex flex-col lg:flex-row gap-6 mt-4">
-        <div className="w-full lg:w-2/3">
-          <label className="block mb-2 font-[600]">Discount Codes</label>
-          <div className="flex flex-col sm:flex-row gap-2">
-            <input
-              type="text"
-              placeholder="Enter your coupon code"
-              className="border px-4 py-2 rounded-md w-full sm:rounded-l-md sm:rounded-r-none"
-            />
-            <button className="bg-[#ca1515] text-white px-4 py-2 rounded-md sm:rounded-r-md sm:rounded-l-none w-full sm:w-auto">
-              Apply
-            </button>
-          </div>
-        </div>
-
-        {/* <div className="bg-gray-100 w-full lg:w-1/3 p-5">
-          <h3 className="text-lg font-semibold mb-2">Cart Total</h3>
-          <p className="flex justify-between">
-            <span>Subtotal:</span>
-            <span className="text-red-500">$ {subtotal.toFixed(1)}</span>
-          </p>
-          <p className="flex justify-between">
-            <span>Total:</span>
-            <span className="text-red-500">$ {subtotal.toFixed(1)}</span>
-          </p>
-          <button className="bg-[#ca1515] text-white mt-4 w-full py-2">
-            Proceed to Checkout
-          </button>
-        </div> */}
-      </div>
-    </div>
-  </div>
-</div>
-
-    );
+  );
 }

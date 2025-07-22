@@ -18,6 +18,7 @@ import MiniCart from './miniCart'
 import WishCart from './WishCart'
 import { useWatch } from 'react-hook-form'
 import useWish from '@/store/useWishStore'
+import useUserStore from '@/store/useUserStore'
 
 
 
@@ -33,6 +34,7 @@ export default function Header() {
 const pathname = usePathname();
 const {message,clearMessage} = useMessageStore();
 const [userData,setUserData] = useState(null);
+const {setUser} = useUserStore();
    
     const userDataHandle = async ()=>
     {
@@ -42,6 +44,7 @@ const [userData,setUserData] = useState(null);
       {
        // setUserData(data.user);
         setUserData(data);
+        setUser(data.user);
       }
        
     }

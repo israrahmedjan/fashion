@@ -16,7 +16,8 @@ export async function GET(request) {
 
      const { searchParams } = new URL(request.url);
 
-    const email = searchParams.get('email').toString() || "israr@gmail.com";   
+    const email = searchParams.get('email').toString() || "israr@gmail.com";  
+    console.log("My email is", email);
   
     const conn = await connectToDatabase();
   const ordersCollection = conn.collection("orders");
@@ -39,12 +40,12 @@ const pipleine =    [
         from: 'orderitems',
         localField: '_id',
         foreignField: 'orderId',
-        as: 'result'
+        as: 'products'
       }
     },
     {
       $match: {
-        'customers.email': 'israr@gmail.com'
+        'customers.email': email
       }
     }
   ];

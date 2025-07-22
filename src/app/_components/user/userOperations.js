@@ -133,7 +133,7 @@ export async function addCustomer( data ) {
 }
 
 
-export async function myOrders(email = "israr@gmail.com") {
+export async function myOrdersAPI(email) {
   try {
     console.log("Data is", email);
 
@@ -150,6 +150,7 @@ export async function myOrders(email = "israr@gmail.com") {
     return result.data;
 
   } catch (error) {
-    console.error('Error during fetching orders:', error.message);
+   // console.error('Error during fetching orders:', error.message);
+    //return data[0];
   }
 }

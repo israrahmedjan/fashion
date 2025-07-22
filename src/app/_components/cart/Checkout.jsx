@@ -116,7 +116,7 @@ export default function Checkout() {
   
 useEffect(() => {
     if (item && item.length > 0) {
-      const calculatedTotal = item.reduce((acc, itm) => acc + parseInt(itm.price), 0);
+      const calculatedTotal = item.reduce((acc, itm) => acc + parseInt(itm.price*itm.qty), 0);
       setTotal(calculatedTotal);
     } else {
       setTotal(0); // In case item is empty or undefined
@@ -294,11 +294,14 @@ useEffect(() => {
              <div className="border-b border-gray-300 pb-2">
           <div className="flex justify-between font-semibold">
             <span>Product</span>
+           
             <span>Total</span>
           </div>
           <div className="mt-2 space-y-1 text-sm text-gray-700">
             {item.map((itm,i)=>
-            ( <div className="flex justify-between" key={i}><span>{`${i+1} - ${itm.productName} `}</span><span>${itm.price}</span></div>)
+            ( <div className="flex justify-between" key={i}><span>{`${i+1} - ${itm.productName} `}</span>
+            <span>{`${itm.qty} x ${itm.price}`}</span>
+            <span>${itm.price*itm.qty}</span></div>)
             )}
             {/* <div className="flex justify-between"><span>01. Chain buck bag</span><span>$30.00</span></div>
             <div className="flex justify-between"><span>02. Zip-pocket tote</span><span>$170.00</span></div>

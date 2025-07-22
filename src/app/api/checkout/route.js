@@ -86,9 +86,9 @@ export async function POST(req) {
         price_data: {
           currency: "usd",
           product_data: {
-            name: item.productName,
+              name: item.productName,
           },
-          unit_amount: item.price * 100, // amount in cents
+           unit_amount: Math.round(item.price * 100), // 👈 Important fix here
         },
         quantity: item.qty,
       })),
