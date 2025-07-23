@@ -13,16 +13,24 @@ export default function MyOrders() {
   const {user} = useUserStore();
   const getOrderData = async ()=>
   {
+   
     const ordersData = await myOrdersAPI(user?.email);
     console.log("My orders in client Components", ordersData);
-    setItems(ordersData);
+      setItems(ordersData);  
+      
+  
+   
+    
   }
-  useEffect(()=>{
-
-    getOrderData();
-  },[])
+useEffect(() => {
+  if (user?.email) {
+    console.log("User found:", user.email);
+    getOrderData(); 
+  }
+}, [user]);
   return (
     <div className="max-w-screen-xl w-full px-4 mx-auto flex flex-col space-y-6">
+   
       {/* Breadcrumb */}
      
       {(items && items.length>0) ? (<div>
@@ -114,7 +122,7 @@ export default function MyOrders() {
           </AccordionItem>
         ))}
       </Accordion>
-      </div>):(<div>
+      </div>):(<div className="flex h-screen justify-center items-center">
         <LoadingSpinner />
       </div>)}
     </div>
